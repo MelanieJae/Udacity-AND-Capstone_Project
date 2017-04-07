@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <integer name="list_item_column_count">2</integer>
+    <!-- recyclerview item offsets [pixels]-->
+    <integer name="vert_offset">40</integer>
+    <integer name="horiz_offset">200</integer>
+
+    <dimen name="fab_margin">16dp</dimen>
+    <dimen name="app_bar_height">380dp</dimen>
+    <dimen name="app_bar_elevation">6dp</dimen>
+    <dimen name="item_width">200dp</dimen>
+    <dimen name="text_margin">16dp</dimen>
+    <dimen name="menulist_left_margin">32dp</dimen>
+    <dimen name="menulist_right_margin">32dp</dimen>
+
+    <!-- main list activity -->
+    <!-- Picasso resize dimensions, appbar image -->
+    <integer name="xdim">800</integer>
+    <integer name="ydim">420</integer>
+</resources>

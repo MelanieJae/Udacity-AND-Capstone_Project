@@ -1,0 +1,18 @@
+<resources>
+    <string name="app_name" translatable="false">Dignity Memorial</string>
+
+    <!-- menu buttons -->
+    <string name="search_obituaries">Search Obituaries</string>
+    <string name="search_providers">Search Providers</string>
+    <string name="checklist">\'Things to Remember\' Checklist</string>
+    <string name="start_planning_service">Start Planning a Service</string>
+    <string name="find_site">Find a loved one\'s site</string>
+    <string name="bill_pay">Bill Pay</string>
+
+    <!-- content descriptions -->
+    <string name="toolbar_image_cd">Image of a white funeral wreath under weeping willows</string>
+    <string name="toolbar_logo_cd">Dignity Memorial logo</string>
+    <string name="scrolling_menu_cd">Scrolling options menu</string>
+    <string name="fragment_plan_tv_cd">Create, save and share your event plan here</string>
+
+</resources>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- menu buttons -->
+    <string name="search_obituaries">Buscar Obituarios</string>
+    <string name="search_providers">Buscar Proveedores</string>
+    <string name="checklist">Lista de cosas para recordar</string>
+    <string name="start_planning_service">Comience a planificar un servicio</string>
+    <string name="find_site">Buscar sito de persona amorada</string>
+    <string name="bill_pay">Pagar cuenta</string>
+
+    <!-- content descriptions -->
+    <string name="toolbar_image_cd">Imagen de flores blancas en un guirnalda debajo del arbol</string>
+    <string name="toolbar_logo_cd">Logo de Dignity Memorial</string>
+    <string name="scrolling_menu_cd">Menú de opciones</string>
+    <string name="fragment_plan_tv_cd">Hacer, salvar, y compartir su plan aqui</string>
+
+</resources>
