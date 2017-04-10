@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- plan selection page -->
+    <string-array
+        name="plan_summary_intro_array">
+        <item>These are your selections for plan %1s :</item>
+        <item>\n</item>
+        <item>Ceremony: %1s</item>
+        <item>Visitation: %1s</item>
+        <item>Reception: %1s</item>
+        <item>Burial Site/Cremation Niche: %1s<item>
+        </item>Urn or Casket: %1s</item>
+    </string-array>
+</resources>

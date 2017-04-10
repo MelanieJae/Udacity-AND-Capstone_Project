@@ -6,6 +6,12 @@
     android:layout_height="match_parent"
     tools:context="com.android.melanieh.dignitymemorialandroid.ui.PlanSelectionsActivity">
 
-    
+    <TextView
+        android:id="@+id/plan_summary_intro"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@array/plan_summary_intro_array"
+        tools:layout_editor_absoluteX="102dp"
+        tools:layout_editor_absoluteY="47dp" />
 
 </android.support.constraint.ConstraintLayout>

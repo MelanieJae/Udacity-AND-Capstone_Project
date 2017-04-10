@@ -32,9 +32,4 @@
                 android:layout_height="wrap_content" />
         </TableRow>
     </TableLayout>
-
-
-
-    </TableLayout>
-
 </android.support.constraint.ConstraintLayout>

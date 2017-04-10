@@ -22,4 +22,25 @@
     <string name="share_text">Mensaje de texto</string>
     <string name="share_im">App de mensajes</string>
 
+    <!-- settings activity -->
+    <string name="saved_zip_codes">Códigos postales almacenados</string>
+    <string name="saved_providers">Proveedores almacenados</string>
+
+    <!-- view plan selections activity -->
+    <string name="contact_name_tv">Nombre de contacto</string>
+    <string name="contact_phone_tv">Telefono de contacto</string>
+    <string name="contact_email_tv">E-mail de contacto</string>
+    <string name="plan_name_tv">Nombre de Plan</string>
+    <string name="ceremony_selection_tv">Seleccion para ceremonia de velar</string>
+    <string name="visitation_selection_tv">Seleccion para velorio</string>
+    <string name="reception_selection_tv">Seleccion para recepcion</string>
+    <string name="site_cremation_tv">Sitio del entierro/Nicho de cremacion</string>
+    <string name="container_selection_tv">Urna/Ataud</string>
+    <!-- accented chars
+    &#225 (á) | Small a, acute accent
+    &#233 (é) | Small e, acute accent
+    &#237 (í) | Small i, acute accent
+    &#243 (ó) | Small o, acute accent
+    &#250 (ú) | Small u, acute accent -->
+
 </resources>

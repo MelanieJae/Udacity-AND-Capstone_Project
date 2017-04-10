@@ -16,6 +16,7 @@
     <string name="fragment_plan_tv_cd">Create, save and share your event plan here</string>
 
     <!-- overflow menu -->
+    <string name="pref_settings" translatable="false">View User Settings</string>
     <string name="menu_view_pref_settings" translatable="false">View User Settings</string>
     <string name="view_plan_selections">View Plan Selections</string>
 
@@ -29,9 +30,34 @@
     <string name="saved_zip_codes">Saved ZIP codes</string>
     <string name="saved_providers">Saved providers</string>
 
-    <!-- view plan selections activity -->
-    <string name=>
+    <!-- pref settings labels and keys -->
+    <string name="pref_zip_code_label" translatable="false">Saved ZIP code</string>
+    <string name="pref_zip_code_key" translatable="false">ZIP code</string>
 
+    <string name="pref_provider_label" translatable="false">Saved provider</string>
+    <string name="pref_provider_key" translatable="false">Provider</string>
+
+    <!-- view plan selections activity -->
+    <string name="contact_name_tv">Contact Name</string>
+    <string name="contact_phone_tv">Contact Phone</string>
+    <string name="contact_email_tv">Contact E-mail</string>
+    <string name="contact_plan_name_tv">Plan Name</string>
+    <string name="ceremony_selection_tv">Ceremony Selection</string>
+    <string name="visitation_selection_tv">Visitation Selection</string>
+    <string name="reception_selection_tv">Reception Selection</string>
+    <string name="site_cremation_tv">Burial Site/Cremation Niche</string>
+    <string name="container_selection_tv">Urn/Casket</string>
+
+    <!-- plan selection page -->
+    <string name="plan_summary_intro">
+        These are your selections for plan %1s :
+        \n
+        \nCeremony: %1s
+        \nVisitation: %1s
+        \nReception: %1s
+        \Burial Site/Cremation Niche: %1s
+        \nUrn or Casket: %1s
+    </string>
 
     <!-- data package -->
     <!-- provider -->
