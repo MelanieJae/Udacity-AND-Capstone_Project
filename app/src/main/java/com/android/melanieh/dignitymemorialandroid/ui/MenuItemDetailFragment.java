@@ -51,6 +51,7 @@ public class MenuItemDetailFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         activity = this.getActivity();
+        setHasOptionsMenu(true);
         // inflate particular fragment based on value mapped by ARG_ITEM_ID
         String id = activity.getIntent().getStringExtra(ARG_ITEM_ID);
         mItem = MenuContent.ITEM_MAP.get(id);

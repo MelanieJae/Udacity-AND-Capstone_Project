@@ -9,5 +9,4 @@
         android:layout_height="match_parent"
         android:text="test plan screen"
         android:contentDescription="@string/fragment_plan_tv_cd"/>
-    />
 </LinearLayout>

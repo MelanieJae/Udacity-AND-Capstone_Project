@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name" translatable="false">Dignity Memorial</string>
 
-    <!-- menu buttons -->
+    <!-- main screen menu buttons -->
     <string name="search_obituaries">Search Obituaries</string>
     <string name="search_providers">Search Providers</string>
     <string name="checklist">\'Things to Remember\' Checklist</string>
@@ -14,5 +14,39 @@
     <string name="toolbar_logo_cd">Dignity Memorial logo</string>
     <string name="scrolling_menu_cd">Scrolling options menu</string>
     <string name="fragment_plan_tv_cd">Create, save and share your event plan here</string>
+
+    <!-- overflow menu -->
+    <string name="menu_view_pref_settings" translatable="false">View User Settings</string>
+    <string name="view_plan_selections">View Plan Selections</string>
+
+    <!-- share menu -->
+    <string name="menu_share"><u>Share Your Plan</u></string>
+    <string name="share_text">Text Message</string>
+    <string name="share_im">Message App</string>
+    <string name="share_email" translatable="false">E-mail</string>
+
+    <!-- settings activity -->
+    <string name="saved_zip_codes">Saved ZIP codes</string>
+    <string name="saved_providers">Saved providers</string>
+
+    <!-- view plan selections activity -->
+    <string name=>
+
+
+    <!-- data package -->
+    <!-- provider -->
+    <string name="error_inserting_plan">Error creating plan entry</string>
+    <string name="insert_plan_successful">Plan entry created successfully</string>
+
+    <string name="error_updating_plan">Error updating plan</string>
+    <string name="update_plan_successful">Plan updated successfully</string>
+
+    <string name="error_deleting_plan">Error deleting plan</string>
+    <string name="plan_deletion_successful">Plan deleted successfully</string>
+
+    <string name="error_deleting_plans_table">Error deleting plan table</string>
+    <string name="plan_table_deletion_successful">Plan table deleted successfully</string>
+
+    <string name="error_querying_plan">Error querying plan table</string>
 
 </resources>

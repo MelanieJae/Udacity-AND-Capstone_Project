@@ -14,4 +14,12 @@
     <string name="scrolling_menu_cd">Menú de opciones</string>
     <string name="fragment_plan_tv_cd">Hacer, salvar, y compartir su plan aqui</string>
 
+    <!-- overflow menu -->
+    <string name="view_plan_selections">Mira a su seleciones</string>
+
+    <!-- share menu -->
+    <string name="menu_share"><u>Comparta su plan</u></string>
+    <string name="share_text">Mensaje de texto</string>
+    <string name="share_im">App de mensajes</string>
+
 </resources>

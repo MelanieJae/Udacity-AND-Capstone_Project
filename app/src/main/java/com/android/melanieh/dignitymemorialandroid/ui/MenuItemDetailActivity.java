@@ -46,16 +46,21 @@ public class MenuItemDetailActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-        if (id == android.R.id.home) {
-            // This ID represents the Home or Up button. In the case of this
-            // activity, the Up button is shown. For
-            // more details, see the Navigation pattern on Android Design:
-            //
-            // http://developer.android.com/design/patterns/navigation.html#up-vs-back
-            //
-            navigateUpTo(new Intent(this, MenuItemListActivity.class));
-            return true;
-        }
+
+        switch(id) {
+            case android.R.id.home:
+                // This ID represents the Home or Up button. In the case of this
+                // activity, the Up button is shown. For
+                // more details, see the Navigation pattern on Android Design:
+                //
+                // http://developer.android.com/design/patterns/navigation.html#up-vs-back
+                //
+                navigateUpTo(new Intent(this, MenuItemListActivity.class));
+                return true;
+//            case R.id.share:
+
+            }
+//        }
         return super.onOptionsItemSelected(item);
     }
 
