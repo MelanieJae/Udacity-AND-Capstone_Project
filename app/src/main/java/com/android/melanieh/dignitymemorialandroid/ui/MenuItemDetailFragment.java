@@ -34,6 +34,7 @@ public class MenuItemDetailFragment extends Fragment {
      */
     public static final String ARG_ITEM_ID = "item_id";
     Activity activity;
+    String id;
 
     /**
      * The dummy content this fragment is presenting.
@@ -50,25 +51,32 @@ public class MenuItemDetailFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        activity = this.getActivity();
         setHasOptionsMenu(true);
         // inflate particular fragment based on value mapped by ARG_ITEM_ID
-        String id = activity.getIntent().getStringExtra(ARG_ITEM_ID);
+        id = getActivity().getIntent().getStringExtra(ARG_ITEM_ID);
+        Bundle bundle = this.getArguments();
+        id = (String)bundle.get(ARG_ITEM_ID);
         mItem = MenuContent.ITEM_MAP.get(id);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
         // types of fragments:
         // 1. search/find
         // 2. web browser
-        // 3. custom planning starter fragment
-
+        // 3. custom planning fragment
+//        if (mItem.details.contains("http")) {
+//            layoutId = R.layout.fragment_detail_search;
+//        } else if (mItem.details.contains("search") || mItem.details.contains("find")) {
+//            layoutId = R.layout.fragment_detail_search;
+//        } else {
+//            layoutId = R.layout.fragment_plan_selections;
+//        }
         View rootView = inflater.inflate(R.layout.fragment_detail_search, container, false);
         TextView textView = (TextView)rootView.findViewById(R.id.textView);
-//        textView.setText(mItem.details);
+        textView.setText(mItem.details);
+        textView.setTextSize(32f);
         textView.setContentDescription(mItem.details);
         return rootView;
     }

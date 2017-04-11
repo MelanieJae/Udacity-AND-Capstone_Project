@@ -9,10 +9,9 @@
     tools:ignore="MergeRootFrame">
 
     <fragment
-        android:id="@+id/webFragment"
+        android:id="@+id/detailFragment"
         android:name="com.android.melanieh.dignitymemorialandroid.ui.MenuItemDetailFragment"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:layout="@layout/fragment_detail_plan" />
+        android:layout_height="match_parent" />
 
 </android.support.design.widget.CoordinatorLayout>

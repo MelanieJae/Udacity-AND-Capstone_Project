@@ -7,12 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-/**
- * Helper class for providing sample content for user interfaces created by
- * Android template wizards.
- * <p>
- * TODO: Replace all uses of this class before publishing your app.
- */
+/** Populates menu **/
 public class MenuContent {
 
     /**
@@ -25,7 +20,8 @@ public class MenuContent {
      */
     public static final Map<String, MenuItem> ITEM_MAP = new HashMap<String, MenuItem>();
 
-    private static final int COUNT = 6;
+    // temporarily includes button for nav to plan selection summary screen
+    private static final int COUNT = 7;
 
     static {
         // Populate menu item list
@@ -51,23 +47,18 @@ public class MenuContent {
             case 2:
                 return "Search Providers";
             case 3:
-//                return "http://www.dignitymemorial.com/en-us/plan-now/funeral-checklist.page";
                 return BuildConfig.TTR_CHECKLIST_URL;
             case 4:
                 return "Start Planning a Service";
             case 5:
                 return "Find a loved one's site";
             case 6:
-//                return "https://www.paymentservicenetwork.com/Login.aspx?acc=CP19858";
                 return BuildConfig.BILL_PAY_URL;
-
+            case 7:
+                return "Plan Selection Summary";
             default:
                 return builder.append("Details about Item: ").append(position).toString();
-
-//        for (int i = 0; i < position; i++) {
-//            builder.append("\nMore details information here.");
         }
-//        return builder.toString();
     }
 
     private static String makeContent(int position) {
@@ -86,14 +77,12 @@ public class MenuContent {
                 return "Find a loved one's site";
             case 6:
                 return "Bill Pay";
+            case 7:
+                return "Plan Selection Summary";
             default:
                 return builder.append("Item: ").append(position).toString();
 
-
-//        for (int i = 0; i < position; i++) {
-//            builder.append("\nMore details information here.");
         }
-//        return builder.toString();
     }
 
     /**

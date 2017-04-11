@@ -38,7 +38,7 @@ public class MenuItemDetailActivity extends AppCompatActivity {
         fragmentManager = getSupportFragmentManager();
         fragmentTransaction = fragmentManager
                     .beginTransaction()
-                    .add(R.id.webFragment, fragment);
+                    .add(R.id.menuitem_detail_container, fragment);
         fragmentTransaction.commit();
         getSupportFragmentManager().beginTransaction();
     }
@@ -60,14 +60,16 @@ public class MenuItemDetailActivity extends AppCompatActivity {
 //            case R.id.share:
 
             }
-//        }
         return super.onOptionsItemSelected(item);
     }
 
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
-        Intent navUp = new Intent(this, MenuItemListActivity.class);
-        NavUtils.navigateUpTo(this, navUp);
+        if (getFragmentManager().getBackStackEntryCount() != 0) {
+            getFragmentManager().popBackStack();
+        } else {
+            super.onBackPressed();
+        }
     }
+
 }

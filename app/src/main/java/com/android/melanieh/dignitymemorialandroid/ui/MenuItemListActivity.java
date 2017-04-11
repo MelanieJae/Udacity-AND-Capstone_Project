@@ -2,17 +2,12 @@ package com.android.melanieh.dignitymemorialandroid.ui;
 
 import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
-import android.support.v7.widget.Toolbar;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -20,13 +15,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.TextView;
+
+import com.android.melanieh.dignitymemorialandroid.BuildConfig;
 import com.android.melanieh.dignitymemorialandroid.content.MenuContent;
 import com.android.melanieh.dignitymemorialandroid.R;
 
 
 import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.List;
 
 import timber.log.Timber;
@@ -39,7 +34,8 @@ import timber.log.Timber;
  * item details. On tablets, the activity presents the list of items and
  * item details side-by-side using two vertical panes.
  */
-public class MenuItemListActivity extends AppCompatActivity {
+public class MenuItemListActivity extends AppCompatActivity
+        implements ToolbarOptionsInterface{
 
     /**
      * Whether or not the activity is in two-pane mode, i.e. running on a tablet
@@ -72,14 +68,8 @@ public class MenuItemListActivity extends AppCompatActivity {
             mTwoPane = true;
         }
 
-//        try {
-            appBarImageUrl =
-                    "http://www.dignitymemorial.com/resources/dm20/assets/pages/plan_now/dm_en_US/plan_now_main.jpg";
-            appBarLogoUrl =
-                    "http://www.dignitymemorial.com/resources/dm20/assets/global/themed/lwc/lwc-logo.png";
-//        } catch (MalformedURLException e) {
-            Timber.e("Malformed URL Exception");
-//        }
+        appBarImageUrl = BuildConfig.APP_BAR_IMAGE_URL;
+        appBarLogoUrl = BuildConfig.APP_BAR_LOGO_URL;
 
         if (getResources().getConfiguration().screenWidthDp < 900) {
             // toolbar image
@@ -128,20 +118,18 @@ public class MenuItemListActivity extends AppCompatActivity {
             holder.mBtnView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (holder.mItem.details.contains("http")) {
-                        Uri url = Uri.parse(holder.mItem.details);
-                        Intent launchBrowser = new Intent(Intent.ACTION_VIEW, url);
-                        startActivity(launchBrowser);
-//                        launchBrowser(holder.mItem.details);
-                    }
                     if (mTwoPane) {
                         Bundle arguments = new Bundle();
                         arguments.putString(ARG_ITEM_ID, holder.mItem.id);
-                        MenuItemDetailFragment fragment = new MenuItemDetailFragment();
-                        fragment.setArguments(arguments);
-                        getSupportFragmentManager().beginTransaction()
-                                .replace(R.id.menuitem_detail_container, fragment)
-                                .commit();
+                        if (holder.mItem.details.contains(("plan").toString())) {
+                            launchMenuIntent(MenuItemListActivity.this, PlanViewPagerActivity.class);
+                        } else {
+                            MenuItemDetailFragment fragment = new MenuItemDetailFragment();
+                            fragment.setArguments(arguments);
+                            getSupportFragmentManager().beginTransaction()
+                                    .replace(R.id.menuitem_detail_container, fragment)
+                                    .commit();
+                        }
                     } else {
                         Context context = v.getContext();
                         Intent intent = new Intent(context, MenuItemDetailActivity.class);
@@ -152,7 +140,6 @@ public class MenuItemListActivity extends AppCompatActivity {
 
             });
 
-            // Talkback support
             holder.mBtnView.setContentDescription(holder.mItem.content);
         }
 
@@ -182,12 +169,6 @@ public class MenuItemListActivity extends AppCompatActivity {
         super.onSaveInstanceState(outState);
     }
 
-    private void launchBrowser(String urlString) {
-        Uri url = Uri.parse(urlString);
-        Intent launchBrowser = new Intent(Intent.ACTION_VIEW, url);
-        startActivity(launchBrowser);
-    }
-
     private RecyclerView.LayoutManager getLayoutManager() {
         if (getResources().getConfiguration().screenWidthDp < 900) {
             StaggeredGridLayoutManager sglm = new StaggeredGridLayoutManager(2,
@@ -211,24 +192,26 @@ public class MenuItemListActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
+        Context context = this;
+        Class activity;
         switch (id) {
             case R.id.action_pref_settings:
-                launchSettingsForm();
+                activity = SettingsActivity.class;
                 break;
             case R.id.action_view_plan_selections:
-                viewPlanSelections();
+                activity = PlanSummaryActivity.class;
         }
         return super.onOptionsItemSelected(item);
     }
 
-    private void launchSettingsForm() {
-        Intent launchSettingsForm = new Intent(this, SettingsActivity.class);
-        startActivity(launchSettingsForm);
+    public void launchMenuIntent(Context context, Class activityClass) {
+        Intent intent = new Intent(context, activityClass);
+        startActivity(intent);
     }
 
-    private void viewPlanSelections() {
-        Intent viewPlanSelections = new Intent(this, PlanSelectionsActivity.class);
-        startActivity(viewPlanSelections);
-    }
+    public void launchShareAction() {};
+
+    private void launchDetail() {}
+
 }
 

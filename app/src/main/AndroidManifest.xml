@@ -40,7 +40,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".ui.SettingsActivity" />
-        <activity android:name=".ui.PlanSelectionsActivity"></activity>
+        <activity android:name=".ui.PlanSummaryActivity"></activity>
     </application>
 
 </manifest>

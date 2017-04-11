@@ -4,14 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.android.melanieh.dignitymemorialandroid.ui.PlanSelectionsActivity">
+    tools:context="com.android.melanieh.dignitymemorialandroid.ui.PlanSummaryActivity">
 
-    <TextView
-        android:id="@+id/plan_summary_intro"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@array/plan_summary_intro_array"
-        tools:layout_editor_absoluteX="102dp"
-        tools:layout_editor_absoluteY="47dp" />
+    <fragment
+        android:id="@+id/planSelectionFragment"
+        android:name="com.android.melanieh.dignitymemorialandroid.ui.MenuItemDetailFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:layout="@layout/fragment_detail_plan" />
 
 </android.support.constraint.ConstraintLayout>

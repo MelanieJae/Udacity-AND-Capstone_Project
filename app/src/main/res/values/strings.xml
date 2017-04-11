@@ -38,27 +38,26 @@
     <string name="pref_provider_key" translatable="false">Provider</string>
 
     <!-- view plan selections activity -->
-    <string name="contact_name_tv">Contact Name</string>
-    <string name="contact_phone_tv">Contact Phone</string>
-    <string name="contact_email_tv">Contact E-mail</string>
-    <string name="contact_plan_name_tv">Plan Name</string>
-    <string name="ceremony_selection_tv">Ceremony Selection</string>
-    <string name="visitation_selection_tv">Visitation Selection</string>
-    <string name="reception_selection_tv">Reception Selection</string>
-    <string name="site_cremation_tv">Burial Site/Cremation Niche</string>
-    <string name="container_selection_tv">Urn/Casket</string>
+    <string name="contact_name_label">Contact Name</string>
+    <string name="contact_phone_label">Contact Phone</string>
+    <string name="contact_email_label">Contact E-mail</string>
+    <string name="contact_plan_name_label">Plan Name</string>
+    <string name="ceremony_selection_label">Ceremony Selection</string>
+    <string name="visitation_selection_label">Visitation Selection</string>
+    <string name="reception_selection_label">Reception Selection</string>
+    <string name="site_cremation_label">Burial Site/Cremation Niche</string>
+    <string name="container_selection_label">Urn/Casket</string>
 
-    <!-- plan selection page -->
-    <string name="plan_summary_intro">
-        These are your selections for plan %1s :
-        \n
-        \nCeremony: %1s
-        \nVisitation: %1s
-        \nReception: %1s
-        \Burial Site/Cremation Niche: %1s
-        \nUrn or Casket: %1s
-    </string>
+    <string name="plan_summary_intro">These are your selections for plan: %1s</string>
+    <string name="ceremony_selection">%1s</string>
+    <string name="visitation_selection">%1s</string>
+    <string name="reception_selection">%1s</string>
+    <string name="site_selection">%1s</string>
+    <string name="container_selection">%1s</string>
+    <string name="est_cost">Estimated Cost: %2d</string>
 
+    <!-- plan screens -->
+    <string name="plan_page_description">Create-a-plan page</string>
     <!-- data package -->
     <!-- provider -->
     <string name="error_inserting_plan">Error creating plan entry</string>
