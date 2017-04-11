@@ -1,0 +1,54 @@
+import com.android.build.gradle.AppExtension
+
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 25
+    buildToolsVersion "25.0.2"
+    defaultConfig {
+        applicationId "com.android.melanieh.dignitymemorialandroid"
+        minSdkVersion 17
+        targetSdkVersion 25
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    buildTypes.each {
+        it.buildConfigField("String", "TTR_CHECKLIST_URL",
+                TTRChecklistUrl)
+        it.buildConfigField("String", "BILL_PAY_URL",
+                BillPayUrl)
+        it.buildConfigField("String", "GOOGLE_MAPS_API_KEY",
+                GoogleMapsApiKey)
+        it.buildConfigField("String", "APP_BAR_IMAGE_URL",
+                AppBarImageUrl)
+        it.buildConfigField("String", "APP_BAR_LOGO_URL",
+                AppBarLogoUrl)
+    }
+}
+
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    })
+
+    compile 'com.etsy.android.grid:library:1.0.0'
+    compile 'com.jakewharton.timber:timber:4.5.1'
+    compile 'com.squareup.picasso:picasso:2.5.2'
+    compile 'com.github.florent37:picassopalette:2.0.0'
+    compile 'com.android.support:appcompat-v7:25.3.0'
+    compile 'com.android.support:support-v4:25.3.0'
+    compile 'com.android.support:recyclerview-v7:25.3.0'
+    compile 'com.android.support:design:25.3.0'
+    compile 'com.android.support.constraint:constraint-layout:1.0.2'
+    testCompile 'junit:junit:4.12'
+}
