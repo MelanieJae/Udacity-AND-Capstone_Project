@@ -40,7 +40,10 @@
             </intent-filter>
         </activity>
         <activity android:name=".ui.SettingsActivity" />
-        <activity android:name=".ui.PlanSummaryActivity"></activity>
+        <activity android:name=".ui.PlanSummaryActivity"/>
+        <activity android:name=".ui.PlanViewPagerActivity"/>
+        <activity android:name=".ui.PlanDetailsDialogActivity"/>
+
     </application>
 
 </manifest>

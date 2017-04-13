@@ -2,12 +2,13 @@
 <resources>
     <integer name="list_item_column_count">2</integer>
 
-    <!-- recyclerview item offsets [pixels]-->
+    <!-- menu recyclerview item offsets [pixels]-->
     <integer name="vert_offset">20</integer>
     <integer name="horiz_offset">100</integer>
     <dimen name="fab_margin">16dp</dimen>
     <dimen name="app_bar_height">200dp</dimen>
-    <dimen name="app_bar_elevation">6dp</dimen>
+    <dimen name="appbar_elevation">4dp</dimen>
+    <dimen name="toolbar_elevation">4dp</dimen>
     <dimen name="item_width">200dp</dimen>
     <dimen name="text_margin">16dp</dimen>
     <dimen name="menulist_left_margin">8dp</dimen>
@@ -17,4 +18,16 @@
     <!-- Picasso resize dimensions, appbar image -->
     <integer name="xdim">380</integer>
     <integer name="ydim">380</integer>
+
+    <!-- create a plan viewpager fragment screens -->
+    <!-- plan option recyclerview -->
+    <dimen name="add_button_width">48dp</dimen>
+    <dimen name="add_button_height">48dp</dimen>
+    <dimen name="details_button_height">60dp</dimen>
+    <dimen name="details_button_text_size">18sp</dimen>
+
+    <!-- option detail dialog window -->
+    <dimen name="detail_dialog_window_width">300dp</dimen>
+    <dimen name="detail_dialog_window_height">500dp</dimen>
+
 </resources>

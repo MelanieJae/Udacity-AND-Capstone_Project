@@ -29,7 +29,7 @@ public class PlanSummaryFragment extends Fragment implements
     TextView estCostView;
     CursorAdapter adapter;
 
-    String[] PLAN_COLUMNS = {
+    public String[] PLAN_COLUMNS = {
             UserSelectionContract.PlanEntry.COLUMN_ID,
             UserSelectionContract.PlanEntry.COLUMN_PLAN_NAME,
             UserSelectionContract.PlanEntry.COLUMN_CEREMONY_SELECTION,

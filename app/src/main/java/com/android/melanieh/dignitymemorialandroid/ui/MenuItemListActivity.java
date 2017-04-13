@@ -20,7 +20,6 @@ import com.android.melanieh.dignitymemorialandroid.BuildConfig;
 import com.android.melanieh.dignitymemorialandroid.content.MenuContent;
 import com.android.melanieh.dignitymemorialandroid.R;
 
-
 import java.net.MalformedURLException;
 import java.util.List;
 
@@ -118,30 +117,32 @@ public class MenuItemListActivity extends AppCompatActivity
             holder.mBtnView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (mTwoPane) {
-                        Bundle arguments = new Bundle();
-                        arguments.putString(ARG_ITEM_ID, holder.mItem.id);
-                        if (holder.mItem.details.contains(("plan").toString())) {
-                            launchMenuIntent(MenuItemListActivity.this, PlanViewPagerActivity.class);
-                        } else {
-                            MenuItemDetailFragment fragment = new MenuItemDetailFragment();
-                            fragment.setArguments(arguments);
-                            getSupportFragmentManager().beginTransaction()
-                                    .replace(R.id.menuitem_detail_container, fragment)
-                                    .commit();
-                        }
-                    } else {
-                        Context context = v.getContext();
-                        Intent intent = new Intent(context, MenuItemDetailActivity.class);
-                        intent.putExtra(ARG_ITEM_ID, holder.mItem.id);
-                        context.startActivity(intent);
+//                    if (holder.mItem.id == "7") {
+                        launchMenuIntent(MenuItemListActivity.this, PlanViewPagerActivity.class);
+//                    }
+
+//                    if (mTwoPane) {
+//                        Bundle arguments = new Bundle();
+//                        arguments.putString(ARG_ITEM_ID, holder.mItem.id);
+//                        MenuItemDetailFragment fragment = new MenuItemDetailFragment();
+//                        fragment.setArguments(arguments);
+//                        getSupportFragmentManager().beginTransaction()
+//                                    .replace(R.id.menuitem_detail_container, fragment)
+//                                    .commit();
+//
+//                    } else {
+//                        Context context = v.getContext();
+//                        Intent intent = new Intent(context, MenuItemDetailActivity.class);
+//                        intent.putExtra(ARG_ITEM_ID, holder.mItem.id);
+//                        context.startActivity(intent);
+//                        }
                     }
+                });
+
+                    holder.mBtnView.setContentDescription(holder.mItem.content);
+
                 }
 
-            });
-
-            holder.mBtnView.setContentDescription(holder.mItem.content);
-        }
 
         @Override
         public int getItemCount() {

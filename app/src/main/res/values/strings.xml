@@ -14,6 +14,8 @@
     <string name="toolbar_logo_cd">Dignity Memorial logo</string>
     <string name="scrolling_menu_cd">Scrolling options menu</string>
     <string name="fragment_plan_tv_cd">Create, save and share your event plan here</string>
+    <string name="add_button_cd">Add %1s option to plan</string>
+    <string name="details_button_cd">Details for %1s option</string>
 
     <!-- overflow menu -->
     <string name="pref_settings" translatable="false">View User Settings</string>
@@ -58,6 +60,8 @@
 
     <!-- plan screens -->
     <string name="plan_page_description">Create-a-plan page</string>
+    <string name="details_button">Details</string>
+
     <!-- data package -->
     <!-- provider -->
     <string name="error_inserting_plan">Error creating plan entry</string>
@@ -73,5 +77,12 @@
     <string name="plan_table_deletion_successful">Plan table deleted successfully</string>
 
     <string name="error_querying_plan">Error querying plan table</string>
+
+    <string name="sample_details_text">
+        If set along with Intent.FLAG_ACTIVITY_NEW_DOCUMENT then the
+        \ntask being launched will not be presented to the user but will instead be only available
+        \nthrough the recents task list. In addition, the new task wil be affiliated with the
+        \nlaunching activity\'s task. Affiliated tasks are grouped together in the recents task list.
+    </string>
 
 </resources>

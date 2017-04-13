@@ -112,11 +112,11 @@ public class UserSelectionProvider extends ContentProvider {
     @Override
     public int update(Uri uri, ContentValues contentValues, String selection,
                       String[] selectionArgs) {
-        // prevents calls to this method for individual favorites;
-        // favorites table supports only updates to the entire table, i.e. by either insertion of a new
-        // favorite (handled by insert method here) or deletion of existing favorite(s) (handled by
-        // delete method here)
-        return 0;
+        db = mDbHelper.getWritableDatabase();
+        selection = PlanEntry._ID + "=?";
+        selectionArgs = new String[] { String.valueOf(ContentUris.parseId(uri)) };
+        int numRowsUpdated = db.update(PlanEntry.TABLE_NAME, contentValues, selection, selectionArgs);
+        return numRowsUpdated;
     }
 
     @Override
