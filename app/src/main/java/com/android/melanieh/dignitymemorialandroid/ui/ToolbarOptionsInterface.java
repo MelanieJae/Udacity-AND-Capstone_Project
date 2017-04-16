@@ -9,6 +9,6 @@ import android.view.MenuItem;
 
 public interface ToolbarOptionsInterface {
 
-    void launchMenuIntent(Context context, Class activity);
+    void launchMenuIntent(Class activity, String extraContent);
     void launchShareAction();
 }

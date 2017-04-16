@@ -16,6 +16,8 @@
     <string name="fragment_plan_tv_cd">Create, save and share your event plan here</string>
     <string name="add_button_cd">Add %1s option to plan</string>
     <string name="details_button_cd">Details for %1s option</string>
+    <string name="obituary_view_cd">Obituary listing for %1s</string>
+    <string name="provider_view_cd">Provider listing for %1s</string>
 
     <!-- overflow menu -->
     <string name="pref_settings" translatable="false">View User Settings</string>
@@ -61,6 +63,9 @@
     <!-- plan screens -->
     <string name="plan_page_description">Create-a-plan page</string>
     <string name="details_button">Details</string>
+
+    <!-- search result screens -->
+    <string name="get_provider_directions">Get directions</string>
 
     <!-- data package -->
     <!-- provider -->

@@ -43,6 +43,7 @@
         <activity android:name=".ui.PlanSummaryActivity"/>
         <activity android:name=".ui.PlanViewPagerActivity"/>
         <activity android:name=".ui.PlanDetailsDialogActivity"/>
+        <activity android:name=".ui.SearchResultActivity"/>
 
     </application>
 

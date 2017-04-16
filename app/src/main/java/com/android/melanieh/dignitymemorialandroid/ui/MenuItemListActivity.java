@@ -118,7 +118,7 @@ public class MenuItemListActivity extends AppCompatActivity
                 @Override
                 public void onClick(View v) {
 //                    if (holder.mItem.id == "7") {
-                        launchMenuIntent(MenuItemListActivity.this, PlanViewPagerActivity.class);
+                        launchMenuIntent(SearchResultActivity.class, holder.mItem.content);
 //                    }
 
 //                    if (mTwoPane) {
@@ -205,8 +205,9 @@ public class MenuItemListActivity extends AppCompatActivity
         return super.onOptionsItemSelected(item);
     }
 
-    public void launchMenuIntent(Context context, Class activityClass) {
-        Intent intent = new Intent(context, activityClass);
+    public void launchMenuIntent(Class destinationClass, String extraContent) {
+        Intent intent = new Intent(this, destinationClass);
+        intent.putExtra("EXTRA_CONTENT", extraContent);
         startActivity(intent);
     }
 

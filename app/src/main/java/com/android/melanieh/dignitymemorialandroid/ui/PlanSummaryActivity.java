@@ -40,14 +40,14 @@ public class PlanSummaryActivity extends AppCompatActivity
         int id = item.getItemId();
         switch (id) {
             case R.id.action_pref_settings:
-                launchMenuIntent(this, SettingsActivity.class);
+                launchMenuIntent(SettingsActivity.class, null);
                 break;
         }
         return true;
     }
 
-    public void launchMenuIntent(Context context, Class activityClass) {
-        Intent intent = new Intent(context, activityClass);
+    public void launchMenuIntent(Class destinationClass, String extraContent) {
+        Intent intent = new Intent(this, destinationClass);
         startActivity(intent);
     }
 

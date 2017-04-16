@@ -32,6 +32,10 @@ android {
                 AppBarImageUrl)
         it.buildConfigField("String", "APP_BAR_LOGO_URL",
                 AppBarLogoUrl)
+        it.buildConfigField("String", "OBITS_QUERY_BASE_URL",
+                ObitsQueryBaseUrl)
+        it.buildConfigField("String", "PROVIDER_QUERY_BASE_URL",
+                ProviderQueryBaseUrl)
     }
 }
 

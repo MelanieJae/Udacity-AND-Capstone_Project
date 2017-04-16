@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.Loader;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +14,8 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.TextView;
 
+import com.android.melanieh.dignitymemorialandroid.Obituary;
+import com.android.melanieh.dignitymemorialandroid.Provider;
 import com.android.melanieh.dignitymemorialandroid.R;
 import com.android.melanieh.dignitymemorialandroid.content.MenuContent;
 
@@ -35,6 +39,8 @@ public class MenuItemDetailFragment extends Fragment {
     public static final String ARG_ITEM_ID = "item_id";
     Activity activity;
     String id;
+    View rootView;
+    TextView textView;
 
     /**
      * The dummy content this fragment is presenting.
@@ -73,12 +79,13 @@ public class MenuItemDetailFragment extends Fragment {
 //        } else {
 //            layoutId = R.layout.fragment_plan_selections;
 //        }
-        View rootView = inflater.inflate(R.layout.fragment_detail_search, container, false);
-        TextView textView = (TextView)rootView.findViewById(R.id.textView);
+        rootView = inflater.inflate(R.layout.fragment_detail_search, container, false);
+        textView = (TextView)rootView.findViewById(R.id.textView);
         textView.setText(mItem.details);
         textView.setTextSize(32f);
         textView.setContentDescription(mItem.details);
         return rootView;
     }
+
 
 }
