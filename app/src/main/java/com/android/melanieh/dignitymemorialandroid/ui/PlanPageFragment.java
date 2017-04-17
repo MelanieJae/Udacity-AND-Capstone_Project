@@ -66,11 +66,11 @@ public class PlanPageFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
+        options.add(new PlanOption("Hotels", "hotels"));
+        options.add(new PlanOption("Ceremony", "ceremony"));
         rootView = inflater.inflate(R.layout.plan_viewpager_item, container, false);
         toolbar = (android.widget.Toolbar) rootView.findViewById(R.id.toolbar);
         recyclerView = (RecyclerView)rootView.findViewById(R.id.plan_option_rv);
-        options.add(new PlanOption("Hotels", "hotels"));
-        options.add(new PlanOption("Ceremony", "ceremony"));
         setupRecyclerView(recyclerView);
         return rootView;
     }

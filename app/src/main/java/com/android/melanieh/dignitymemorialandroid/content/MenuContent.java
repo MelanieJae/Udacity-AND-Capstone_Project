@@ -21,7 +21,7 @@ public class MenuContent {
     public static final Map<String, MenuItem> ITEM_MAP = new HashMap<String, MenuItem>();
 
     // temporarily includes button for nav to plan selection summary screen
-    private static final int COUNT = 7;
+    private static final int COUNT = 6;
 
     static {
         // Populate menu item list
@@ -33,10 +33,6 @@ public class MenuContent {
     private static void addItem(MenuItem item) {
         ITEMS.add(item);
         ITEM_MAP.put(item.id, item);
-    }
-
-    private static MenuItem createMenuItem(int position) {
-        return new MenuItem(String.valueOf(position), "Item " + position, makeDetails(position));
     }
 
     private static String makeDetails(int position) {
@@ -51,10 +47,8 @@ public class MenuContent {
             case 4:
                 return "Start Planning a Service";
             case 5:
-                return "Find a loved one's site";
-            case 6:
                 return BuildConfig.BILL_PAY_URL;
-            case 7:
+            case 6:
                 return "Plan Selection Summary";
             default:
                 return builder.append("Details about Item: ").append(position).toString();
@@ -74,14 +68,11 @@ public class MenuContent {
             case 4:
                 return "Start Planning a Service";
             case 5:
-                return "Find a loved one's site";
-            case 6:
                 return "Bill Pay";
-            case 7:
+            case 6:
                 return "Plan Selection Summary";
             default:
                 return builder.append("Item: ").append(position).toString();
-
         }
     }
 

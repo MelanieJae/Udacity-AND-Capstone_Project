@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
@@ -52,6 +53,7 @@ public class MenuItemListActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menuitem_list);
+        Timber.plant(new Timber.DebugTree());
 
         recyclerView = (RecyclerView)findViewById(R.id.menuitem_list);
         toolBarIV = (ImageView)findViewById(R.id.toolbar_image);
@@ -94,7 +96,6 @@ public class MenuItemListActivity extends AppCompatActivity
             extends RecyclerView.Adapter<SimpleItemRecyclerViewAdapter.ViewHolder> {
 
         private final List<MenuContent.MenuItem> mValues;
-
         public SimpleItemRecyclerViewAdapter(List<MenuContent.MenuItem> items) {
             mValues = items;
         }
@@ -103,23 +104,36 @@ public class MenuItemListActivity extends AppCompatActivity
         public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             View view = LayoutInflater.from(parent.getContext())
                     .inflate(R.layout.menuitem_list_content, parent, false);
-//            int childAdapterPosition = recyclerView.getChildAdapterPosition(view);
-//            if (childAdapterPosition % 2 != 0) {
-//                recyclerView.addItemDecoration(itemDecoration);
-//            }
             return new ViewHolder(view);
         }
 
         @Override
         public void onBindViewHolder(final ViewHolder holder, int position) {
             holder.mItem = mValues.get(position);
+
+            // destination class for intent; varies according to which button is selected
+            final String buttonLabel = holder.mItem.content;
+            holder.mBtnView.setContentDescription(buttonLabel);
             holder.mBtnView.setText(mValues.get(position).content);
             holder.mBtnView.setOnClickListener(new View.OnClickListener() {
+                Class destClass;
+                String extraContent;
                 @Override
                 public void onClick(View v) {
-//                    if (holder.mItem.id == "7") {
-                        launchMenuIntent(SearchResultActivity.class, holder.mItem.content);
-//                    }
+                    if (buttonLabel.contains("Search") || buttonLabel.contains("Find")) {
+                        destClass = SearchResultActivity.class;
+                        extraContent = buttonLabel;
+                    } else if (buttonLabel.contains("Checklist") || buttonLabel.contains("Pay")) {
+                        destClass = MenuItemDetailActivity.class;
+                        extraContent = holder.mItem.details;
+                    } else if (buttonLabel.contains("Start")){
+                        // currently the only other option is the Start Planning button
+                        destClass = PlanViewPagerActivity.class;
+                    } else {
+                        destClass = PlanSummaryActivity.class;
+                    }
+                    launchMenuIntent(destClass, extraContent);
+                }
 
 //                    if (mTwoPane) {
 //                        Bundle arguments = new Bundle();
@@ -136,12 +150,9 @@ public class MenuItemListActivity extends AppCompatActivity
 //                        intent.putExtra(ARG_ITEM_ID, holder.mItem.id);
 //                        context.startActivity(intent);
 //                        }
-                    }
-                });
 
-                    holder.mBtnView.setContentDescription(holder.mItem.content);
-
-                }
+            });
+        }
 
 
         @Override
@@ -172,12 +183,10 @@ public class MenuItemListActivity extends AppCompatActivity
 
     private RecyclerView.LayoutManager getLayoutManager() {
         if (getResources().getConfiguration().screenWidthDp < 900) {
-            StaggeredGridLayoutManager sglm = new StaggeredGridLayoutManager(2,
-                    StaggeredGridLayoutManager.VERTICAL);
-            sglm.setGapStrategy(StaggeredGridLayoutManager.GAP_HANDLING_MOVE_ITEMS_BETWEEN_SPANS);
-            sglm.offsetChildrenVertical(2000);
-            sglm.offsetChildrenHorizontal(getResources().getInteger(R.integer.horiz_offset));
-            return sglm;
+            GridLayoutManager glm = new GridLayoutManager(this, 2);
+            glm.offsetChildrenVertical(2000);
+            glm.offsetChildrenHorizontal(getResources().getInteger(R.integer.horiz_offset));
+            return glm;
         } else {
             RecyclerView.LayoutManager lm = new LinearLayoutManager(this);
             return lm;

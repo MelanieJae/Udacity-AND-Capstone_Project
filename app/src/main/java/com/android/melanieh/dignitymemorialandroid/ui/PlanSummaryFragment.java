@@ -1,6 +1,5 @@
 package com.android.melanieh.dignitymemorialandroid.ui;
 
-import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.app.LoaderManager;
 import android.content.CursorLoader;
@@ -8,7 +7,6 @@ import android.content.Loader;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.CursorAdapter;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -64,7 +62,7 @@ public class PlanSummaryFragment extends Fragment implements
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
                              Bundle savedInstanceState) {
 
-        View rootView = inflater.inflate(R.layout.fragment_detail_search, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_menu_item_detail, container, false);
         planSummaryView = (TextView)rootView.findViewById(R.id.plan_summary_intro);
         return rootView;
     }

@@ -65,7 +65,7 @@
     <string name="details_button">Details</string>
 
     <!-- search result screens -->
-    <string name="get_provider_directions">Get directions</string>
+    <string name="get_directions">Get directions</string>
 
     <!-- data package -->
     <!-- provider -->
@@ -89,5 +89,8 @@
         \nthrough the recents task list. In addition, the new task wil be affiliated with the
         \nlaunching activity\'s task. Affiliated tasks are grouped together in the recents task list.
     </string>
+
+    <!-- web browser detail fragment screen -->
+    <string name="webview_error_desc">The page did not load properly.</string>
 
 </resources>

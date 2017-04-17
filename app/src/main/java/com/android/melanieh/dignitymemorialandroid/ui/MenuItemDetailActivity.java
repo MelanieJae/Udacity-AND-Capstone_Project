@@ -34,13 +34,20 @@ public class MenuItemDetailActivity extends AppCompatActivity {
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
-        fragment = new MenuItemDetailFragment();
-        fragmentManager = getSupportFragmentManager();
-        fragmentTransaction = fragmentManager
+
+        if (savedInstanceState == null) {
+
+            fragment = new MenuItemDetailFragment();
+            fragmentManager = getSupportFragmentManager();
+            fragmentTransaction = fragmentManager
                     .beginTransaction()
-                    .add(R.id.menuitem_detail_container, fragment);
-        fragmentTransaction.commit();
-        getSupportFragmentManager().beginTransaction();
+                    .add(R.id.detailFragment, fragment);
+            fragmentTransaction.commit();
+            getSupportFragmentManager().beginTransaction();
+        } else {
+            fragment = (MenuItemDetailFragment) getSupportFragmentManager()
+                    .findFragmentByTag("detailFragment");
+        }
     }
 
     @Override
@@ -70,6 +77,14 @@ public class MenuItemDetailActivity extends AppCompatActivity {
         } else {
             super.onBackPressed();
         }
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        //Save the fragment's instance
+        getSupportFragmentManager().putFragment(outState, "detailFragment", fragment);
     }
 
 }

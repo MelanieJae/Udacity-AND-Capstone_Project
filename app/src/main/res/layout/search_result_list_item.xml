@@ -23,7 +23,7 @@
         <!-- Obituary object fields -->
         <TextView
             android:id="@+id/person_name"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="18sp"
             android:layout_alignParentStart="true"
@@ -31,15 +31,21 @@
         <TextView
             android:id="@+id/life_death_date_span"
             android:textSize="18sp"
-            android:layout_width="48dp"
-            android:layout_height="48dp" />
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
         <TextView
             android:id="@+id/obit_text"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentEnd="true"
-            android:layout_below="@id/imageview" />
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:id="@+id/site_get_directions"
+            android:text="@string/get_directions"
+            android:clickable="true"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="getDirections"
+            tools:context=".ui.SearchResultActivity"/>
+
     </LinearLayout>
 
     <LinearLayout
@@ -50,36 +56,34 @@
         <!-- Provider object fields -->
         <TextView
             android:id="@+id/provider_name"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="18sp" />
         <TextView
             android:id="@+id/address_1"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="18sp" />
         <TextView
             android:id="@+id/address_2"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="18sp" />
         <TextView
             android:id="@+id/city_state_zip"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="18sp"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true" />
+            android:textSize="18sp" />
         <TextView
             android:id="@+id/phone_num"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="28sp" />
         <TextView
-            android:id="@+id/get_directions"
-            android:text="@string/get_provider_directions"
+            android:id="@+id/provider_get_directions"
+            android:text="@string/get_directions"
             android:clickable="true"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:onClick="getDirections"
             tools:context=".ui.SearchResultActivity"/>

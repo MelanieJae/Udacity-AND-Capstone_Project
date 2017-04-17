@@ -2,7 +2,6 @@ package com.android.melanieh.dignitymemorialandroid.ui;
 
 import android.content.Context;
 import android.support.v4.content.AsyncTaskLoader;
-import android.util.Log;
 
 import com.android.melanieh.dignitymemorialandroid.Obituary;
 import com.android.melanieh.dignitymemorialandroid.Provider;
@@ -68,7 +67,8 @@ public class SearchPageLoader extends AsyncTaskLoader {
      * */
 
     public ArrayList<? extends Object> obtainSearchResults(String requestUrlString) {
-        Timber.v("obtainSearchResults: ");
+        Timber.d("obtainSearchResults: ");
+        Timber.d("requestUrlString: ");
         ArrayList<? extends Object> resultsList;
 //
 ////         uncomment for testing purposes only to simulate slow network
@@ -81,18 +81,18 @@ public class SearchPageLoader extends AsyncTaskLoader {
 
         // Perform HTTP request to the URL and receive a JSON response back
         String jsonResponse = "";
-        Timber.v("obtainBookData: requestUrlString= " + requestUrlString);
+        Timber.v("obtainData: requestUrlString= " + requestUrlString);
         try {
             URL url = new URL(requestUrlString);
             jsonResponse = makeHttpRequest(url);
         } catch (IOException e) {
-            Timber.e("Error closing input stream", e);
+            Timber.wtf(e, "Error closing input stream");
         }
 
         // Extract relevant fields from the JSON response and create an {@link Object} object
         // depending on the type of object for which the search is conducted
 
-        if (requestUrlString.contains("obit")) {
+        if (requestUrlString.contains("SearchObituaries?")) {
             resultsList = extractObituaryDataFromJSON(jsonResponse);
         } else {
             resultsList = extractProviderDataFromJSON(jsonResponse);
@@ -133,7 +133,7 @@ public class SearchPageLoader extends AsyncTaskLoader {
                 Timber.e("Error response code: " + urlConnection.getResponseCode());
             }
         } catch (IOException e) {
-            Timber.e("Problem retrieving the search JSON results.", e);
+            Timber.wtf(e, "Problem retrieving the search JSON results.");
         } finally {
             if (urlConnection != null) {
                 urlConnection.disconnect();
@@ -178,7 +178,7 @@ public class SearchPageLoader extends AsyncTaskLoader {
          *
          */
 
-        Log.d("log", "jsonResponse= " + jsonResponse);
+        Timber.d("jsonResponse: " + jsonResponse);
         String personName = "";
         String dateOfDeath = "";
         String noticeText = "";
@@ -201,7 +201,7 @@ public class SearchPageLoader extends AsyncTaskLoader {
                     Timber.i("DateOfDeath is null");
                 } else {
                     dateOfDeath = sortNameObject.getString("DateOfDeath")
-                            .substring(1,dateOfDeath.length() - 1);
+                            .substring(1);
                 }
 
                 if (sortNameObject.has("NoticeText") == false) {
@@ -210,7 +210,7 @@ public class SearchPageLoader extends AsyncTaskLoader {
                     noticeText = sortNameObject.getString("NoticeText");
                 }
 
-                Log.i("extractData", "SortName= " + personName
+                Timber.i("extractData", "SortName= " + personName
                         + "; DateOfDeath= " + dateOfDeath
                         + "; NoticeText= " + noticeText);
                 obituariesList = new ArrayList<>();
@@ -219,7 +219,7 @@ public class SearchPageLoader extends AsyncTaskLoader {
             }
 
         } catch (JSONException e) {
-            Log.e("extractFeature", "" + e);
+            Timber.wtf(e, "extractObit: ");
         }
         return obituariesList;
     }
@@ -235,7 +235,7 @@ public class SearchPageLoader extends AsyncTaskLoader {
          * 7. "LocationURL"
          *
          */
-
+        Timber.d("jsonResponse: " + jsonResponse);
         String locationName = "";
         String locationAddress1 = "";
         String locationAddress2 = "";
@@ -309,11 +309,10 @@ public class SearchPageLoader extends AsyncTaskLoader {
             }
 
         } catch (JSONException e) {
-            Log.e("extractFeature", "" + e);
+            Timber.wtf(e, "extractProvider");
         }
         return providersList;
     }
-
 
 }
 

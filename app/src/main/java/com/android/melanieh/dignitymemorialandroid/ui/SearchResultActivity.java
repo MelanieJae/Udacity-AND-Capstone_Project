@@ -13,7 +13,6 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
-import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -54,13 +53,13 @@ public class SearchResultActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search_results);
         resultsRecyclerView = (RecyclerView)findViewById(R.id.results_rv);
-        test = (TextView)findViewById(R.id.test_urlstring);
 
         // grab incoming data from menu item button selection
         queryType = getIntent().getStringExtra("EXTRA_CONTENT");
+        Timber.d("queryType: " + queryType);
 
         // use query type info from button selection to select correct base query
-//        constructBaseQueryString(queryType);
+        queryString = constructBaseQueryString(queryType);
         getSupportLoaderManager().initLoader(SEARCH_LOADER_ID, null, this).forceLoad();
 
         collectInfoFromSearchForm();
@@ -88,23 +87,17 @@ public class SearchResultActivity extends AppCompatActivity
     @Override
     public Loader<ArrayList<Object>> onCreateLoader(int id, Bundle args) {
 
-        queryString = "http://www.legacy.com/webservices/SCI/DignityMemorial/" +
-                "search.svc/SearchObituaries?";
+//        queryString = "http://www.legacy.com/webservices/SCI/DignityMemorial/" +
+//                "search.svc/SearchObituaries?";
         return new SearchPageLoader(this, queryString);
     }
 
     @Override
     public void onLoadFinished(Loader<ArrayList<Object>> loader, ArrayList<Object> data) {
-        Timber.d("log", "onLoadFinished:");
-        if (data.get(0) instanceof Obituary) {
-            test.setText(((Obituary) data.get(0)).getPersonName());
-        } else {
-            test.setText(((Provider) data.get(0)).getProviderName());
-        }
+        Timber.d("onLoadFinished:");
         adapter = new SearchResultRecyclerAdapter(SearchResultActivity.this, data);
         resultsRecyclerView.setAdapter(adapter);
         resultsRecyclerView.setLayoutManager(getLayoutManager());
-
     }
 
     @Override
@@ -112,13 +105,15 @@ public class SearchResultActivity extends AppCompatActivity
 
     }
 
-    private String constructBaseQueryString(String menuExtra) {
+    private String constructBaseQueryString(String queryType) {
         StringBuilder baseQueryBuilder;
-        if (menuExtra.contains("obit")) {
+        if (queryType.contains("Obituaries")) {
             baseQueryBuilder = new StringBuilder(OBITS_QUERY_BASE_URL);
         } else {
             baseQueryBuilder = new StringBuilder(PROVIDER_SITE_QUERY_BASE_URL);
+            baseQueryBuilder.append("searchTerm=winter%20haven,%20fl&brand=DM&locale=EN&maxRecords=4&startPage=1&recordsPerPage=4");
         }
+        Timber.d("constructBaseQueryString: " + baseQueryBuilder.toString());
         return baseQueryBuilder.toString();
     }
 

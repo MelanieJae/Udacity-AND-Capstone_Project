@@ -1,27 +1,21 @@
 package com.android.melanieh.dignitymemorialandroid.ui;
 
 import android.app.Activity;
-import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.LoaderManager;
-import android.support.v4.content.Loader;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.TextView;
+import android.widget.Toast;
 
-import com.android.melanieh.dignitymemorialandroid.Obituary;
-import com.android.melanieh.dignitymemorialandroid.Provider;
 import com.android.melanieh.dignitymemorialandroid.R;
 import com.android.melanieh.dignitymemorialandroid.content.MenuContent;
-
-import java.net.MalformedURLException;
-import java.net.URI;
-import java.net.URL;
 
 import timber.log.Timber;
 
@@ -39,8 +33,10 @@ public class MenuItemDetailFragment extends Fragment {
     public static final String ARG_ITEM_ID = "item_id";
     Activity activity;
     String id;
+    String menuButtonExtra;
     View rootView;
     TextView textView;
+    WebView webView;
 
     /**
      * The dummy content this fragment is presenting.
@@ -58,11 +54,10 @@ public class MenuItemDetailFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
-        // inflate particular fragment based on value mapped by ARG_ITEM_ID
-        id = getActivity().getIntent().getStringExtra(ARG_ITEM_ID);
-        Bundle bundle = this.getArguments();
-        id = (String)bundle.get(ARG_ITEM_ID);
-        mItem = MenuContent.ITEM_MAP.get(id);
+
+//        Bundle bundle = this.getArguments();
+////        id = (String)bundle.get(ARG_ITEM_ID);
+//        mItem = MenuContent.ITEM_MAP.get(id);
     }
 
     @Override
@@ -72,20 +67,45 @@ public class MenuItemDetailFragment extends Fragment {
         // 1. search/find
         // 2. web browser
         // 3. custom planning fragment
-//        if (mItem.details.contains("http")) {
-//            layoutId = R.layout.fragment_detail_search;
-//        } else if (mItem.details.contains("search") || mItem.details.contains("find")) {
-//            layoutId = R.layout.fragment_detail_search;
-//        } else {
-//            layoutId = R.layout.fragment_plan_selections;
-//        }
-        rootView = inflater.inflate(R.layout.fragment_detail_search, container, false);
-        textView = (TextView)rootView.findViewById(R.id.textView);
-        textView.setText(mItem.details);
-        textView.setTextSize(32f);
-        textView.setContentDescription(mItem.details);
+
+        rootView = inflater.inflate(R.layout.fragment_menu_item_detail, container, false);
+        webView = new WebView(getContext());
+        getActivity().setContentView(webView);
+        // inflate particular fragment based on value mapped by ARG_ITEM_ID
+        id = getActivity().getIntent().getStringExtra(ARG_ITEM_ID);
+        menuButtonExtra = getActivity().getIntent().getStringExtra("EXTRA_CONTENT");
+        Timber.d("menuButtonExtra: " + menuButtonExtra);
+
+        // Let's display the progress in the activity title bar, like the
+        // browser app does.
+
+        webView.getSettings().setJavaScriptEnabled(true);
+
+        webView.setWebChromeClient(new WebChromeClient() {
+            public void onProgressChanged(WebView view, int progress) {
+                // Activities and WebViews measure progress with different scales.
+                // The progress meter will automatically disappear when we reach 100%
+                getActivity().setProgress(progress * 1000);
+            }
+        });
+        webView.setWebViewClient(new WebViewClient() {
+            public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
+                Toast.makeText(getActivity(), getString(R.string.webview_error_desc), Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        webView.loadUrl(menuButtonExtra);
         return rootView;
+
     }
 
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+    }
 
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+    }
 }
