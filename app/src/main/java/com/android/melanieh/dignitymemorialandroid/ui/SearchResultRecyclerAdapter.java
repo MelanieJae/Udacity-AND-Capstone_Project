@@ -60,7 +60,6 @@ public class SearchResultRecyclerAdapter extends RecyclerView.Adapter<SearchResu
             cityStateZipTV = (TextView) itemView.findViewById(R.id.city_state_zip);
             phoneNumTV = (TextView) itemView.findViewById(R.id.phone_num);
         }
-
     }
 
     @Override
@@ -85,9 +84,10 @@ public class SearchResultRecyclerAdapter extends RecyclerView.Adapter<SearchResu
 
         }
 
-        obitViewLL.setContentDescription(String.format(context.getString(R.string.obituary_view_cd), personNameTV.getText()));
-        providerViewLL.setContentDescription(String.format
-                (context.getString(R.string.provider_view_cd), providerNameTV.getText()));
+//        obitViewLL.setContentDescription(String.format(context.getString(R.string.obituary_view_cd),
+//                personNameTV.getText()));
+//        providerViewLL.setContentDescription(String.format
+//                (context.getString(R.string.provider_view_cd), providerNameTV.getText()));
     }
 
     @Override

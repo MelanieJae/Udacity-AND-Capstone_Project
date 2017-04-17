@@ -41,6 +41,14 @@ public class SearchResultActivity extends AppCompatActivity
     private static final String OBITS_QUERY_BASE_URL = BuildConfig.OBITS_QUERY_BASE_URL;
     private static final String PROVIDER_SITE_QUERY_BASE_URL = BuildConfig.PROVIDER_QUERY_BASE_URL;
 
+    // sample provider query string
+    // "http://ows.dignitymemorial.com/mapcontrol/DignityMemorialServices.svc/" +
+    //        "PlotLocationNames?searchTerm=winter%20haven,%20fl&brand=DM&locale=EN&maxRecords=4" +
+    //        "&startPage=1&recordsPerPage=4";
+
+    // search obituary query string
+    // http://www.legacy.com/webservices/SCI/DignityMemorial/search.svc/SearchObituaries?
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,7 +60,7 @@ public class SearchResultActivity extends AppCompatActivity
         queryType = getIntent().getStringExtra("EXTRA_CONTENT");
 
         // use query type info from button selection to select correct base query
-        constructBaseQueryString(queryType);
+//        constructBaseQueryString(queryType);
         getSupportLoaderManager().initLoader(SEARCH_LOADER_ID, null, this).forceLoad();
 
         collectInfoFromSearchForm();
@@ -79,16 +87,20 @@ public class SearchResultActivity extends AppCompatActivity
 
     @Override
     public Loader<ArrayList<Object>> onCreateLoader(int id, Bundle args) {
+
+        queryString = "http://www.legacy.com/webservices/SCI/DignityMemorial/" +
+                "search.svc/SearchObituaries?";
         return new SearchPageLoader(this, queryString);
     }
 
     @Override
     public void onLoadFinished(Loader<ArrayList<Object>> loader, ArrayList<Object> data) {
         Timber.d("log", "onLoadFinished:");
-//        if (data.get(0) instanceof Obituary) {
-//            test.setText(((Obituary) data.get(0)).getPersonName());
-//        }
-        test.setText("temporary");
+        if (data.get(0) instanceof Obituary) {
+            test.setText(((Obituary) data.get(0)).getPersonName());
+        } else {
+            test.setText(((Provider) data.get(0)).getProviderName());
+        }
         adapter = new SearchResultRecyclerAdapter(SearchResultActivity.this, data);
         resultsRecyclerView.setAdapter(adapter);
         resultsRecyclerView.setLayoutManager(getLayoutManager());

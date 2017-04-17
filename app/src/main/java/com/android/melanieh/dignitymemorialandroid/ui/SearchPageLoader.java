@@ -5,7 +5,9 @@ import android.support.v4.content.AsyncTaskLoader;
 import android.util.Log;
 
 import com.android.melanieh.dignitymemorialandroid.Obituary;
+import com.android.melanieh.dignitymemorialandroid.Provider;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -27,7 +29,8 @@ import timber.log.Timber;
 
 public class SearchPageLoader extends AsyncTaskLoader {
 
-    ArrayList<Object> searchResultsList;
+    ArrayList<Obituary> obituariesList;
+    ArrayList<Provider> providersList;
     String urlString;
     String kind;
     String totalItems;
@@ -51,12 +54,12 @@ public class SearchPageLoader extends AsyncTaskLoader {
     }
 
     @Override
-    public ArrayList<Object> loadInBackground() {
+    public ArrayList<? extends Object> loadInBackground() {
         Timber.v("loadInBackground: ");
 
         // Perform the HTTP request for book listings data and process the response.
-        searchResultsList = obtainSearchResults(urlString);
-        return searchResultsList;
+        ArrayList<? extends Object> resultsList = obtainSearchResults(urlString);
+        return resultsList;
     }
     /** Query the Google Books dataset and return a list of {@link Object} search result objects.
      * The Object can be one of the following:
@@ -64,8 +67,9 @@ public class SearchPageLoader extends AsyncTaskLoader {
      * 2. Provider
      * */
 
-    public ArrayList<Object> obtainSearchResults(String requestUrlString) {
+    public ArrayList<? extends Object> obtainSearchResults(String requestUrlString) {
         Timber.v("obtainSearchResults: ");
+        ArrayList<? extends Object> resultsList;
 //
 ////         uncomment for testing purposes only to simulate slow network
 ///         response to test the progress indicator
@@ -88,11 +92,15 @@ public class SearchPageLoader extends AsyncTaskLoader {
         // Extract relevant fields from the JSON response and create an {@link Object} object
         // depending on the type of object for which the search is conducted
 
-        searchResultsList = extractDataFromJSONResponse(jsonResponse);
+        if (requestUrlString.contains("obit")) {
+            resultsList = extractObituaryDataFromJSON(jsonResponse);
+        } else {
+            resultsList = extractProviderDataFromJSON(jsonResponse);
+        }
 
         // Return a list of {@link Object} events. The object will be either:
         // 1. an Obituary object or 2. a Provider object
-        return searchResultsList;
+        return resultsList;
 
     }
 
@@ -162,125 +170,151 @@ public class SearchPageLoader extends AsyncTaskLoader {
      * 2. a Provider object
      */
 
-    private ArrayList<Object> extractDataFromJSONResponse(String jSONResponse) {
-        Log.d("log", "jsonResponse= " + jSONResponse);
-//        authorsList = new ArrayList<>();
-//        categoriesList = new ArrayList<>();
-//        ArrayList<BookListing> bookListings = new ArrayList<>();
-//
-//        try {
-//            kind = "";
-//            totalItems = "";
-//
-//            ObjectMapper rootMapper = new ObjectMapper();
-//
-//            JsonNode root = rootMapper.readTree(jSONResponse);
-//            kind = root.path("kind").asText();
-//            totalItems = root.path("totalItems").asText();
-//            JsonNode itemsNode = root.path("items");
-//
-//            for (JsonNode node : itemsNode) {
-//
-//                itemsKind = node.path("kind").asText();
-//                id = node.path("id").asText();
-//                eTag = node.path("etag").asText();
-//                selfLink = node.path("selfLink").asText();
-//                JsonNode volumeInfoNode = node.path("volumeInfo");
-//
-//                title = volumeInfoNode.path("title").asText();
-//                Iterator<JsonNode> authorNodeIterator
-//                        = node.findValue("authors").elements();
-//
-//                authors = authorNodeIterator.next().toString();
-////                authorsList.add(authors);
-//
-//                Iterator<JsonNode> categoriesNodeIterator
-//                        = volumeInfoNode.path("categories").elements();
-//
-//                while (categoriesNodeIterator.hasNext()) {
-//                    categories = categoriesNodeIterator.next().toString();
-//                    categoriesList.add(categories);
-//                }
-//
-//                desc = volumeInfoNode.path("description").asText();
-//                averageRating = volumeInfoNode.path("averageRating").doubleValue();
-//                ;               BookListing currentListing = new BookListing(averageRating,
-//                        categoriesList, title, authorsList, desc);
-//                bookListings.add(currentListing);
-//            }
-//
-//        } catch (JsonGenerationException e) {
-//            e.printStackTrace();
-//        } catch (JsonMappingException e) {
-//            e.printStackTrace();
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//
-//        return bookListings;
-//    }
+    private ArrayList<Obituary> extractObituaryDataFromJSON(String jsonResponse) {
+        /** fields needed for obituary:
+         * 1. "SortName"
+         * 2. "DateOfDeath"
+         * 3. "NoticeText"
+         *
+         */
+
+        Log.d("log", "jsonResponse= " + jsonResponse);
+        String personName = "";
+        String dateOfDeath = "";
+        String noticeText = "";
+
         try {
-            Double rating = 0.0;
             // Extracts the JSONObject mapped by "items" from the base response.
-            JSONObject baseJsonResponse = new JSONObject(jSONResponse);
-//            JSONArray itemsJSONArray = baseJsonResponse.getJSONArray("items");
-//            for (int itemIndex = 0; itemIndex < itemsJSONArray.length(); itemIndex++) {
-//                ArrayList<CharSequence> categoryArray = new ArrayList<CharSequence>();
-//                ArrayList<CharSequence> authorArray = new ArrayList<CharSequence>();
-//                JSONObject itemsObject = itemsJSONArray.getJSONObject(itemIndex);
-//                JSONObject volumeInfoValue = itemsObject.getJSONObject("volumeInfo");
-//
-//                JSONArray categoriesJSONArray = volumeInfoValue.getJSONArray("categories");
-//                JSONArray authorsJSONArray = volumeInfoValue.getJSONArray("authors");
-//
-//                // check for empty authors array
-//                for (int authIndex = 0; authIndex < authorsJSONArray.length(); authIndex++) {
-//                    if (authorsJSONArray.length() == 0) {
-//                        Log.i("extractFeature", "No author information is available");
-//                    } else {
-//                        // Extract the formatted contents from the objects in the authors array
-//                        author = authorsJSONArray.getString(authIndex);
-//                        Log.i("extractFeature", "authorArray: " + authorArray);
-//                        authorArray.add(author);
-//                    }
-//                }
+            JSONObject baseJsonResponse = new JSONObject(jsonResponse);
+            JSONArray resultsJSONArray = baseJsonResponse.getJSONArray("Results");
+            for (int i = 0; i < resultsJSONArray.length(); i++) {
+                JSONObject sortNameObject = resultsJSONArray.getJSONObject(i);
 
                 // validation/null checks
-//                if (volumeInfoValue.has("averageRating") == false) {
-//                    Log.i(LOG_TAG, "average rating is null");
-//                } else {
-//                    rating = volumeInfoValue.getDouble("averageRating");
-//                }
-//
-//                // check for empty categories array
-//                if (categoriesJSONArray.length() == 0) {
-//                    Log.i("extractFeature", "No category information available");
-//                } else {
-//                    for (int catIndex = 0; catIndex < categoriesJSONArray.length(); catIndex++) {
-//                        // Extract the formatted contents from the objects in the categories array
-//                        category = categoriesJSONArray.getString(catIndex);
-//                        Log.i("extractFeature", "categoryArray: " + categoryArray);
-//                        categoryArray.add(category);
-//                    }
-//                }
-//
-//                bookTitle = volumeInfoValue.getString("title");
-//                bookDesc = volumeInfoValue.getString("description");
-//                Log.i("extractFeature", "ItemIndex= " + itemIndex +
-//                        "; categoriesArray= {" + categoryArray + "}"
-//                        + "; rating= " + rating
-//                        + "; title= " + bookTitle
-//                        + "; authorsArray= {" + authorArray + "}"
-//                        + "; bookDesc= " + bookDesc);
+                if (sortNameObject.has("SortName") == false) {
+                    Timber.i("SortName is null");
+                } else {
+                    personName = sortNameObject.getString("SortName");
+                }
 
-                Obituary currentObituary = new Obituary(jSONResponse, null, null, null);
-                searchResultsList.add(currentObituary);
+                if (sortNameObject.has("DateOfDeath") == false) {
+                    Timber.i("DateOfDeath is null");
+                } else {
+                    dateOfDeath = sortNameObject.getString("DateOfDeath")
+                            .substring(1,dateOfDeath.length() - 1);
+                }
+
+                if (sortNameObject.has("NoticeText") == false) {
+                    Timber.i("DateOfDeath is null");
+                } else {
+                    noticeText = sortNameObject.getString("NoticeText");
+                }
+
+                Log.i("extractData", "SortName= " + personName
+                        + "; DateOfDeath= " + dateOfDeath
+                        + "; NoticeText= " + noticeText);
+                obituariesList = new ArrayList<>();
+                Obituary currentObituary = new Obituary(personName, null, dateOfDeath, noticeText);
+                obituariesList.add(currentObituary);
+            }
 
         } catch (JSONException e) {
             Log.e("extractFeature", "" + e);
         }
-        return searchResultsList;
+        return obituariesList;
+    }
+
+    private ArrayList<Provider> extractProviderDataFromJSON(String jsonResponse) {
+        /** fields needed for Provider:
+         * 1. "LocationName"
+         * 2. "LocationAddress1"
+         * 3. "LocationAddress2"
+         * 4. "LocationCity"
+         * 5. "LocationState"
+         * 6. "LocationPostalCode"
+         * 7. "LocationURL"
+         *
+         */
+
+        String locationName = "";
+        String locationAddress1 = "";
+        String locationAddress2 = "";
+        String locationCity = "";
+        String locationState = "";
+        String locationPostalCode = "";
+        String locationURL = "";
+        String locationPhone = "";
+
+        try {
+            // Extracts the JSONObject mapped by "items" from the base response.
+            JSONArray baseJsonArray = new JSONArray(jsonResponse);
+
+            for (int i = 0; i < baseJsonArray.length(); i++) {
+                JSONObject descriptionObject = baseJsonArray.getJSONObject(i);
+                JSONObject sciLocationObject = descriptionObject.getJSONObject("SCILocation");
+
+                // validation/null checks
+                if (sciLocationObject.has("LocationName") == false) {
+                    Timber.i("LocationName is null");
+                } else {
+                    locationName = sciLocationObject.getString("LocationName");
+                }
+
+                if (sciLocationObject.has("LocationAddress1") == false) {
+                    Timber.i("LocationAddress1 is null");
+                } else {
+                    locationAddress1 = sciLocationObject.getString("LocationAddress1");
+                }
+
+                if (sciLocationObject.has("LocationAddress2") == false) {
+                    Timber.i("LocationAddress2 is null");
+                } else {
+                    locationAddress2 = sciLocationObject.getString("LocationAddress2");
+                }
+
+                if (sciLocationObject.has("LocationCity") == false) {
+                    Timber.i("LocationCity is null");
+                } else {
+                    locationCity = sciLocationObject.getString("LocationCity");
+                }
+
+                if (sciLocationObject.has("LocationState") == false) {
+                    Timber.i("LocationState is null");
+                } else {
+                    locationState = sciLocationObject.getString("LocationState");
+                }
+
+                if (sciLocationObject.has("LocationPostalCode") == false) {
+                    Timber.i("LocationPostalCode is null");
+                } else {
+                    locationPostalCode = sciLocationObject.getString("LocationPostalCode");
+                }
+
+                if (sciLocationObject.has("LocationPhone") == false) {
+                    Timber.i("LocationPhone is null");
+                } else {
+                    locationPhone = sciLocationObject.getString("LocationPhone");
+                }
+
+                if (sciLocationObject.has("LocationURL") == false) {
+                    Timber.i("LocationURL is null");
+                } else {
+                    locationURL = sciLocationObject.getString("LocationURL");
+                }
+
+                providersList = new ArrayList<>();
+                Provider currentProvider = new Provider(locationName, locationAddress1, locationAddress2,
+                        locationCity + locationState + "," + locationPostalCode, locationPhone, locationURL);
+                providersList.add(currentProvider);
+            }
+
+        } catch (JSONException e) {
+            Log.e("extractFeature", "" + e);
+        }
+        return providersList;
     }
 
 
 }
+
+
