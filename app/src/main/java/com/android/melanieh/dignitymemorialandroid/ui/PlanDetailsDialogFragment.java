@@ -20,12 +20,16 @@ import com.android.melanieh.dignitymemorialandroid.PlanOption;
 import com.android.melanieh.dignitymemorialandroid.R;
 import com.squareup.picasso.Picasso;
 
+import timber.log.Timber;
+
 /**
  * Created by melanieh on 4/12/17.
  */
 
 public class PlanDetailsDialogFragment extends DialogFragment {
 
+    static String detailText;
+    static String imageURL;
     TextView detailsTextView;
     ImageView detailsImageView;
 
@@ -41,10 +45,11 @@ public class PlanDetailsDialogFragment extends DialogFragment {
         //
     }
 
-    public static PlanDetailsDialogFragment newInstance(String title) {
+    public static PlanDetailsDialogFragment newInstance(String[] passedArgs) {
         PlanDetailsDialogFragment frag = new PlanDetailsDialogFragment();
         Bundle args = new Bundle();
-        args.putString("title", title);
+        args.putString(PlanOptionRecyclerViewAdapter.DETAIL_TEXT_ARG_KEY, passedArgs[0]);
+        args.putString(PlanOptionRecyclerViewAdapter.IMAGE_STRING_ARG_KEY, passedArgs[1]);
         frag.setArguments(args);
         return frag;
     }
@@ -53,6 +58,8 @@ public class PlanDetailsDialogFragment extends DialogFragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        detailText = getArguments().getString(PlanOptionRecyclerViewAdapter.DETAIL_TEXT_ARG_KEY);
+        imageURL = getArguments().getString(PlanOptionRecyclerViewAdapter.IMAGE_STRING_ARG_KEY);
     }
 
     @Override
@@ -67,9 +74,7 @@ public class PlanDetailsDialogFragment extends DialogFragment {
         // Get field from view
         detailsTextView = (TextView) view.findViewById(R.id.details_text);
         detailsImageView = (ImageView) view.findViewById(R.id.shared_element_transition_image);
-        detailsTextView.setText(getString(R.string.sample_details_text));
-//        detailsTextView.setText(PlanDetailsDialogActivity.dialogText);
-
+        detailsTextView.setText(detailText);
         loadImage();
 
     }
@@ -79,63 +84,10 @@ public class PlanDetailsDialogFragment extends DialogFragment {
      */
     private void loadImage() {
         Picasso.with(getContext())
-                .load(PlanDetailsDialogActivity.dialogImageUrl)
+                .load(imageURL)
                 .noFade()
                 .noPlaceholder().fit().centerCrop()
                 .into(detailsImageView);
     }
-
-    /**
-     * Try and add a {@link Transition.TransitionListener} to the entering shared element
-     * {@link Transition}. We do this so that we can load the full-size image after the transition
-     * has completed.
-     *
-     * @return true if we were successful in adding a listener to the enter transition
-     */
-
-    @TargetApi(21)
-    private boolean addTransitionListener() {
-        final Transition transition = getActivity().getWindow().getSharedElementEnterTransition();
-
-        if (transition != null) {
-            // There is an entering shared element transition so add a listener to it
-            transition.addListener(new Transition.TransitionListener() {
-                @Override
-                public void onTransitionEnd(Transition transition) {
-                    // As the transition has ended, we can now load the full-size image
-                    loadImage();
-
-                    // Make sure we remove ourselves as a listener
-                    transition.removeListener(this);
-                }
-
-                @Override
-                public void onTransitionStart(Transition transition) {
-                    // No-op
-                }
-
-                @Override
-                public void onTransitionCancel(Transition transition) {
-                    // Make sure we remove ourselves as a listener
-                    transition.removeListener(this);
-                }
-
-                @Override
-                public void onTransitionPause(Transition transition) {
-                    // No-op
-                }
-
-                @Override
-                public void onTransitionResume(Transition transition) {
-                    // No-op
-                }
-            });
-            return true;
-        }
-
-        // If we reach here then we have not added a listener
-        return false;
-    }
-
 
 }

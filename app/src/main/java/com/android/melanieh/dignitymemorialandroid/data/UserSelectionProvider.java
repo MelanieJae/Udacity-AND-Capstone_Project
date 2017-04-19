@@ -51,7 +51,7 @@ public class UserSelectionProvider extends ContentProvider {
 
     @Override
     public boolean onCreate() {
-        mDbHelper = new UserSelectionDBHelper(getContext());
+        mDbHelper = UserSelectionDBHelper.getInstance(getContext());
         return true;
     }
 

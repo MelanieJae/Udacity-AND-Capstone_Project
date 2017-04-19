@@ -40,14 +40,6 @@ public class SearchResultActivity extends AppCompatActivity
     private static final String OBITS_QUERY_BASE_URL = BuildConfig.OBITS_QUERY_BASE_URL;
     private static final String PROVIDER_SITE_QUERY_BASE_URL = BuildConfig.PROVIDER_QUERY_BASE_URL;
 
-    // sample provider query string
-    // "http://ows.dignitymemorial.com/mapcontrol/DignityMemorialServices.svc/" +
-    //        "PlotLocationNames?searchTerm=winter%20haven,%20fl&brand=DM&locale=EN&maxRecords=4" +
-    //        "&startPage=1&recordsPerPage=4";
-
-    // search obituary query string
-    // http://www.legacy.com/webservices/SCI/DignityMemorial/search.svc/SearchObituaries?
-
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -86,9 +78,6 @@ public class SearchResultActivity extends AppCompatActivity
 
     @Override
     public Loader<ArrayList<Object>> onCreateLoader(int id, Bundle args) {
-
-//        queryString = "http://www.legacy.com/webservices/SCI/DignityMemorial/" +
-//                "search.svc/SearchObituaries?";
         return new SearchPageLoader(this, queryString);
     }
 

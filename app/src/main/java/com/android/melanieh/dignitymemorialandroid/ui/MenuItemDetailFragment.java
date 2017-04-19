@@ -54,10 +54,6 @@ public class MenuItemDetailFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
-
-//        Bundle bundle = this.getArguments();
-////        id = (String)bundle.get(ARG_ITEM_ID);
-//        mItem = MenuContent.ITEM_MAP.get(id);
     }
 
     @Override

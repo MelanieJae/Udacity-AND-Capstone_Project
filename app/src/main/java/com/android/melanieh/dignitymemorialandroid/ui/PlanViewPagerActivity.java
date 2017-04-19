@@ -5,6 +5,8 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.Loader;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewCompat;
 import android.support.v4.view.ViewPager;
@@ -14,20 +16,20 @@ import android.widget.ImageView;
 import com.android.melanieh.dignitymemorialandroid.PlanOption;
 import com.android.melanieh.dignitymemorialandroid.R;
 
+import timber.log.Timber;
+
 /**
  * Controller for the create-a-plan screens organized via a viewpager
  */
 
 public class PlanViewPagerActivity extends FragmentActivity {
 
-    private static final int NUM_PAGES = 7;
     private ViewPager mPager;
     private boolean mTwoPane;
     public int optionId;
     PlanOption option;
     ImageView itemImage;
     public static String SHARED_IMAGE_VIEW_NAME = "Shared Element ImageView";
-
 
     /**
      * The pager adapter, which provides the pages to the view pager widget.
@@ -36,6 +38,7 @@ public class PlanViewPagerActivity extends FragmentActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Timber.d("onCreate:");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_plan_viewpager);
 
@@ -58,7 +61,7 @@ public class PlanViewPagerActivity extends FragmentActivity {
 //        ViewCompat.setTransitionName(itemImage, SHARED_IMAGE_VIEW_NAME);
 
         optionId = getIntent().getIntExtra(PlanDetailsDialogActivity.EXTRA_KEY, 0);
-        showDetailDialog();
+//        showDetailDialog();
 
         // Retrieve the correct PlanOption instance, using the ID/position provided in the Intent
 //        option = PlanPageFragment.options.get(optionId);
@@ -74,11 +77,13 @@ public class PlanViewPagerActivity extends FragmentActivity {
 
     }
 
-    private void showDetailDialog() {
-        FragmentManager fm = getSupportFragmentManager();
-        PlanDetailsDialogFragment fragment = PlanDetailsDialogFragment.newInstance("title");
-        fragment.show(fm, "fragment_plan_detail_dialog");
-    }
+//    private void showDetailDialog() {
+//        Timber.d("showDetailDialog:");
+//
+//        FragmentManager fm = getSupportFragmentManager();
+//        PlanDetailsDialogFragment fragment = PlanDetailsDialogFragment.newInstance("title");
+//        fragment.show(fm, "fragment_plan_detail_dialog");
+//    }
 
     // elements being shared between the plan options list and here
 //        sharedElementImageView = (ImageView) findViewById(R.id.shared_element_transition_image);
@@ -101,22 +106,6 @@ public class PlanViewPagerActivity extends FragmentActivity {
         } else {
             // Otherwise, select the previous step.
             mPager.setCurrentItem(mPager.getCurrentItem() - 1);
-        }
-    }
-
-    private class ScreenSlidePagerAdapter extends FragmentStatePagerAdapter {
-        public ScreenSlidePagerAdapter(FragmentManager fm) {
-            super(fm);
-        }
-
-        @Override
-        public Fragment getItem(int position) {
-            return new PlanPageFragment();
-        }
-
-        @Override
-        public int getCount() {
-            return NUM_PAGES;
         }
     }
 

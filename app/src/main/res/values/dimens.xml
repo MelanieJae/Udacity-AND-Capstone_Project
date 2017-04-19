@@ -28,6 +28,6 @@
 
     <!-- option detail dialog window -->
     <dimen name="detail_dialog_window_width">300dp</dimen>
-    <dimen name="detail_dialog_window_height">500dp</dimen>
+    <dimen name="detail_dialog_window_height">400dp</dimen>
 
 </resources>

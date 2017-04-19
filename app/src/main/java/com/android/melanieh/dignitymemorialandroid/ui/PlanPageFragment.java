@@ -17,6 +17,10 @@ import android.support.design.widget.AppBarLayout;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.Loader;
 import android.support.v4.util.Pair;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.app.ActionBarActivity;
@@ -43,20 +47,25 @@ import com.android.melanieh.dignitymemorialandroid.content.MenuContent;
 import com.android.melanieh.dignitymemorialandroid.data.UserSelectionDBHelper;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageLoader;
+import com.android.melanieh.dignitymemorialandroid.data.UserSelectionContract.PlanEntry;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
+
+import timber.log.Timber;
 
 /**
  * Created by melanieh on 4/11/17.
  */
 
-public class PlanPageFragment extends Fragment {
+public class PlanPageFragment extends Fragment
+        implements LoaderManager.LoaderCallbacks<ArrayList<PlanOption>>{
 
-    static List<PlanOption> options = new ArrayList<>();
     android.widget.Toolbar toolbar;
     RecyclerView recyclerView;
     View rootView;
+    ArrayList<PlanOption> phOptionsList;
 
     public PlanPageFragment() {
         //
@@ -66,130 +75,20 @@ public class PlanPageFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        options.add(new PlanOption("Hotels", "hotels"));
-        options.add(new PlanOption("Ceremony", "ceremony"));
+        Timber.d("onCreateView: ");
+        phOptionsList = new ArrayList<>();
+        phOptionsList.add(new PlanOption("Hotels", "hotels"));
+        phOptionsList.add(new PlanOption("Ceremony", "ceremony"));
         rootView = inflater.inflate(R.layout.plan_viewpager_item, container, false);
         toolbar = (android.widget.Toolbar) rootView.findViewById(R.id.toolbar);
         recyclerView = (RecyclerView)rootView.findViewById(R.id.plan_option_rv);
-        setupRecyclerView(recyclerView);
-        return rootView;
-    }
-
-    private void setupRecyclerView(@NonNull RecyclerView recyclerView) {
-        PlanOptionRecyclerViewAdapter rvAdapter = new PlanOptionRecyclerViewAdapter(options);
+        PlanOptionRecyclerViewAdapter rvAdapter = new PlanOptionRecyclerViewAdapter(getContext(),
+                phOptionsList);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(rvAdapter);
-        recyclerView.setLayoutManager(getLayoutManager());
-    }
-
-    public class PlanOptionRecyclerViewAdapter
-            extends RecyclerView.Adapter<PlanPageFragment.PlanOptionRecyclerViewAdapter.ViewHolder> {
-
-        List<PlanOption> options;
-        ImageView itemImage;
-        ImageLoader.ImageListener imageListener;
-        Bitmap bitmap;
-        public String SHARED_IMAGE_VIEW_NAME = "Shared Element ImageView";
-
-        public PlanOptionRecyclerViewAdapter(List<PlanOption> options) {
-            this.options = options;
-        }
-
-        @Override
-        public PlanOptionRecyclerViewAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            View view = LayoutInflater.from(parent.getContext())
-                    .inflate(R.layout.plan_options_list_item, parent, false);
-            return new ViewHolder(view);
-        }
-
-        @Override
-        public void onBindViewHolder(final PlanOptionRecyclerViewAdapter.ViewHolder holder, final int position) {
-            holder.option = options.get(position);
-            View.OnClickListener clickListener = new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    switch(v.getId()) {
-                        case R.id.add_button:
-                            addOptionToPlan();
-                            break;
-                        case R.id.details_button:
-//                            ArrayList<String> dialogStringExtras = new ArrayList<>();
-//                            dialogStringExtras.add(imageUrlString);
-//                            dialogStringExtras.add(detailTextString);
-
-
-//    // BEGIN_INCLUDE(detail_set_view_name)
-//    /**
-//     * Set the name of the view's which will be transition to, using the static values above.
-//     * This could be done in the layout XML, but exposing it via static variables allows easy
-//     * querying from other Activities
-//     */
-                            ViewCompat.setTransitionName(itemImage, SHARED_IMAGE_VIEW_NAME);
-//    // END_INCLUDE(detail_set_view_name)
-
-
-                            // Construct an Intent as normal
-                            Intent intent = new Intent(getContext(), PlanViewPagerActivity.class);
-                            intent.putExtra
-                                    (PlanDetailsDialogActivity.EXTRA_KEY, position);
-                            startActivity(intent);
-                            // BEGIN_INCLUDE(start_activity)
-                            /**
-                             * Now create an {@link android.app.ActivityOptions} instance using the
-                             * {@link ActivityOptionsCompat#makeSceneTransitionAnimation(Activity, Pair[])} factory
-                             * method.
-                             */
-                            ActivityOptionsCompat activityOptions
-                                    = ActivityOptionsCompat.makeSceneTransitionAnimation(
-                                    getActivity(),
-                                    new Pair<View, String>(
-                                            itemImage,
-                                            PlanDetailsDialogActivity.SHARED_IMAGE_VIEW_NAME));
-
-                                    // Now we can start the Activity, providing the activity options as a bundle
-                                    ActivityCompat.startActivity(getContext(), intent, activityOptions.toBundle());
-//                             END_INCLUDE(start_activity)
-
-                    }
-                }
-            };
-            holder.heading.setText(holder.option.getHeading());
-            holder.addBtnView.setOnClickListener(clickListener);
-            holder.detailsBtnView.setOnClickListener(clickListener);
-            ImageHandler.getSharedInstance(getContext()).load(BuildConfig.APP_BAR_LOGO_URL)
-                    .fit().centerCrop().into(itemImage);
-
-            holder.addBtnView.setContentDescription(String.format(getString(R.string.add_button_cd)
-                    , options.get(position).getHeading()));
-            holder.detailsBtnView.setContentDescription
-                    (String.format(getString(R.string.details_button_cd)
-                    , options.get(position).getHeading()));
-        }
-
-        @Override
-        public int getItemCount() {
-            return options.size();
-        }
-
-        public class ViewHolder extends RecyclerView.ViewHolder {
-            public final ImageButton addBtnView;
-            public final Button detailsBtnView;
-            public final TextView heading;
-
-            public PlanOption option;
-
-            public ViewHolder(View view) {
-                super(view);
-                heading = (TextView)view.findViewById(R.id.heading);
-                itemImage = (ImageView)view.findViewById(R.id.imageview);
-                addBtnView = (ImageButton) view.findViewById(R.id.add_button);
-                detailsBtnView = (Button) view.findViewById(R.id.details_button);
-            }
-
-            @Override
-            public String toString() {
-                return super.toString() + " '" + heading.getText() + "'";
-            }
-        }
+        TextView estCostTV = (TextView)rootView.findViewById(R.id.toolbar_est_cost_tv);
+//        getActivity().getSupportLoaderManager().initLoader(3, null, this).forceLoad();
+        return rootView;
     }
 
     private RecyclerView.LayoutManager getLayoutManager() {
@@ -202,9 +101,7 @@ public class PlanPageFragment extends Fragment {
         }
     }
 
-    private void addOptionToPlan() {
-        ContentValues values = new ContentValues();
-        // query first for existing plan URI, then insert new plan entry if not present
+    // query first for existing plan URI, then insert new plan entry if not present
 //        if (planUri != null) {
 //            values.put(PlanEntry.COLUMN_ ? ??,heading);
 //            getContext().getContentResolver().update(planUri, values, null, null);
@@ -214,6 +111,58 @@ public class PlanPageFragment extends Fragment {
 //            Uri planUri = getContext().getContentResolver().insert(UserSelectionContract.PlanEntry.CONTENT_URI, values);
 //        }
 
+    private ArrayList<Integer> loadFragmentResources(String fragmentTag) {
+        ArrayList<Integer> resourcesList = new ArrayList<>();
+
+
+        return resourcesList;
+    }
+
+    private void addOptionToPlan(String selection) {
+        ContentValues values = new ContentValues();
+        switch (selection) {
+//            case ceremony:
+//                values.put(UserSelectionContract.PlanEntry.COLUMN_CEREMONY_SELECTION, selection);
+//                break;
+//            case reception:
+//                values.put(UserSelectionContract.PlanEntry.COLUMN_RECEPTION_SELECTION, selection);
+//                break;
+//            case visitation:
+//                values.put(UserSelectionContract.PlanEntry.COLUMN_VISITATION_SELECTION, selection);
+//                break;
+//            case siteFragment:
+//                values.put(UserSelectionContract.PlanEntry.COLUMN_SITE_SELECTION, selection);
+//                break;
+//            case container:
+//                values.put(UserSelectionContract.PlanEntry.COLUMN_CONTAINER_SELECTION, selection);
+//                break;
+            default:
+                Timber.e("Invalid Fragment tag");
+        }
+    }
+
+    /** plan option loader */
+    @Override
+    public Loader<ArrayList<PlanOption>> onCreateLoader(int id, Bundle args) {
+        Timber.d("onCreateLoader:");
+        String queryString = "https://www.thedignityplanner.com/create-plan/funeralceremony";
+        return new PlanPageLoader(getContext(), queryString);
+    }
+
+    @Override
+    public void onLoadFinished(Loader<ArrayList<PlanOption>> loader, ArrayList<PlanOption> data) {
+        Timber.d("onLoadFinished:");
+        Timber.d("data=" + data.get(0).getHeading());
+//        PlanOptionRecyclerViewAdapter rvAdapter = new PlanOptionRecyclerViewAdapter(getActivity(), );
+//        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+//        recyclerView.setAdapter(rvAdapter);
+    }
+
+    @Override
+    public void onLoaderReset(Loader<ArrayList<PlanOption>> loader) {
+
     }
 
 }
+
+

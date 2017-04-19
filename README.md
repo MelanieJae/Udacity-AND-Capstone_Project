@@ -48,9 +48,16 @@ This project and its base project are built using the Gradle build system.
 
 To build the project from Android Studio, follow these instructions: https://developer.android.com/studio/build/building-cmdline.html#DebugMode.
 
-Description
+# Description
 
-This app is an adaptation of an existing website for Dignity Memorial, LLC, a network of funeral planning and site providers throughout the US. It provides quick access to the most valuable services that the existing Dignity Memorial website provides, e.g. search of obituaries, search for service providers (e.g. burial, cremation), a “Things to Remember” checklist, and creating, saving and sharing an event plan via a mobile device.
+This app is a mobile adaptation of an existing website for Dignity Memorial, LLC, a network of funeral planning and site providers throughout the US. It provides quick access to the most valuable services that the existing Dignity Memorial website provides, e.g. search of obituaries, search for service providers (e.g. burial, cremation), a “Things to Remember” checklist, and creating, saving and sharing an event plan via a mobile device.
+
+# Attributions:
+ZoomOutPageTransformer class (entire class)
+ScreenSlidePageAdapter(portions)
+https://developer.android.com/training/animation/screen-slide.html
+
+
 
 
 
