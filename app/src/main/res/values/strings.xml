@@ -1,6 +1,9 @@
 <resources>
     <string name="app_name" translatable="false">Dignity Memorial</string>
 
+    <!-- analytics -->
+    <string name="tracking_id">UA-97751294-1</string>
+    <bool>
     <!-- main screen menu buttons -->
     <string name="search_obituaries">Search Obituaries</string>
     <string name="search_providers">Search Providers</string>
@@ -34,6 +37,12 @@
     <string name="dm_notifications_title">Dignity Memorial</string>
     <string name="dm_notifications_body_text">You have an upcoming consultation with Dignity Memorial.</string>
     <string name="dm_notifications_body_tap_text">Tap to add event to calendar</string>
+
+    <!-- widget -->
+    <string name="widget_emptyview_text">
+        You have no events or plans with us.
+        \nTap to open the app to start today.
+    </string>
 
     <!-- calendar event created by tapping on notification -->
     <string name="sample_notif_cal_event_title">Planning Consultation with Dignity Memorial</string>
