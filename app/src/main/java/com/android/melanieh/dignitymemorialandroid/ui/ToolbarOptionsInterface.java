@@ -1,6 +1,7 @@
 package com.android.melanieh.dignitymemorialandroid.ui;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.MenuItem;
 
 /**

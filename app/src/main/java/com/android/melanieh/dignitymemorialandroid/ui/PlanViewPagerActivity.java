@@ -26,10 +26,7 @@ public class PlanViewPagerActivity extends FragmentActivity {
 
     private ViewPager mPager;
     private boolean mTwoPane;
-    public int optionId;
-    PlanOption option;
     ImageView itemImage;
-    public static String SHARED_IMAGE_VIEW_NAME = "Shared Element ImageView";
 
     /**
      * The pager adapter, which provides the pages to the view pager widget.
@@ -57,45 +54,7 @@ public class PlanViewPagerActivity extends FragmentActivity {
             mTwoPane = true;
         }
 
-        // shared element transition to option details dialog
-//        ViewCompat.setTransitionName(itemImage, SHARED_IMAGE_VIEW_NAME);
-
-        optionId = getIntent().getIntExtra(PlanDetailsDialogActivity.EXTRA_KEY, 0);
-//        showDetailDialog();
-
-        // Retrieve the correct PlanOption instance, using the ID/position provided in the Intent
-//        option = PlanPageFragment.options.get(optionId);
-        // elements being shared between the plan options list and here
-
-//    // BEGIN_INCLUDE(detail_set_view_name)
-//    /**
-//     * Set the name of the view's which will be transition to, using the static values above.
-//     * This could be done in the layout XML, but exposing it via static variables allows easy
-//     * querying from other Activities
-//     */
-//    // END_INCLUDE(detail_set_view_name)
-
     }
-
-//    private void showDetailDialog() {
-//        Timber.d("showDetailDialog:");
-//
-//        FragmentManager fm = getSupportFragmentManager();
-//        PlanDetailsDialogFragment fragment = PlanDetailsDialogFragment.newInstance("title");
-//        fragment.show(fm, "fragment_plan_detail_dialog");
-//    }
-
-    // elements being shared between the plan options list and here
-//        sharedElementImageView = (ImageView) findViewById(R.id.shared_element_transition_image);
-
-//    // BEGIN_INCLUDE(detail_set_view_name)
-//    /**
-//     * Set the name of the view's which will be transition to, using the static values above.
-//     * This could be done in the layout XML, but exposing it via static variables allows easy
-//     * querying from other Activities
-//     */
-//        ViewCompat.setTransitionName(sharedElementImageView, SHARED_IMAGE_VIEW_NAME);
-//    // END_INCLUDE(detail_set_view_name)
 
     @Override
     public void onBackPressed() {

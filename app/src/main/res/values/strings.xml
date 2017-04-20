@@ -30,6 +30,16 @@
     <string name="share_im">Message App</string>
     <string name="share_email" translatable="false">E-mail</string>
 
+    <!-- notifications -->
+    <string name="dm_notifications_title">Dignity Memorial</string>
+    <string name="dm_notifications_body_text">You have an upcoming consultation with Dignity Memorial.</string>
+    <string name="dm_notifications_body_tap_text">Tap to add event to calendar</string>
+
+    <!-- calendar event created by tapping on notification -->
+    <string name="sample_notif_cal_event_title">Planning Consultation with Dignity Memorial</string>
+    <string name="sample_notif_cal_event_desc">Contact: John Smith</string>
+    <string name="sample_notif_cal_event_loc">Resthaven Funeral Home</string>
+
     <!-- settings activity -->
     <string name="saved_zip_codes">Saved ZIP codes</string>
     <string name="saved_providers">Saved providers</string>

@@ -1,5 +1,6 @@
 package com.android.melanieh.dignitymemorialandroid.ui;
 
+import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.app.LoaderManager;
 import android.content.CursorLoader;
@@ -8,7 +9,11 @@ import android.database.Cursor;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.CursorAdapter;
+import android.support.v7.widget.ShareActionProvider;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -21,11 +26,12 @@ import com.android.melanieh.dignitymemorialandroid.data.UserSelectionContract;
  */
 
 public class PlanSummaryFragment extends Fragment implements
-        LoaderManager.LoaderCallbacks<Cursor> {
+        LoaderManager.LoaderCallbacks<Cursor>, ToolbarOptionsInterface {
 
     TextView planSummaryView;
     TextView estCostView;
     CursorAdapter adapter;
+    private ShareActionProvider mShareActionProvider;
 
     public String[] PLAN_COLUMNS = {
             UserSelectionContract.PlanEntry.COLUMN_ID,
@@ -110,4 +116,33 @@ public class PlanSummaryFragment extends Fragment implements
 //        adapter.swapCursor(null);
     }
 
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.menu_share, menu);
+        MenuItem shareItem = menu.findItem(R.id.action_share);
+//        mShareActionProvider = (ShareActionProvider) shareItem.getActionProvider();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        launchShareAction();
+        return true;
+    }
+
+    @Override
+    public void launchMenuIntent(Class activity, String extraContent) {
+
+    }
+
+    @Override
+    public void launchShareAction() {
+        Intent shareIntent = new Intent();
+        shareIntent.setAction(Intent.ACTION_SEND);
+        shareIntent.putExtra(Intent.EXTRA_TEXT, "This is my text to send.");
+        shareIntent.setType("text/plain");
+        if (mShareActionProvider != null) {
+            mShareActionProvider.setShareIntent(shareIntent);
+        }
+    }
 }

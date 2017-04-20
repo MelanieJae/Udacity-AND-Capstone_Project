@@ -1,7 +1,6 @@
 package com.android.melanieh.dignitymemorialandroid.ui;
 
 import android.support.v4.app.FragmentManager;
-import android.content.Context;
 import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -31,7 +30,9 @@ public class PlanSummaryActivity extends AppCompatActivity
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_main, menu);
+        getMenuInflater().inflate(R.menu.menu_activity_main, menu);
+        // Fetch and store ShareActionProvider
+
         return true;
     }
 
@@ -42,6 +43,9 @@ public class PlanSummaryActivity extends AppCompatActivity
             case R.id.action_pref_settings:
                 launchMenuIntent(SettingsActivity.class, null);
                 break;
+            case R.id.action_share:
+                launchShareAction();
+                break;
         }
         return true;
     }
@@ -51,6 +55,8 @@ public class PlanSummaryActivity extends AppCompatActivity
         startActivity(intent);
     }
 
-    public void launchShareAction() {};
+    public void launchShareAction() {
+
+    };
 
 }

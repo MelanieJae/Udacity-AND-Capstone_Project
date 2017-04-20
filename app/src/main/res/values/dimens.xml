@@ -2,6 +2,9 @@
 <resources>
     <integer name="list_item_column_count">2</integer>
 
+    <!-- google play services -->
+    <integer name="google_play_services_version">10</integer>
+
     <!-- menu recyclerview item offsets [pixels]-->
     <integer name="vert_offset">20</integer>
     <integer name="horiz_offset">100</integer>

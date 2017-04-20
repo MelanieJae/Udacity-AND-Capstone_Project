@@ -13,10 +13,5 @@
         android:title="@string/view_plan_selections"
         android:orderInCategory="100"
         app:showAsAction="never" />
-    <item
-        android:id="@+id/share"
-        android:title="@string/menu_share"
-        android:orderInCategory="100"
-        app:showAsAction="ifRoom" />
-    
+
 </menu>
