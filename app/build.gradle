@@ -1,5 +1,4 @@
 import com.android.build.gradle.AppExtension
-
 apply plugin: 'com.android.application'
 
 android {
@@ -14,29 +13,35 @@ android {
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
     }
+
+    signingConfigs {
+
+        release {
+            storeFile file(RELEASE_STORE_FILE)
+            storePassword RELEASE_STORE_PASSWORD
+            keyAlias RELEASE_KEY_ALIAS
+            keyPassword RELEASE_KEY_PASSWORD
+        }
+    }
+
+    buildTypes.each {
+        it.buildConfigField "String", "BILL_PAY_URL", BillPayUrl
+        it.buildConfigField "String", "TTR_CHECKLIST_URL", TTRChecklistUrl
+        it.buildConfigField "String", "APP_BAR_IMAGE_URL", AppBarImageUrl
+        it.buildConfigField "String", "APP_BAR_LOGO_URL", AppBarLogoUrl
+        it.buildConfigField "String", "OBITS_QUERY_BASE_URL", ObitsQueryBaseUrl
+        it.buildConfigField "String", "PROVIDER_QUERY_BASE_URL", ProviderQueryBaseUrl
+        it.buildConfigField "String", "DM_PLANNER_LOGO_IMAGE_URL", DMPlannerLogoImageUrl
+
+    }
     buildTypes {
         release {
+            signingConfig signingConfigs.release
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
 
-    buildTypes.each {
-        it.buildConfigField("String", "TTR_CHECKLIST_URL",
-                TTRChecklistUrl)
-        it.buildConfigField("String", "BILL_PAY_URL",
-                BillPayUrl)
-        it.buildConfigField("String", "GOOGLE_MAPS_API_KEY",
-                GoogleMapsApiKey)
-        it.buildConfigField("String", "APP_BAR_IMAGE_URL",
-                AppBarImageUrl)
-        it.buildConfigField("String", "APP_BAR_LOGO_URL",
-                AppBarLogoUrl)
-        it.buildConfigField("String", "OBITS_QUERY_BASE_URL",
-                ObitsQueryBaseUrl)
-        it.buildConfigField("String", "PROVIDER_QUERY_BASE_URL",
-                ProviderQueryBaseUrl)
-    }
 }
 
 dependencies {
@@ -47,7 +52,6 @@ dependencies {
 
     compile 'org.jsoup:jsoup:1.10.2'
     compile 'com.google.android.gms:play-services-analytics:10.2.1'
-    compile 'com.google.android.gms:play-services-gcm:10.2.1'
     compile 'com.jakewharton.timber:timber:4.5.1'
     compile 'com.squareup.picasso:picasso:2.5.2'
     compile 'com.github.florent37:picassopalette:2.0.0'
