@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- analytics -->
+    <string name="ga_trackingId">UA-97751294-1</string>
+    <!--<string name="client_id">-->
+        <!--662935972622-i1ls88ll6qs7o1tf4dmbtcq5t89ip3vc.apps.googleusercontent.com-->
+    <!--</string>-->
+    <bool name="ga_autoActivityTracking">true</bool>
+
+    <!-- screen name tags -->
+    <screenName name="com.android.melanieh.dignitymemorialandroid.ui.MenuItemListActivity">
+        Main Menu
+    </screenName>
+    <screenName name="com.android.melanieh.dignitymemorialandroid.ui.PlanDetailsDialogActivity">
+        Plan Option Details modal</screenName>
+    <screenName name="com.android.melanieh.dignitymemorialandroid.ui.PlanPageFragment">
+        Plan option selections
+    </screenName>
+    <screenName name="com.android.melanieh.dignitymemorialandroid.ui.PlanSummaryActivity">
+        Plan Selections Summary
+    </screenName>
+    <screenName name="com.android.melanieh.dignitymemorialandroid.ui.SearchResultActivity">
+        Obit/Provider search results</screenName>
+    <screenName name="com.android.melanieh.dignitymemorialandroid.ui.SettingsActivity">Settings</screenName>
+    <screenName name="com.android.melanieh.dignitymemorialandroid.ui.MenuItemDetailActivity">
+        Checklist/Pay Bill</screenName>
+
+</resources>

@@ -52,6 +52,7 @@ dependencies {
 
     compile 'org.jsoup:jsoup:1.10.2'
     compile 'com.google.android.gms:play-services-analytics:10.2.1'
+    compile 'com.google.android.gms:play-services-location:10.2.1'
     compile 'com.jakewharton.timber:timber:4.5.1'
     compile 'com.squareup.picasso:picasso:2.5.2'
     compile 'com.github.florent37:picassopalette:2.0.0'

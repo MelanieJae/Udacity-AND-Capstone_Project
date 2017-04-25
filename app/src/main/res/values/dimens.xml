@@ -2,8 +2,8 @@
 <resources>
     <integer name="list_item_column_count">2</integer>
 
-    <!-- google play services -->
-    <integer name="google_play_services_version">10</integer>
+    <!--&lt;!&ndash; google play services &ndash;&gt;-->
+    <integer name="google_play_services_version">10298000</integer>
 
     <!-- widget -->
     <dimen name="widget_today_default_height">150dp</dimen>

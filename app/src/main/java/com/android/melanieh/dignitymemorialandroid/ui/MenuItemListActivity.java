@@ -26,6 +26,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 
 import com.android.melanieh.dignitymemorialandroid.BuildConfig;
+import com.android.melanieh.dignitymemorialandroid.DMApplication;
 import com.android.melanieh.dignitymemorialandroid.content.MenuContent;
 import com.android.melanieh.dignitymemorialandroid.R;
 
@@ -58,10 +59,6 @@ public class MenuItemListActivity extends AppCompatActivity
     private ImageView appBarLogo;
     Class destClass;
     String extraContent;
-
-    // notifications
-    public static final int NOTIFICATION_ID = 1;
-
 
     public static final String ARG_ITEM_ID = "item_id";
 
@@ -97,6 +94,11 @@ public class MenuItemListActivity extends AppCompatActivity
                     .fit().centerInside().into(appBarLogo);
 
         }
+
+        // start Google Analytics tracking
+        Timber.d("start Analytics tracking...");
+        ((DMApplication)getApplication()).startTracking();
+
 //        PicassoPalette.with(appBarImageUrl.toString(), toolBarIV)
 //                .use(PicassoPalette.Profile.VIBRANT_LIGHT)
 //                .intoBackground(scrollView);
@@ -145,8 +147,7 @@ public class MenuItemListActivity extends AppCompatActivity
                         // currently the only other option is the Start Planning button
                         destClass = PlanViewPagerActivity.class;
                     } else {
-                        sendNotification(v);
-                        destClass = PlanSummaryActivity.class;
+                        //
                     }
                     launchMenuIntent(destClass, extraContent);
                 }
@@ -241,87 +242,5 @@ public class MenuItemListActivity extends AppCompatActivity
 
     public void launchShareAction() {};
 
-    /*** Notifications */
-    public void sendNotification(View view) {
-        Calendar beginTime = Calendar.getInstance();
-        beginTime.set(2012, 9, 14, 7, 30);
-        long startMillis = beginTime.getTimeInMillis();
-        Calendar endTime = Calendar.getInstance();
-        endTime.set(2012, 9, 14, 8, 45);
-        long endMillis = endTime.getTimeInMillis();
-        // TODO: change to whatever clicking on the notification will do (e.g. notify the user and link to
-        // loved one's obituary, link to calendar event for consult and/or service)
-        Intent addEventIntent = addEvent(getString(R.string.sample_notif_cal_event_title),
-                getString(R.string.sample_notif_cal_event_desc),
-                getString(R.string.sample_notif_cal_event_loc), startMillis, endMillis);
-        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, addEventIntent, 0);
-
-        // BEGIN_INCLUDE (build_notification)
-        /**
-         * Use NotificationCompat.Builder to set up our notification.
-         */
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
-
-        /* Android design guidelines state that the icon should be simple and monochrome. Full-color
-         * bitmaps or busy images don't render well on smaller screens and can end up
-         * confusing the user.
-         */
-        builder.setSmallIcon(R.drawable.lwc_logo_icon);
-
-        // Set the intent that will fire when the user taps the notification.
-        builder.setContentIntent(pendingIntent);
-
-        // Set the notification to auto-cancel. This means that the notification will disappear
-        // after the user taps it, rather than remaining until it's explicitly dismissed.
-        builder.setAutoCancel(true);
-
-        /**
-         *Build the notification's appearance.
-         * Set the large icon, which appears on the left of the notification. In this
-         * sample we'll set the large icon to be the same as our app icon. The app icon is a
-         * reasonable default if you don't have anything more compelling to use as an icon.
-         */
-        Bitmap largeIcon = BitmapFactory.decodeResource(getResources(), R.drawable.lwc_logo_icon);
-        builder.setLargeIcon(largeIcon);
-
-        /**
-         * Set the text of the notification. This sample sets the three most commononly used
-         * text areas:
-         * 1. The content title, which appears in large type at the top of the notification
-         * 2. The content text, which appears in smaller text below the title
-         * 3. The subtext, which appears under the text on newer devices. Devices running
-         *    versions of Android prior to 4.2 will ignore this field, so don't use it for
-         *    anything vital!
-         */
-        builder.setContentTitle(getString(R.string.dm_notifications_title));
-        builder.setContentText(getString(R.string.dm_notifications_body_text));
-        builder.setSubText(getString(R.string.dm_notifications_body_tap_text));
-        // the new WearableExtender.addAction decouples the notification actions for the wearable
-        // from notification actions for the phone so that actions for one will not appear on the other
-//        builder.extend(wearableExtender
-//                .addAction(action));
-        // END_INCLUDE (build_notification)
-
-        // BEGIN_INCLUDE(send_notification)
-        /**
-         * Send the notification. This will immediately display the notification icon in the
-         * notification bar.
-         */
-        NotificationManagerCompat notificationManager = NotificationManagerCompat.from(getApplicationContext());
-        notificationManager.notify(NOTIFICATION_ID,builder.build());
-        // END_INCLUDE(send_notification)
-    }
-
-    public Intent addEvent(String title, String location, String desc, long begin, long end) {
-
-        Intent intent = new Intent(Intent.ACTION_INSERT)
-                .setData(CalendarContract.Events.CONTENT_URI)
-                .putExtra(CalendarContract.Events.TITLE, title)
-                .putExtra(CalendarContract.Events.DESCRIPTION, desc)
-                .putExtra(CalendarContract.Events.EVENT_LOCATION, location)
-                .putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, begin)
-                .putExtra(CalendarContract.EXTRA_EVENT_END_TIME, end);
-        return intent;
-    }
 }
 

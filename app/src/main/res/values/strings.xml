@@ -1,9 +1,7 @@
 <resources>
     <string name="app_name" translatable="false">Dignity Memorial</string>
 
-    <!-- analytics -->
-    <string name="tracking_id">UA-97751294-1</string>
-    <bool>
+    <!--<bool>-->
     <!-- main screen menu buttons -->
     <string name="search_obituaries">Search Obituaries</string>
     <string name="search_providers">Search Providers</string>
@@ -84,7 +82,15 @@
     <string name="details_button">Details</string>
 
     <!-- search result screens -->
+    <string name="search_form_first_name_label">first name:</string>
+    <string name="search_form_last_name_label">last name:</string>
+    <string name="search_form_zipcode_field_label">last name:</string>
     <string name="get_directions">Get directions</string>
+    <string name="obits_search_query_suffix">
+        &amp;cid=0&amp;sid=0&amp;d=15&amp;b=DM,GHL&amp;scope=0&amp;sort=0&amp;r=100&amp;pn=1&amp;mn=100&amp;v=1&amp;callback=getSearchResults
+    </string>
+    <string name="provider_search_query_suffix">
+        &amp;brand=DM&amp;locale=EN&amp;startPage=1&amp;recordsPerPage=50&amp;radius=100&amp;isClickTracking=false&amp;callback=jQuery17105035656983934365_1492860920431</string>
 
     <!-- data package -->
     <!-- provider -->

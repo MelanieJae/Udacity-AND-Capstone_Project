@@ -83,7 +83,7 @@ public class SearchPageLoader extends AsyncTaskLoader {
         String jsonResponse = "";
         Timber.v("obtainData: requestUrlString= " + requestUrlString);
         try {
-            URL url = new URL(requestUrlString);
+            URL url = new URL(urlString);
             jsonResponse = makeHttpRequest(url);
         } catch (IOException e) {
             Timber.wtf(e, "Error closing input stream");

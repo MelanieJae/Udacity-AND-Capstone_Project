@@ -1,11 +1,14 @@
 package com.android.melanieh.dignitymemorialandroid.content;
 
+import android.content.res.Resources;
+
 import com.android.melanieh.dignitymemorialandroid.BuildConfig;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import com.android.melanieh.dignitymemorialandroid.R;
 
 /** Populates menu **/
 public class MenuContent {
@@ -44,6 +47,7 @@ public class MenuContent {
                 return "Search Providers";
             case 3:
                 return BuildConfig.TTR_CHECKLIST_URL;
+//            getString(R.string.TTRChecklistUrl);
             case 4:
                 return "Start Planning a Service";
             case 5:
