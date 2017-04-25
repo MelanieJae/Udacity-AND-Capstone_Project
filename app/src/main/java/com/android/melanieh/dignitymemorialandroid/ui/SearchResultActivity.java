@@ -43,7 +43,10 @@ import timber.log.Timber;
  */
 
 public class SearchResultActivity extends AppCompatActivity
-        implements LoaderManager.LoaderCallbacks<ArrayList<Object>> {
+        implements LoaderManager.LoaderCallbacks<ArrayList<Object>>,
+        GoogleApiClient.ConnectionCallbacks,
+        GoogleApiClient.OnConnectionFailedListener,
+        LocationListener {
 
     private static final int SEARCH_LOADER_ID = 1;
     String queryString;
@@ -69,13 +72,19 @@ public class SearchResultActivity extends AppCompatActivity
     private static final String PROVIDER_SITE_QUERY_BASE_URL = BuildConfig.PROVIDER_QUERY_BASE_URL;
     private TextView txtOutput;
     private LocationRequest locationRequest;
-
+    private GoogleApiClient googleApiClient;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search_results);
 
+        /* Location services Api client */
+        googleApiClient = new GoogleApiClient.Builder(this)
+                .addApi(LocationServices.API)
+                .addConnectionCallbacks(this)
+                .addOnConnectionFailedListener(this)
+                .build();
 
         obitsFormLayout = (LinearLayout)findViewById(R.id.obits_search_form_layout);
         providerFormLayout = (LinearLayout)findViewById(R.id.provider_search_form_layout);
@@ -99,8 +108,19 @@ public class SearchResultActivity extends AppCompatActivity
         executeSearch(queryType);
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        googleApiClient.connect();
+        Timber.d("connecting to API client...");
+    }
 
-    /* Results Loader */
+    @Override
+    protected void onStop() {
+        googleApiClient.disconnect();
+        Timber.d("API client disconnected.");
+        super.onStop();
+    }
 
     /* Results Recycler View */
 
@@ -181,6 +201,43 @@ public class SearchResultActivity extends AppCompatActivity
 //        fetchServiceIntent.setData(Uri.parse(queryBuilder.toString()));
 //        startService(fetchServiceIntent);
     }
+
+    // using coarse filter and low power accuracy (city level, within 10km) for obit and provider searches since it's the zip code
+    // or lat/long that is being used and accuracy within 100 m is not necessary
+    // if doing the navigation to plot, this would need HIGH_ACCURACY and FINE_LOCATION settings
+    @Override
+    public void onConnected(@Nullable Bundle bundle) {
+        Timber.d("Google API Client is connected");
+        locationRequest = LocationRequest.create();
+        locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+        locationRequest.setInterval(1000); // millisecs
+        try {
+            PendingResult<Status> statusPendingResult =
+                    LocationServices.FusedLocationApi.requestLocationUpdates(googleApiClient,
+                            locationRequest, this);
+            //TODO check permission; requires runtime permission grants that can be rejected by user and denial must be handled here
+        } catch (SecurityException e) {
+            Timber.wtf(e, "Security Exception: user has not granted all necessary permissions");
+        }
+    }
+    @Override
+    public void onConnectionSuspended(int i) {
+        Timber.d("Google API Client connection has been suspended");
+    }
+
+    @Override
+    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+        Timber.d("Google API Client connection has failed");
+
+    }
+
+    @Override
+    public void onLocationChanged(Location location) {
+        Timber.d("location string: " + location.toString());
+        locSvcsView.setText(location.toString());
+        // TODO: parse lat/lng values from location and append to search queries
+    }
+
 
 
 
