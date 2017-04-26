@@ -3,6 +3,7 @@ package com.android.melanieh.dignitymemorialandroid.ui;
 import android.content.Context;
 import android.support.v4.content.AsyncTaskLoader;
 
+import com.android.melanieh.dignitymemorialandroid.BuildConfig;
 import com.android.melanieh.dignitymemorialandroid.Obituary;
 import com.android.melanieh.dignitymemorialandroid.PlanOption;
 import com.android.melanieh.dignitymemorialandroid.Provider;
@@ -111,8 +112,7 @@ public class PlanPageLoader extends AsyncTaskLoader{
         Timber.d("detailText= " + detailText);
         Timber.d("imageUrlString= " + imageUrlString);
         option = new PlanOption("heading", "detailText",
-                "https://s3.amazonaws.com/" +
-                        "busites_www/tdp/1/1/media/option-media/thumb_cooking03_1457631930_1349.png");
+                BuildConfig.APP_BAR_IMAGE_URL, "0");
         optionsList.add(option);
         return optionsList;
 

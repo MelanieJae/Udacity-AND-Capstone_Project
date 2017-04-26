@@ -146,6 +146,7 @@ public class MenuItemListActivity extends AppCompatActivity
                     } else if (buttonLabel.contains("Start")){
                         // currently the only other option is the Start Planning button
                         destClass = PlanViewPagerActivity.class;
+//                        destClass = CompletePlanFormActivity.class;
                     } else {
                         //
                     }

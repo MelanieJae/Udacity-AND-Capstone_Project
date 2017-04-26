@@ -1,5 +1,8 @@
 package com.android.melanieh.dignitymemorialandroid;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 /**
  * Created by melanieh on 4/16/17.
  */
@@ -33,4 +36,5 @@ public class Obituary {
     public String getObitText() {
         return obitText;
     }
+
 }

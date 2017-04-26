@@ -1,20 +1,23 @@
 package com.android.melanieh.dignitymemorialandroid.ui;
 
+import android.annotation.TargetApi;
+import android.app.job.JobInfo;
+import android.app.job.JobScheduler;
+import android.content.ComponentName;
+import android.content.Context;
+import android.os.Build;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
+import android.os.PersistableBundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentStatePagerAdapter;
-import android.support.v4.app.LoaderManager;
-import android.support.v4.content.Loader;
 import android.support.v4.view.PagerAdapter;
-import android.support.v4.view.ViewCompat;
 import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.widget.ImageView;
 
-import com.android.melanieh.dignitymemorialandroid.PlanOption;
+import com.android.melanieh.dignitymemorialandroid.BuildConfig;
 import com.android.melanieh.dignitymemorialandroid.R;
+import com.android.melanieh.dignitymemorialandroid.sync.PlanResourcesFetchJobService;
 
 import timber.log.Timber;
 
@@ -34,6 +37,7 @@ public class PlanViewPagerActivity extends FragmentActivity {
     private PagerAdapter mPagerAdapter;
 
     @Override
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     protected void onCreate(Bundle savedInstanceState) {
         Timber.d("onCreate:");
         super.onCreate(savedInstanceState);

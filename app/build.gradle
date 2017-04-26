@@ -1,4 +1,5 @@
 import com.android.build.gradle.AppExtension
+
 apply plugin: 'com.android.application'
 
 android {
@@ -32,8 +33,14 @@ android {
         it.buildConfigField "String", "OBITS_QUERY_BASE_URL", ObitsQueryBaseUrl
         it.buildConfigField "String", "PROVIDER_QUERY_BASE_URL", ProviderQueryBaseUrl
         it.buildConfigField "String", "DM_PLANNER_LOGO_IMAGE_URL", DMPlannerLogoImageUrl
-
+        it.buildConfigField "String", "CEREMONY_PLAN_URL", CeremonyPlanUrl
+        it.buildConfigField "String", "VISITATION_PLAN_URL", VisitationPlanUrl
+        it.buildConfigField "String", "RECEPTION_PLAN_URL", ReceptionPlanUrl
+        it.buildConfigField "String", "SITE_SELECTION_PLAN_URL", SiteSelectionUrl
+        it.buildConfigField "String", "CONTAINER_PLAN_URL", ContainerSelectionUrl
+        it.buildConfigField "String", "PERSONALIZATIONS_PLAN_URL", PersonalizationsUrl
     }
+
     buildTypes {
         release {
             signingConfig signingConfigs.release

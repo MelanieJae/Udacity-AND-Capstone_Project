@@ -60,7 +60,7 @@ public class SearchPageLoader extends AsyncTaskLoader {
         ArrayList<? extends Object> resultsList = obtainSearchResults(urlString);
         return resultsList;
     }
-    /** Query the Google Books dataset and return a list of {@link Object} search result objects.
+    /** Query the Legacy or DM /SCI web services and return a list of {@link Object} search result objects.
      * The Object can be one of the following:
      * 1. Obituary
      * 2. Provider

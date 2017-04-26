@@ -45,12 +45,13 @@ public class UserSelectionContract {
             /*** table column names */
             public static final String COLUMN_ID = BaseColumns._ID;
             public static final String COLUMN_PLAN_NAME = "Plan_Name";
+            public static final String COLUMN_PLAN_TYPE = "Plan_Type"; // burial, cremation or undecided
             public static final String COLUMN_CONTACT_NAME = "POC_Name";
             public static final String COLUMN_CONTACT_PHONE = "POC_Phone";
             public static final String COLUMN_CONTACT_EMAIL = "POC_Email";
-            // to be pulled from sharedprefs
-            public static final String COLUMN_ZIP_CODE_PREF = "ZIP_Code_Pref";
-            public static final String COLUMN_PROVIDER_PREF = "Provider_Pref";
+            // chosen from sharedprefs
+            public static final String COLUMN_ZIP_CODE = "ZIP_Code_Pref";
+            public static final String COLUMN_PROVIDER = "Provider_Pref";
 
             public static final String COLUMN_CEREMONY_SELECTION = "Ceremony_Selection";
             public static final String COLUMN_VISITATION_SELECTION = "Visitation_Selection";
@@ -58,6 +59,14 @@ public class UserSelectionContract {
             public static final String COLUMN_SITE_SELECTION = "Site_Selection";
             public static final String COLUMN_CONTAINER_SELECTION = "Container_Selection";
             public static final String COLUMN_EST_COST = "Estimated_Cost";
+
+            /**
+             * Valid values for plan type.
+             */
+            public static final int BURIAL = 0;
+            public static final int CREMATION = 1;
+            public static final int UNDECIDED = 2;
+
         }
 
         @Override

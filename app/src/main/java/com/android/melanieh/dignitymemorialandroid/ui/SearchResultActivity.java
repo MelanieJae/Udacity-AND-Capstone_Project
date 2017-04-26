@@ -1,6 +1,7 @@
 package com.android.melanieh.dignitymemorialandroid.ui;
 
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.location.Location;
 import android.net.Uri;
 import android.support.annotation.NonNull;
@@ -12,6 +13,7 @@ import com.android.melanieh.dignitymemorialandroid.BuildConfig;
 import com.android.melanieh.dignitymemorialandroid.R;
 
 import android.support.v4.content.Loader;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -24,7 +26,6 @@ import android.widget.TextView;
 
 import com.android.melanieh.dignitymemorialandroid.Obituary;
 import com.android.melanieh.dignitymemorialandroid.Provider;
-import com.android.melanieh.dignitymemorialandroid.data.SearchFetchIntentService;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.PendingResult;
@@ -49,6 +50,8 @@ public class SearchResultActivity extends AppCompatActivity
         LocationListener {
 
     private static final int SEARCH_LOADER_ID = 1;
+//    private static final IntentFilter BROADCAST_ACTION
+//            = com.android.melanieh.dignitymemorialandroid.BROADCAST_ACTION;
     String queryString;
     RecyclerView.LayoutManager resultRVLayoutManager;
     SearchResultRecyclerAdapter adapter;
@@ -79,12 +82,12 @@ public class SearchResultActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search_results);
 
-        /* Location services Api client */
-        googleApiClient = new GoogleApiClient.Builder(this)
-                .addApi(LocationServices.API)
-                .addConnectionCallbacks(this)
-                .addOnConnectionFailedListener(this)
-                .build();
+//        /* Location services Api client */
+//        googleApiClient = new GoogleApiClient.Builder(this)
+//                .addApi(LocationServices.API)
+//                .addConnectionCallbacks(this)
+//                .addOnConnectionFailedListener(this)
+//                .build();
 
         obitsFormLayout = (LinearLayout)findViewById(R.id.obits_search_form_layout);
         providerFormLayout = (LinearLayout)findViewById(R.id.provider_search_form_layout);
@@ -106,17 +109,19 @@ public class SearchResultActivity extends AppCompatActivity
 
         // use query type info from button selection to select correct base query
         executeSearch(queryType);
+
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        googleApiClient.connect();
-        Timber.d("connecting to API client...");
+//        googleApiClient.connect();
+//        Timber.d("connecting to API client...");
     }
 
     @Override
     protected void onStop() {
+        // disconnect Google Play services API client
         googleApiClient.disconnect();
         Timber.d("API client disconnected.");
         super.onStop();
@@ -166,13 +171,13 @@ public class SearchResultActivity extends AppCompatActivity
 //            String firstName = firstNameET.getText().toString();
             queryBuilder.append("fn=" + firstName);
 //            String lastName = lastNameET.getText().toString();
-            queryBuilder.append("ln=" + lastName);
+            queryBuilder.append("&ln=" + lastName);
             querySuffix=getString(R.string.obits_search_query_suffix);
 
         } else {
             queryBuilder = new StringBuilder(PROVIDER_SITE_QUERY_BASE_URL);
 //            String zipCode = zipCodeET.getText().toString();
-            queryBuilder.append("zipCode=" + zipCode);
+            queryBuilder.append("&zipCode=" + zipCode);
             querySuffix=getString(R.string.provider_search_query_suffix);
             // TODO: add path for "get location" input for lat & long from Google Play Location
         }
@@ -185,21 +190,8 @@ public class SearchResultActivity extends AppCompatActivity
         obitsFormLayout.setVisibility(View.GONE);
         providerFormLayout.setVisibility(View.GONE);
 
-        // use loader to fetch data
         getSupportLoaderManager().initLoader(SEARCH_LOADER_ID, null, this).forceLoad();
-        // OR
-        // use intent service to fetch data
 
-        /*
-        * Creates a new Intent to start the SearchFetchIntentService
-        * Passes a URI in the
-        * Intent's "data" field, specifically the variable queryString
-        */
-//        Timber.d("Launching data fetch intent service...");
-//
-//        Intent fetchServiceIntent = new Intent(this, SearchFetchIntentService.class);
-//        fetchServiceIntent.setData(Uri.parse(queryBuilder.toString()));
-//        startService(fetchServiceIntent);
     }
 
     // using coarse filter and low power accuracy (city level, within 10km) for obit and provider searches since it's the zip code
@@ -237,8 +229,5 @@ public class SearchResultActivity extends AppCompatActivity
         locSvcsView.setText(location.toString());
         // TODO: parse lat/lng values from location and append to search queries
     }
-
-
-
 
 }

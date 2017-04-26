@@ -42,13 +42,14 @@ public class UserSelectionDBHelper extends SQLiteOpenHelper {
     private static final String PLAN_CONSTRAINT_NAME = " " + PlanEntry.COLUMN_PLAN_NAME + "_unique";
 
     public static final String COLUMN_ID = BaseColumns._ID;
-    public static final String COLUMN_PLAN_NAME = "Plan_Name";
-    public static final String COLUMN_CONTACT_NAME = "POC_Name";
-    public static final String COLUMN_CONTACT_PHONE = "POC_Phone";
-    public static final String COLUMN_CONTACT_EMAIL = "POC_Email";
-    // to be pulled from sharedprefs
-    public static final String COLUMN_ZIP_CODE_PREF = "ZIP_Code_Pref";
-    public static final String COLUMN_PROVIDER_PREF = "Provider_Pref";
+    public static final String COLUMN_PLAN_NAME = PlanEntry.COLUMN_PLAN_NAME;
+    public static final String COLUMN_PLAN_TYPE = PlanEntry.COLUMN_PLAN_TYPE;
+    public static final String COLUMN_CONTACT_NAME = PlanEntry.COLUMN_CONTACT_NAME;
+    public static final String COLUMN_CONTACT_PHONE = PlanEntry.COLUMN_CONTACT_PHONE;
+    public static final String COLUMN_CONTACT_EMAIL = PlanEntry.COLUMN_CONTACT_EMAIL;
+    // pulled from sharedprefs
+    public static final String COLUMN_ZIP_CODE = PlanEntry.COLUMN_ZIP_CODE;
+    public static final String COLUMN_PROVIDER = PlanEntry.COLUMN_PROVIDER;
 
     public static final String COLUMN_CEREMONY_SELECTION = "Ceremony_Selection";
     public static final String COLUMN_VISITATION_SELECTION = "Visitation_Selection";
@@ -61,11 +62,12 @@ public class UserSelectionDBHelper extends SQLiteOpenHelper {
             + UserSelectionContract.PlanEntry.TABLE_NAME
             + "(" + PlanEntry.COLUMN_ID + " " + INT_PRIMARY_KEY_AUTOINC + ", "
             + COLUMN_PLAN_NAME + VARCHAR_NOT_NULL_DEFAULT + ", "
+            + COLUMN_PLAN_TYPE + VARCHAR_NOT_NULL_DEFAULT + ", "
             + COLUMN_CONTACT_NAME + VARCHAR_NOT_NULL_DEFAULT + ", "
             + COLUMN_CONTACT_PHONE + BIGINT + ", "
             + COLUMN_CONTACT_EMAIL + VARCHAR_NOT_NULL_DEFAULT + ", "
-            + COLUMN_ZIP_CODE_PREF + BIGINT + ", "
-            + COLUMN_PROVIDER_PREF + VARCHAR_NOT_NULL_DEFAULT + ", "
+            + COLUMN_ZIP_CODE + BIGINT + ", "
+            + COLUMN_PROVIDER + VARCHAR_NOT_NULL_DEFAULT + ", "
             + COLUMN_CEREMONY_SELECTION + VARCHAR_NOT_NULL_DEFAULT + ", "
             + COLUMN_VISITATION_SELECTION + VARCHAR_NOT_NULL_DEFAULT + ", "
             + COLUMN_RECEPTION_SELECTION + VARCHAR_NOT_NULL_DEFAULT + ", "

@@ -47,7 +47,6 @@ public class MenuContent {
                 return "Search Providers";
             case 3:
                 return BuildConfig.TTR_CHECKLIST_URL;
-//            getString(R.string.TTRChecklistUrl);
             case 4:
                 return "Start Planning a Service";
             case 5:
