@@ -1,38 +1,27 @@
 package com.android.melanieh.dignitymemorialandroid.sync;
 
 import android.annotation.TargetApi;
-import android.app.job.JobInfo;
 import android.app.job.JobParameters;
-import android.app.job.JobScheduler;
-import android.content.ComponentName;
 import android.content.Context;
-import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Build;
-import android.os.Parcelable;
-import android.os.PersistableBundle;
-import android.support.annotation.RequiresApi;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
 import com.android.melanieh.dignitymemorialandroid.PlanOption;
-import com.android.melanieh.dignitymemorialandroid.Utility;
 import com.android.melanieh.dignitymemorialandroid.ui.PlanOptionRecyclerViewAdapter;
 import com.android.melanieh.dignitymemorialandroid.ui.PlanPageFragment;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
-import java.io.IOException;
-import java.io.Serializable;
 import java.util.ArrayList;
 
 import timber.log.Timber;
 
 /**
- * Created by melanieh on 4/25/17.
+ * Created by melanieh on 4/26/17.
  */
 
 public class FetchPlanResourcesAsyncTask extends AsyncTask<JobParameters, Void, ArrayList<PlanOption>> {
@@ -72,45 +61,23 @@ public class FetchPlanResourcesAsyncTask extends AsyncTask<JobParameters, Void, 
         Document doc;
         PlanOption option;
 
-        try {
-            doc = Jsoup.connect(urlString).get();
+        doc = Jsoup.parse(urlString);
+        Elements headingElements = doc.select("div[class=col-md-6]>h3");
+        Elements imageUrlElements = doc.select("img[class=img-responsive center-block]");
+        Elements detailTextElements = doc.select("div[class=col-md-12]");
+        Elements estCostElements = doc.select("div[class=col-md-6]>p");
 
-            // heading for each create-a-plan step screen
-            Elements planStepHeadings = doc.select("span.menu-text");
-            for (Element stepHeadingLink : planStepHeadings) {
-                heading = stepHeadingLink.text();
-                // options under each heading in each step screen
-                Elements colsm7LevelLinks = doc.select("div.col-sm-7");
-                for (Element rowOptionRowLink : colsm7LevelLinks) {
-                    Elements rowOptionRowLinks = colsm7LevelLinks.select("div:has(option-row)");
-                    // option image
-                    imageUrlString = doc.select("div.modal-body.row.col-md-12.img.src").text();
-                    // details text passed to dialog fragment
-                    detailText = doc.select("div.col-sm-7.row.col-md-12.p.p").text();
+        heading = headingElements.first().text();
+        imageUrlString = imageUrlElements.attr("src");  // exact content value of the attribute.
+        detailText = detailTextElements.first().text();
+        estCostString = estCostElements.first().text();
 
-                    for (Element col6mdLink : rowOptionRowLinks) {
-                        Elements col6mdLinks = rowOptionRowLinks.select("div.col-md-6");
-                        for (Element h3Link : col6mdLinks) {
-                            //option title
-                            title = col6mdLinks.select("h3").text();
-                            estCostString = col6mdLinks.select("h3.p.strong").text();
-                        }
-                    }
+        option = new PlanOption(heading, detailText,
+                        imageUrlString, estCostString);
+        Timber.d("option: " + option.toString());
+        optionsList.add(option);
+        Timber.d("optionsList: " + optionsList);
 
-                    Timber.d("heading= " + heading);
-                    Timber.d("title= " + title);
-                    Timber.d("detailText= " + detailText);
-                    Timber.d("imageUrlString= " + imageUrlString);
-                    Timber.d("estCostString= " + estCostString);
-
-                    option = new PlanOption(heading, detailText,
-                            imageUrlString, estCostString);
-                    optionsList.add(option);
-                }
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
         return optionsList;
     }
 

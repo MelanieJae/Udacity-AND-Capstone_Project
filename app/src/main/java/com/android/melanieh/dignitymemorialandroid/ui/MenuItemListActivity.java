@@ -1,18 +1,9 @@
 package com.android.melanieh.dignitymemorialandroid.ui;
 
-import android.app.Notification;
-import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.net.Uri;
 import android.os.Bundle;
-import android.provider.CalendarContract;
 import android.support.annotation.NonNull;
-import android.support.v4.app.NotificationCompat;
-import android.support.v4.app.NotificationManagerCompat;
-import android.support.v4.app.RemoteInput;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -31,8 +22,6 @@ import com.android.melanieh.dignitymemorialandroid.content.MenuContent;
 import com.android.melanieh.dignitymemorialandroid.R;
 
 import java.util.List;
-import java.util.Calendar;
-import java.util.TimeZone;
 
 import timber.log.Timber;
 
@@ -45,7 +34,7 @@ import timber.log.Timber;
  * item details side-by-side using two vertical panes.
  */
 public class MenuItemListActivity extends AppCompatActivity
-        implements ToolbarOptionsInterface{
+        implements MenuOptionsInterface {
 
     /**
      * Whether or not the activity is in two-pane mode, i.e. running on a tablet
@@ -138,8 +127,7 @@ public class MenuItemListActivity extends AppCompatActivity
                 @Override
                 public void onClick(View v) {
                     if (buttonLabel.contains("Search") || buttonLabel.contains("Find")) {
-                        destClass = SearchResultActivity.class;
-                        extraContent = buttonLabel;
+                        destClass = CompleteSearchFormActivity.class;
                     } else if (buttonLabel.contains("Checklist") || buttonLabel.contains("Pay")) {
                         destClass = MenuItemDetailActivity.class;
                         extraContent = holder.mItem.details;
@@ -219,16 +207,22 @@ public class MenuItemListActivity extends AppCompatActivity
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
         Context context = this;
-        switch (id) {
-            case R.id.action_pref_settings:
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                // This ID represents the Home or Up button. In the case of this
+                // activity, the Up button is shown. For
+                // more details, see the Navigation pattern on Android Design:
+                //
+                // http://developer.android.com/design/patterns/navigation.html#up-vs-back
+                //
+                navigateUpTo(new Intent(this, MenuItemListActivity.class));
+                return true;
+            case R.id.action_access_preferences:
                 destClass = SettingsActivity.class;
                 break;
             case R.id.action_view_plan_selections:
                 destClass = PlanSummaryActivity.class;
-            case R.id.action_share:
-                launchShareAction();
                 break;
         }
         launchMenuIntent(destClass, null);
@@ -241,7 +235,7 @@ public class MenuItemListActivity extends AppCompatActivity
         startActivity(intent);
     }
 
-    public void launchShareAction() {};
+    public Intent launchShareIntent() {return null;}
 
 }
 

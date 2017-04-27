@@ -1,13 +1,16 @@
 package com.android.melanieh.dignitymemorialandroid.ui;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
 import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -25,7 +28,7 @@ import timber.log.Timber;
  * in two-pane mode (on tablets) or a {@link MenuItemDetailActivity}
  * on handsets.
  */
-public class MenuItemDetailFragment extends Fragment {
+public class MenuItemDetailFragment extends Fragment implements MenuOptionsInterface {
     /**
      * The fragment argument representing the item ID that this fragment
      * represents.
@@ -96,6 +99,13 @@ public class MenuItemDetailFragment extends Fragment {
     }
 
     @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        MenuItem menuItem = menu.findItem(R.id.action_share);
+        menuItem.setIntent(launchShareIntent());
+    }
+
+    @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
     }
@@ -103,5 +113,20 @@ public class MenuItemDetailFragment extends Fragment {
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
+    }
+
+    @Override
+    public void launchMenuIntent(Class activity, String extraContent) {
+
+    }
+
+    @Override
+    public Intent launchShareIntent() {
+        Intent shareIntent = new Intent(android.content.Intent.ACTION_SEND);
+        shareIntent.setType("text/plain");
+        String shareBodyText = getString(R.string.share_msg_body_text);
+        shareIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Subject/Title");
+        shareIntent.putExtra(android.content.Intent.EXTRA_TEXT, shareBodyText);
+        return shareIntent;
     }
 }

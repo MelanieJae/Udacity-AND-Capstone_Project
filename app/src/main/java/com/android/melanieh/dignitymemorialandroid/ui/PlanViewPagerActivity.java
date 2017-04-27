@@ -5,6 +5,7 @@ import android.app.job.JobInfo;
 import android.app.job.JobScheduler;
 import android.content.ComponentName;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.PersistableBundle;
@@ -12,6 +13,8 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 
@@ -30,10 +33,9 @@ public class PlanViewPagerActivity extends FragmentActivity {
     private ViewPager mPager;
     private boolean mTwoPane;
     ImageView itemImage;
+    Class destClass;
 
-    /**
-     * The pager adapter, which provides the pages to the view pager widget.
-     */
+    /** The pager adapter, which provides the pages to the view pager widget. */
     private PagerAdapter mPagerAdapter;
 
     @Override
@@ -59,6 +61,44 @@ public class PlanViewPagerActivity extends FragmentActivity {
         }
 
     }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_activity_main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        Context context = this;
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                // This ID represents the Home or Up button. In the case of this
+                // activity, the Up button is shown. For
+                // more details, see the Navigation pattern on Android Design:
+                //
+                // http://developer.android.com/design/patterns/navigation.html#up-vs-back
+                //
+                navigateUpTo(new Intent(this, MenuItemListActivity.class));
+                return true;
+            case R.id.action_access_preferences:
+                destClass = SettingsActivity.class;
+                break;
+            case R.id.action_view_plan_selections:
+                destClass = PlanSummaryActivity.class;
+                break;
+        }
+        launchMenuIntent(destClass, null);
+        return super.onOptionsItemSelected(item);
+    }
+
+    public void launchMenuIntent(Class destinationClass, String extraContent) {
+        Intent intent = new Intent(this, destinationClass);
+        startActivity(intent);
+    }
+    // this is launched from the fragment
+    public Intent launchShareIntent() { return null; }
+
 
     @Override
     public void onBackPressed() {

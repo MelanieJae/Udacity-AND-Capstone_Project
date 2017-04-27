@@ -8,6 +8,9 @@ import android.icu.util.TimeZone;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.preference.PreferenceManager;
+import android.text.TextUtils;
+import android.view.View;
+import android.widget.TextView;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
@@ -37,11 +40,20 @@ public class Utility {
 //        return prefs.contains(context.getString(R.string.pref_location_latitude))
 //                && prefs.contains(context.getString(R.string.pref_location_longitude));
 //    }
-//
+
     public static String getPreferredZipCode(Context context) {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
         return prefs.getString(context.getString(R.string.pref_zip_code_key),
                 context.getString(R.string.pref_zip_code_default));
+    }
+
+    public static boolean entryIsEmpty(TextView view) {
+        boolean isEntryEmpty = true;
+        if (!TextUtils.isEmpty(view.getText())) {
+            isEntryEmpty = false;
+        }
+
+        return isEntryEmpty;
     }
 
 

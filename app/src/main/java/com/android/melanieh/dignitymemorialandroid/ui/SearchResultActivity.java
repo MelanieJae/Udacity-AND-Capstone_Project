@@ -2,8 +2,11 @@ package com.android.melanieh.dignitymemorialandroid.ui;
 
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.location.Location;
 import android.net.Uri;
+import android.preference.Preference;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.v4.app.LoaderManager;
 import android.os.Bundle;
@@ -19,6 +22,7 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -36,6 +40,9 @@ import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.Set;
 
 import timber.log.Timber;
 
@@ -50,62 +57,63 @@ public class SearchResultActivity extends AppCompatActivity
         LocationListener {
 
     private static final int SEARCH_LOADER_ID = 1;
-//    private static final IntentFilter BROADCAST_ACTION
-//            = com.android.melanieh.dignitymemorialandroid.BROADCAST_ACTION;
+
     String queryString;
     RecyclerView.LayoutManager resultRVLayoutManager;
     SearchResultRecyclerAdapter adapter;
     RecyclerView resultsRecyclerView;
-    TextView test;
-    TextView zipCodeTV;
-    TextView firstNameTV;
-    TextView lastNameTV;
-    EditText zipCodeET;
-    EditText firstNameET;
-    EditText lastNameET;
     String queryType;
     String zipCode;
+    String provider;
     String firstName;
     String lastName;
-    String searchParams[];
     LinearLayout obitsFormLayout;
     LinearLayout providerFormLayout;
     TextView locSvcsView;
+    Double locationLat;
+    Double locationLong;
     private static final String OBITS_QUERY_BASE_URL = BuildConfig.OBITS_QUERY_BASE_URL;
     private static final String PROVIDER_SITE_QUERY_BASE_URL = BuildConfig.PROVIDER_QUERY_BASE_URL;
     private TextView txtOutput;
     private LocationRequest locationRequest;
     private GoogleApiClient googleApiClient;
+    SharedPreferences sharedPrefs;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search_results);
 
-//        /* Location services Api client */
-//        googleApiClient = new GoogleApiClient.Builder(this)
-//                .addApi(LocationServices.API)
-//                .addConnectionCallbacks(this)
-//                .addOnConnectionFailedListener(this)
-//                .build();
+        /* Location services Api client */
+        googleApiClient = new GoogleApiClient.Builder(this)
+                .addApi(LocationServices.API)
+                .addConnectionCallbacks(this)
+                .addOnConnectionFailedListener(this)
+                .build();
 
-        obitsFormLayout = (LinearLayout)findViewById(R.id.obits_search_form_layout);
-        providerFormLayout = (LinearLayout)findViewById(R.id.provider_search_form_layout);
         resultsRecyclerView = (RecyclerView)findViewById(R.id.results_rv);
-        locSvcsView = (TextView)findViewById(R.id.location_services_readout);
 
-        zipCodeTV = (TextView)findViewById(R.id.zip_code);
-        zipCodeET = (EditText)findViewById(R.id.search_form_zipcode_et);
+        // grab incoming data from menu item button selection and any sharedprefs info
+        // grab any saved zip codes
+        sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
 
-        firstNameTV = (TextView)findViewById(R.id.first_name);
-        firstNameET = (EditText)findViewById(R.id.search_form_first_name_et);
+        if (sharedPrefs.contains("zipCode") || sharedPrefs.contains("provider")) {
+            zipCode = sharedPrefs.getString("zipCode", "");
+            provider = sharedPrefs.getString("provider", "");
+        }
 
-        lastNameTV = (TextView)findViewById(R.id.last_name);
-        lastNameET = (EditText)findViewById(R.id.search_form_last_name_et);
-
-        // grab incoming data from menu item button selection
         queryType = getIntent().getStringExtra("EXTRA_CONTENT");
+        zipCode = getIntent().getStringExtra("zipCode");
+        firstName = getIntent().getStringExtra("first name");
+        lastName = getIntent().getStringExtra("last name");
+
+        locationLat = getIntent().getDoubleExtra("current location lat", 0);
+        locationLong = getIntent().getDoubleExtra("current location long", 0);
         Timber.d("queryType: " + queryType);
+        Timber.d("zipCode= " + zipCode);
+        Timber.d("provider= " + provider);
+        Timber.d("locationLat= " + locationLat);
+        Timber.d("locationLong= " + locationLong);
 
         // use query type info from button selection to select correct base query
         executeSearch(queryType);
@@ -139,11 +147,6 @@ public class SearchResultActivity extends AppCompatActivity
         }
     }
 
-    // onClick class for Get directions link in layout
-    private void getDirections(View view) {
-        // TODO: complete logic
-    }
-
     @Override
     public Loader<ArrayList<Object>> onCreateLoader(int id, Bundle args) {
         return new SearchPageLoader(this, queryString);
@@ -153,8 +156,8 @@ public class SearchResultActivity extends AppCompatActivity
     public void onLoadFinished(Loader<ArrayList<Object>> loader, ArrayList<Object> data) {
         Timber.d("onLoadFinished:");
         adapter = new SearchResultRecyclerAdapter(SearchResultActivity.this, data);
-        resultsRecyclerView.setAdapter(adapter);
         resultsRecyclerView.setLayoutManager(getLayoutManager());
+        resultsRecyclerView.setAdapter(adapter);
     }
 
     @Override
@@ -166,18 +169,23 @@ public class SearchResultActivity extends AppCompatActivity
         // build query string on base URL with search form input
         StringBuilder queryBuilder;
         String querySuffix;
-        if (queryType.contains("Obituaries")) {
+        if (queryType.equalsIgnoreCase("Obituaries")) {
             queryBuilder = new StringBuilder(OBITS_QUERY_BASE_URL);
 //            String firstName = firstNameET.getText().toString();
-            queryBuilder.append("fn=" + firstName);
+            queryBuilder.append("&fn=" + firstName);
 //            String lastName = lastNameET.getText().toString();
             queryBuilder.append("&ln=" + lastName);
             querySuffix=getString(R.string.obits_search_query_suffix);
 
         } else {
             queryBuilder = new StringBuilder(PROVIDER_SITE_QUERY_BASE_URL);
-//            String zipCode = zipCodeET.getText().toString();
-            queryBuilder.append("&zipCode=" + zipCode);
+            queryBuilder.append("&latitude=" + locationLat);
+            queryBuilder.append("&longitude=" + locationLong);
+            if (zipCode != null) {
+                queryBuilder.append("&zipCode=" + zipCode);
+            } else {
+                queryBuilder.append("&zipCode=undefined");
+            }
             querySuffix=getString(R.string.provider_search_query_suffix);
             // TODO: add path for "get location" input for lat & long from Google Play Location
         }
@@ -229,5 +237,11 @@ public class SearchResultActivity extends AppCompatActivity
         locSvcsView.setText(location.toString());
         // TODO: parse lat/lng values from location and append to search queries
     }
+
+    private String getPrefKey(Preference preference) {
+        String prefDefaultKey = getResources().getString(R.string.pref_zip_code_key);
+        return prefDefaultKey;
+    }
+
 
 }

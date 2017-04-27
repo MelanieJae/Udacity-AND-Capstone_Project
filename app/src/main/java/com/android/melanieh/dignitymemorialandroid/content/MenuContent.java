@@ -24,7 +24,7 @@ public class MenuContent {
     public static final Map<String, MenuItem> ITEM_MAP = new HashMap<String, MenuItem>();
 
     // temporarily includes button for nav to plan selection summary screen
-    private static final int COUNT = 6;
+    private static final int COUNT = 5;
 
     static {
         // Populate menu item list
@@ -42,16 +42,16 @@ public class MenuContent {
         StringBuilder builder = new StringBuilder();
         switch (position) {
             case 1:
-                return "Search Obituaries";
+                return "Search Obituaries and Providers";
+//            case 2:
+//                return "Search Providers";
             case 2:
-                return "Search Providers";
-            case 3:
                 return BuildConfig.TTR_CHECKLIST_URL;
-            case 4:
+            case 3:
                 return "Start Planning a Service";
-            case 5:
+            case 4:
                 return BuildConfig.BILL_PAY_URL;
-            case 6:
+            case 5:
                 return "Plan Selection Summary";
             default:
                 return builder.append("Details about Item: ").append(position).toString();
@@ -63,16 +63,16 @@ public class MenuContent {
         // specify temp content for detail fragment
         switch (position) {
             case 1:
-                return "Search Obituaries";
+                return "Search Obituaries and Providers";
+//            case 2:
+//                return "Search Providers";
             case 2:
-                return "Search Providers";
-            case 3:
                 return "\'Things to Remember\' Checklist";
-            case 4:
+            case 3:
                 return "Start Planning a Service";
-            case 5:
+            case 4:
                 return "Bill Pay";
-            case 6:
+            case 5:
                 return "Plan Selection Summary";
             default:
                 return builder.append("Item: ").append(position).toString();

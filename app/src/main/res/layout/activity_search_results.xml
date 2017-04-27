@@ -1,62 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
+<android.support.constraint.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-     <!-- obits search form -->
-    <LinearLayout
-        android:id="@+id/obits_search_form_layout"
-        android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-        <TextView
-            android:id="@+id/first_name"
-            android:text="@string/search_form_first_name_label"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-        <EditText
-            android:id="@+id/search_form_first_name_et"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-        <TextView
-            android:id="@+id/last_name"
-            android:text="@string/search_form_last_name_label"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-        <EditText
-            android:id="@+id/search_form_last_name_et"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-
-    </LinearLayout>
-    <!-- provider search form -->
-    <LinearLayout
-        android:id="@+id/provider_search_form_layout"
-        android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-        <TextView
-            android:id="@+id/zip_code"
-            android:text="@string/search_form_zipcode_field_label"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-        <EditText
-            android:id="@+id/search_form_zipcode_et"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-
-        <!-- or use current location -->
-        <TextView
-            android:id="@+id/location_services_readout"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
         <android.support.v7.widget.RecyclerView
             xmlns:android="http://schemas.android.com/apk/res/android"
             android:id="@+id/results_rv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
-    </LinearLayout>
 
-
-</FrameLayout>
+</android.support.constraint.ConstraintLayout>

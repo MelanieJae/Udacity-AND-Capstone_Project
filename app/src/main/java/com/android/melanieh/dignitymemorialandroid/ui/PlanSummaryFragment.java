@@ -34,7 +34,7 @@ import java.util.Calendar;
  */
 
 public class PlanSummaryFragment extends Fragment implements
-        LoaderManager.LoaderCallbacks<Cursor>, ToolbarOptionsInterface {
+        LoaderManager.LoaderCallbacks<Cursor>, MenuOptionsInterface {
 
     TextView planSummaryView;
     TextView estCostView;
@@ -124,7 +124,7 @@ public class PlanSummaryFragment extends Fragment implements
 
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
-//        adapter.swapCursor(null);
+        adapter.swapCursor(null);
     }
 
     @Override
@@ -132,29 +132,20 @@ public class PlanSummaryFragment extends Fragment implements
         super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.menu_share, menu);
         MenuItem shareItem = menu.findItem(R.id.action_share);
-//        mShareActionProvider = (ShareActionProvider) shareItem.getActionProvider();
+        shareItem.setIntent(launchShareIntent());
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        launchShareAction();
-        return true;
-    }
+    public void launchMenuIntent(Class activity, String extraContent) {}
 
     @Override
-    public void launchMenuIntent(Class activity, String extraContent) {
-
-    }
-
-    @Override
-    public void launchShareAction() {
-        Intent shareIntent = new Intent();
-        shareIntent.setAction(Intent.ACTION_SEND);
-        shareIntent.putExtra(Intent.EXTRA_TEXT, "This is my text to send.");
+    public Intent launchShareIntent() {
+        Intent shareIntent = new Intent(android.content.Intent.ACTION_SEND);
         shareIntent.setType("text/plain");
-        if (mShareActionProvider != null) {
-            mShareActionProvider.setShareIntent(shareIntent);
-        }
+        String shareBodyText = getString(R.string.share_msg_body_text);
+        shareIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Subject/Title");
+        shareIntent.putExtra(android.content.Intent.EXTRA_TEXT, shareBodyText);
+        return shareIntent;
     }
 
     /*** Notifications */

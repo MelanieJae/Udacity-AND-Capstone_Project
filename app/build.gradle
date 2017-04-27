@@ -33,6 +33,7 @@ android {
         it.buildConfigField "String", "OBITS_QUERY_BASE_URL", ObitsQueryBaseUrl
         it.buildConfigField "String", "PROVIDER_QUERY_BASE_URL", ProviderQueryBaseUrl
         it.buildConfigField "String", "DM_PLANNER_LOGO_IMAGE_URL", DMPlannerLogoImageUrl
+        it.buildConfigField "String", "GM_NAV_BASE_QUERY", GMNavBaseQuery
         it.buildConfigField "String", "CEREMONY_PLAN_URL", CeremonyPlanUrl
         it.buildConfigField "String", "VISITATION_PLAN_URL", VisitationPlanUrl
         it.buildConfigField "String", "RECEPTION_PLAN_URL", ReceptionPlanUrl

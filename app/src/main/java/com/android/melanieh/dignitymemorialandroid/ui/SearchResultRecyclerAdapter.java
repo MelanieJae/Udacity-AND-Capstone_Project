@@ -1,6 +1,12 @@
 package com.android.melanieh.dignitymemorialandroid.ui;
 
+import android.content.ContentValues;
 import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.net.Uri;
+import android.preference.Preference;
+import android.preference.PreferenceManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -10,9 +16,11 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.android.melanieh.dignitymemorialandroid.BuildConfig;
 import com.android.melanieh.dignitymemorialandroid.Obituary;
 import com.android.melanieh.dignitymemorialandroid.Provider;
 import com.android.melanieh.dignitymemorialandroid.R;
+import com.android.melanieh.dignitymemorialandroid.Utility;
 
 import java.util.ArrayList;
 
@@ -22,7 +30,8 @@ import timber.log.Timber;
  * Created by melanieh on 4/16/17.
  */
 
-public class SearchResultRecyclerAdapter extends RecyclerView.Adapter<SearchResultRecyclerAdapter.ResultViewHolder> {
+public class SearchResultRecyclerAdapter
+        extends RecyclerView.Adapter<SearchResultRecyclerAdapter.ResultViewHolder> {
 
     // obit UI fields
     TextView personNameTV;
@@ -43,6 +52,7 @@ public class SearchResultRecyclerAdapter extends RecyclerView.Adapter<SearchResu
     LinearLayout providerViewLL;
 
     public SearchResultRecyclerAdapter(Context context, ArrayList<Object> objectsList) {
+        Timber.d("adapter constructor");
         this.context = context;
         this.objectsList = objectsList;
     }
@@ -53,7 +63,6 @@ public class SearchResultRecyclerAdapter extends RecyclerView.Adapter<SearchResu
 
         public ResultViewHolder(View itemView) {
             super(itemView);
-            context = itemView.getContext();
             obitViewLL = (LinearLayout)itemView.findViewById(R.id.obit_object_layout);
             providerViewLL = (LinearLayout)itemView.findViewById(R.id.provider_object_layout);
             personNameTV = (TextView) itemView.findViewById(R.id.person_name);
@@ -65,7 +74,7 @@ public class SearchResultRecyclerAdapter extends RecyclerView.Adapter<SearchResu
             cityStateZipTV = (TextView) itemView.findViewById(R.id.city_state_zip);
             phoneNumTV = (TextView) itemView.findViewById(R.id.phone_num);
             getSiteDirectionsLinkTV = (TextView) itemView.findViewById(R.id.site_get_directions);
-            getProviderDirectionsLinkTV = (TextView) itemView.findViewById(R.id.provider_get_directions);
+            getProviderDirectionsLinkTV = (TextView) itemView.findViewById(R.id.site_get_directions);
 
         }
     }
@@ -80,7 +89,7 @@ public class SearchResultRecyclerAdapter extends RecyclerView.Adapter<SearchResu
     @Override
     public void onBindViewHolder(ResultViewHolder holder, int position) {
         Timber.d("onBindViewHolder: ");
-        Object currentObject = objectsList.get(position);
+        final Object currentObject = objectsList.get(position);
         if (currentObject instanceof Obituary) {
             providerViewLL.setVisibility(View.GONE);
             personNameTV.setText(((Obituary) currentObject).getPersonName());
@@ -108,14 +117,60 @@ public class SearchResultRecyclerAdapter extends RecyclerView.Adapter<SearchResu
                 personNameTV.getText()));
         providerViewLL.setContentDescription(String.format
                 (context.getString(R.string.provider_view_cd), providerNameTV.getText()));
+
+        // click listeners
+        providerNameTV.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (currentObject instanceof Provider) {
+                    saveProviderEntry((Provider)currentObject);
+                }
+            }
+        });
+        getProviderDirectionsLinkTV.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (currentObject instanceof Provider) {
+                    String address1 = ((Provider)currentObject).getAddress1();
+                    String address2 = ((Provider)currentObject).getAddress2();
+                    String cityStateZip = ((Provider) currentObject).getCityStateZip();
+                    getSiteDirections(address1, cityStateZip);
+                }
+            }
+        });
     }
 
     @Override
     public int getItemCount() {
+        Timber.d("getItemCount");
         if (objectsList != null) {
             return objectsList.size();
         } else {
             return 0;
         }
     }
+
+    private void saveProviderEntry(Provider provider) {
+        if (provider != null) {
+            SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(context);
+            SharedPreferences.Editor editor = sharedPref.edit();
+            editor.putString(context.getString(R.string.pref_provider_key), provider.toString());
+            editor.commit();
+        }
+    }
+
+    private void getSiteDirections(String address1, String cityStateZip) {
+        String destAddress = address1 + ", " + cityStateZip;
+        String mode = "dbw";
+        StringBuilder gmNavigationQueryBuilder = new StringBuilder(BuildConfig.GM_NAV_BASE_QUERY);
+        gmNavigationQueryBuilder.append(destAddress);
+        gmNavigationQueryBuilder.append("&mode=" + mode);
+        Timber.d("gmNavQuery= " + gmNavigationQueryBuilder.toString());
+        Uri gmNavIntentUri = Uri.parse(gmNavigationQueryBuilder.toString());
+        Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmNavIntentUri);
+        mapIntent.setPackage("com.google.android.apps.maps");
+        context.startActivity(mapIntent);
+
+    }
+
 }

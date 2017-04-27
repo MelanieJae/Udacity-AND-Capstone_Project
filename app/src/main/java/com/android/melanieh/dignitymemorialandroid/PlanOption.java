@@ -38,4 +38,13 @@ public class PlanOption {
         return estimatedCost;
     }
 
+    @Override
+    public String toString() {
+        return "PlanOption{" +
+                "heading='" + heading + '\'' +
+                ", detailText='" + detailText + '\'' +
+                ", imageUrlString='" + imageUrlString + '\'' +
+                ", estimatedCost='" + estimatedCost + '\'' +
+                '}';
+    }
 }

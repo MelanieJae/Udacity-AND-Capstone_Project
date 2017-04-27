@@ -2,6 +2,7 @@ package com.android.melanieh.dignitymemorialandroid.ui;
 
 import android.annotation.TargetApi;
 import android.app.job.JobInfo;
+import android.app.job.JobParameters;
 import android.app.job.JobScheduler;
 import android.content.ComponentName;
 import android.content.ContentValues;
@@ -9,6 +10,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -22,6 +24,9 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -30,6 +35,10 @@ import com.android.melanieh.dignitymemorialandroid.BuildConfig;
 import com.android.melanieh.dignitymemorialandroid.PlanOption;
 import com.android.melanieh.dignitymemorialandroid.R;
 import com.android.melanieh.dignitymemorialandroid.sync.PlanResourcesFetchJobService;
+
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.select.Elements;
 
 import java.util.ArrayList;
 
@@ -40,7 +49,8 @@ import timber.log.Timber;
  */
 
 public class PlanPageFragment extends Fragment
-        implements LoaderManager.LoaderCallbacks<ArrayList<PlanOption>>{
+        implements LoaderManager.LoaderCallbacks<ArrayList<PlanOption>>,
+        MenuOptionsInterface {
 
     android.widget.Toolbar toolbar;
     RecyclerView recyclerView;
@@ -58,6 +68,12 @@ public class PlanPageFragment extends Fragment
         //
     }
 
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
+    }
+
     @Nullable
     @Override
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
@@ -65,52 +81,25 @@ public class PlanPageFragment extends Fragment
                              @Nullable Bundle savedInstanceState) {
         // obtain views for resources to be loaded in to via jobscheduler kicked off below
         Timber.d("onCreateView: ");
-        phOptionsList = new ArrayList<>();
-//        phOptionsList.add(new PlanOption("Hotels", "hotels", BuildConfig.APP_BAR_IMAGE_URL,
-//                "Est. cost=$0-$500"));
-//        phOptionsList.add(new PlanOption("Ceremony", "ceremony", BuildConfig.APP_BAR_IMAGE_URL,
-//                "Est. cost=$0-$500"));
         rootView = inflater.inflate(R.layout.plan_viewpager_item, container, false);
         toolbar = (android.widget.Toolbar) rootView.findViewById(R.id.toolbar);
-        estCostView = (TextView)rootView.findViewById(R.id.toolbar_est_cost_tv);
-        planningStepTitleView = (TextView)rootView.findViewById(R.id.toolbar_step_title);
+        estCostView = (TextView) rootView.findViewById(R.id.toolbar_est_cost_tv);
+        planningStepTitleView = (TextView) rootView.findViewById(R.id.toolbar_step_title);
 //        planningStepTitleView.setText(fragmentTagTitleString);
 
-//        recyclerView = (RecyclerView)rootView.findViewById(R.id.plan_option_rv);
-//        rvAdapter = new PlanOptionRecyclerViewAdapter(getContext(),
-//                phOptionsList);
+        recyclerView = (RecyclerView) rootView.findViewById(R.id.plan_option_rv);
+
 //        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 //        recyclerView.setAdapter(rvAdapter);
-//        getActivity().getSupportLoaderManager().initLoader(3, null, this).forceLoad();
-
-        /** job scheduler for fetching resources for page in order to sync
-         * what is present on the website with what is present in the app */
-        PersistableBundle jobExtrasBundle = new PersistableBundle();
-        String[] resourcesQueryStringArray = {BuildConfig.CEREMONY_PLAN_URL};
-
-//        String[] resourcesQueryStrings = {BuildConfig.CEREMONY_PLAN_URL, BuildConfig.VISITATION_PLAN_URL,
-//                BuildConfig.RECEPTION_PLAN_URL, BuildConfig.SITE_SELECTION_PLAN_URL, BuildConfig.CONTAINER_PLAN_URL};
-
-//        jobExtrasBundle.putStringArray("urlStringsArray", resourcesQueryStringArray);
-        ComponentName fetchResourcesJobSvc = new ComponentName(getActivity(), PlanResourcesFetchJobService.class);
-        JobInfo jobInfo = new JobInfo.Builder(JOB_ID, fetchResourcesJobSvc)
-                .setExtras(jobExtrasBundle)
-                // saves on data charges and battery life by running only on private wi-fi by default
-                .setRequiredNetworkType(JobInfo.NETWORK_TYPE_ANY)
-                // the next two save battery life by running the job only when the device is charging
-                // and idle
-                // uncomment for running on device
-//                .setRequiresDeviceIdle(true)
-//                .setRequiresCharging(true)
-//                .setOverrideDeadline(86400000) //the job will be executed anyway after one hour
-                .build();
-        JobScheduler scheduler = (JobScheduler) getActivity().getSystemService(Context.JOB_SCHEDULER_SERVICE);
-        int result = scheduler.schedule(jobInfo);
-        if (result == JobScheduler.RESULT_SUCCESS) {
-            Timber.d("Job scheduled successfully!");
-        }
+        getActivity().getSupportLoaderManager().initLoader(3, null, this).forceLoad();
 
         return rootView;
+    }
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        MenuItem menuItem = menu.findItem(R.id.action_share);
+        menuItem.setIntent(launchShareIntent());
     }
 
     private RecyclerView.LayoutManager getLayoutManager() {
@@ -163,21 +152,23 @@ public class PlanPageFragment extends Fragment
         }
     }
 
-    /** plan option loader */
+    /**
+     * plan option loader
+     */
     @Override
     public Loader<ArrayList<PlanOption>> onCreateLoader(int id, Bundle args) {
         Timber.d("onCreateLoader:");
-        String queryString = "https://www.thedignityplanner.com/create-plan/funeralceremony";
-        return new PlanPageLoader(getContext(), queryString);
+        return new PlanPageLoader(getContext(), getString(R.string.sampleHtmlString));
     }
 
     @Override
     public void onLoadFinished(Loader<ArrayList<PlanOption>> loader, ArrayList<PlanOption> data) {
         Timber.d("onLoadFinished:");
-        Timber.d("data=" + data.get(0).getHeading());
-//        PlanOptionRecyclerViewAdapter rvAdapter = new PlanOptionRecyclerViewAdapter(getActivity(), );
-//        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-//        recyclerView.setAdapter(rvAdapter);
+        Timber.d("data= " + data.toString());
+
+        PlanOptionRecyclerViewAdapter rvAdapter = new PlanOptionRecyclerViewAdapter(getContext(), data);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        recyclerView.setAdapter(rvAdapter);
     }
 
     @Override
@@ -185,6 +176,25 @@ public class PlanPageFragment extends Fragment
 
     }
 
+    @Override
+    public void launchMenuIntent(Class activity, String extraContent) {}
+
+    @Override
+    public Intent launchShareIntent() {
+        Intent shareIntent = new Intent(android.content.Intent.ACTION_SEND);
+        shareIntent.setType("text/plain");
+        String shareBodyText = getString(R.string.share_msg_body_text);
+        shareIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Subject/Title");
+        shareIntent.putExtra(android.content.Intent.EXTRA_TEXT, shareBodyText);
+        return shareIntent;
+    }
+
 }
+
+
+
+
+
+
 
 

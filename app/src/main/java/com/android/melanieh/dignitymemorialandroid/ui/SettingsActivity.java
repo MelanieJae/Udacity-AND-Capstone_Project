@@ -76,6 +76,7 @@ public class SettingsActivity extends AppCompatActivity {
                 SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getActivity());
                 SharedPreferences.Editor editor = sharedPref.edit();
                 editor.putString(getPrefKey(preference), stringValue);
+
                 editor.commit();
             }
             return true;

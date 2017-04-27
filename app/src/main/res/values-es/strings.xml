@@ -26,6 +26,11 @@
     <string name="saved_zip_codes">Códigos postales almacenados</string>
     <string name="saved_providers">Proveedores almacenados</string>
 
+    <!-- plan information form -->
+    <string name="undecided">Indeciso</string>
+    <string name="burial">Entierro</string>
+    <string name="cremation">Cremacion</string>
+
     <!-- view plan selections activity -->
     <string name="contact_name_tv">Nombre de contacto</string>
     <string name="contact_phone_tv">Telefono de contacto</string>

@@ -1,5 +1,6 @@
 package com.android.melanieh.dignitymemorialandroid.ui;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
@@ -7,6 +8,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Menu;
 import android.view.MenuItem;
 
 import com.android.melanieh.dignitymemorialandroid.R;
@@ -18,11 +20,13 @@ import com.android.melanieh.dignitymemorialandroid.R;
  * item details are presented side-by-side with a list of items
  * in a {@link MenuItemListActivity}.
  */
-public class MenuItemDetailActivity extends AppCompatActivity {
+public class MenuItemDetailActivity extends AppCompatActivity implements MenuOptionsInterface {
 
     private FragmentManager fragmentManager;
     MenuItemDetailFragment fragment;
     FragmentTransaction fragmentTransaction;
+    Class destClass;
+    String extraContent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,10 +55,15 @@ public class MenuItemDetailActivity extends AppCompatActivity {
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_activity_main, menu);
+        return true;
+    }
 
-        switch(id) {
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        Context context = this;
+        switch (item.getItemId()) {
             case android.R.id.home:
                 // This ID represents the Home or Up button. In the case of this
                 // activity, the Up button is shown. For
@@ -64,11 +73,24 @@ public class MenuItemDetailActivity extends AppCompatActivity {
                 //
                 navigateUpTo(new Intent(this, MenuItemListActivity.class));
                 return true;
-//            case R.id.share:
-
-            }
+            case R.id.action_access_preferences:
+                destClass = SettingsActivity.class;
+                break;
+            case R.id.action_view_plan_selections:
+                destClass = PlanSummaryActivity.class;
+                break;
+        }
+        launchMenuIntent(destClass, null);
         return super.onOptionsItemSelected(item);
     }
+
+    public void launchMenuIntent(Class destinationClass, String extraContent) {
+        Intent intent = new Intent(this, destinationClass);
+        intent.putExtra("EXTRA_CONTENT", extraContent);
+        startActivity(intent);
+    }
+
+    public Intent launchShareIntent() { return null; };
 
     @Override
     public void onBackPressed() {

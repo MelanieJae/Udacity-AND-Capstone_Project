@@ -46,6 +46,9 @@ public class PlanOptionRecyclerViewAdapter
 
     public PlanOptionRecyclerViewAdapter(Context context, ArrayList<PlanOption> options) {
         Timber.d("recyclerview adapter constructor: ");
+        Timber.d("options: " + options.toString());
+        Timber.d("options size: " + options.size());
+
         this.context = context;
         this.options = options;
     }
@@ -61,11 +64,8 @@ public class PlanOptionRecyclerViewAdapter
 
     @Override
     public int getItemCount() {
-        if (options != null) {
-            return options.size();
-        } else {
-            return 0;
-        }
+        Timber.d("getItemCount");
+        return options.size();
     }
 
 
@@ -80,10 +80,10 @@ public class PlanOptionRecyclerViewAdapter
         holder.heading.setText(currentOption.getHeading());
 //        holder.addBtnView.setOnClickListener(clickListener);
         holder.detailsBtnView.setOnClickListener(this);
-        sampleImageURL = "https://s3.amazonaws.com/busites_www/tdp/1/1/media/option-media" +
-                "/thumb_cooking03_1457631930_1349.png";
+//        sampleImageURL = "https://s3.amazonaws.com/busites_www/tdp/1/1/media/option-media" +
+//                "/thumb_cooking03_1457631930_1349.png";
         ImageHandler.getSharedInstance(context).load(
-                sampleImageURL)
+                currentOption.getImageUrlString())
                 .fit().centerCrop().into(holder.itemImage);
 
         holder.addBtnView.setContentDescription(String.format(context.getString(R.string.add_button_cd)
@@ -169,7 +169,7 @@ public class PlanOptionRecyclerViewAdapter
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.add_button:
-//                addOptionToPlan(holder.option.getHeading());
+//                addOptionToPlan(currentOption.getHeading());
                 break;
             case R.id.details_button:
                 showDetailDialog();

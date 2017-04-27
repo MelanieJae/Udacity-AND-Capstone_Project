@@ -37,14 +37,6 @@
             android:id="@+id/obit_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
-        <TextView
-            android:id="@+id/site_get_directions"
-            android:text="@string/get_directions"
-            android:clickable="true"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:onClick="getDirections"
-            tools:context=".ui.SearchResultActivity"/>
 
     </LinearLayout>
 
@@ -52,6 +44,7 @@
         android:id="@+id/provider_object_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:orientation="vertical"
         android:contentDescription="@string/provider_view_cd">
         <!-- Provider object fields -->
         <TextView
@@ -79,14 +72,24 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="28sp" />
-        <TextView
-            android:id="@+id/provider_get_directions"
-            android:text="@string/get_directions"
-            android:clickable="true"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:onClick="getDirections"
-            tools:context=".ui.SearchResultActivity"/>
+
     </LinearLayout>
+
+    <TextView
+        android:id="@+id/site_get_directions"
+        android:text="@string/get_directions"
+        android:focusable="false"
+        android:textSize="18sp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:id="@+id/save_provider"
+        android:text="@string/save_provider"
+        android:clickable="true"
+        android:textSize="18sp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom" />
 
 </android.support.v7.widget.CardView>

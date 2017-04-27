@@ -1,7 +1,12 @@
-<resources>
+<resources xmlns:https="http://schemas.android.com/tools">
     <string name="app_name" translatable="false">Dignity Memorial</string>
 
-    <!--<bool>-->
+    <!-- universal strings -->
+    <string name="dialog_yes_btn">Yes</string>
+    <string name="dialog_ok_btn">OK</string>
+
+    <string name="dialog_no_btn">No</string>
+
     <!-- main screen menu buttons -->
     <string name="search_obituaries">Search Obituaries</string>
     <string name="search_providers">Search Providers</string>
@@ -24,12 +29,14 @@
     <string name="pref_settings" translatable="false">View User Settings</string>
     <string name="menu_view_pref_settings" translatable="false">View User Settings</string>
     <string name="view_plan_selections">View Plan Selections</string>
+    <string name="view_saved_plan">View Plan Selections</string>
 
     <!-- share menu -->
     <string name="menu_share"><u>Share Your Plan</u></string>
-    <string name="share_text">Text Message</string>
-    <string name="share_im">Message App</string>
-    <string name="share_email" translatable="false">E-mail</string>
+    <string name="share_msg_body_text">
+        Hello: Here is the plan I created with Dignity Memorial&#8482;\'s
+        \nThe Dignity Planner&#8482; to honor our recently departed loved one: Ceremony Location: %1s
+    </string>
 
     <!-- notifications -->
     <string name="dm_notifications_title">Dignity Memorial</string>
@@ -50,10 +57,12 @@
     <!-- settings activity -->
     <string name="saved_zip_codes">Saved ZIP codes</string>
     <string name="saved_providers">Saved providers</string>
+    <string name="saved_plans">Saved plans</string>
 
     <!-- pref settings labels and keys -->
     <string name="pref_zip_code_label" translatable="false">Saved ZIP code</string>
     <string name="pref_zip_code_key" translatable="false">ZIP code</string>
+    <string name="pref_zip_code_default" translatable="false">33884</string>
 
     <string name="pref_provider_label" translatable="false">Saved provider</string>
     <string name="pref_provider_key" translatable="false">Provider</string>
@@ -81,17 +90,35 @@
     <string name="plan_page_description">Create-a-plan page</string>
     <string name="details_button">Details</string>
 
+    <!-- plan information form -->
+    <string name="undecided">Undecided</string>
+    <string name="burial">Burial</string>
+    <string name="cremation">Cremation</string>
+
+    <!-- search form screen -->
+    <string name="search_form_heading">Search for Obituaries and Providers</string>
+    <string name="obit_search_first_name">First Name</string>
+    <string name="obit_search_last_name">Last Name</string>
+    <string name="provider_zip_code">Enter ZIP code</string>
+    <string name="use_current_location">Use Current Location</string>
+    <string name="start_search_btn">Start Search</string>
+    <string name="no_valid_entries_present_error_msg">Sorry, there are no completed fields present and "Use current location"
+    was not selected. Please enter a first name, last name, zip code or click "use current location" to
+    get search results</string>
+    <string name="save_entries_dialog_msg">Would you like to save your entries to conduct this and other
+    searches related to your entries later?</string>
+
     <!-- search result screens -->
     <string name="search_form_first_name_label">first name:</string>
     <string name="search_form_last_name_label">last name:</string>
     <string name="search_form_zipcode_field_label">last name:</string>
     <string name="get_directions">Get directions</string>
     <string name="obits_search_query_suffix">
-        &amp;cid=0&amp;sid=0&amp;d=15&amp;b=DM,GHL&amp;scope=0&amp;sort=0&amp;r=100&amp;pn=1&amp;mn=100&amp;v=1&amp;callback=getSearchResults
+         &#160;cid=0&#160;sid=0&#160;d=15&#160;b=DM,GHL&#160;scope=0&#160;sort=0&#160;r=100&#160;pn=1&#160;mn=100&#160;v=1&#160;callback=getSearchResults
     </string>
     <string name="provider_search_query_suffix">
-        &amp;brand=DM&amp;locale=EN&amp;startPage=1&amp;recordsPerPage=50&amp;radius=100&amp;isClickTracking=false&amp;callback=jQuery17105035656983934365_1492860920431</string>
-
+         &#160;brand=DM&#160;locale=EN&#160;startPage=1&#160;recordsPerPage=50&#160;radius=100&#160;isClickTracking=false&#160;callback=jQuery17105035656983934365_1492860920431</string>
+    <string name="save_provider">Save Provider</string>
     <!-- data package -->
     <!-- provider -->
     <string name="error_inserting_plan">Error creating plan entry</string>
@@ -114,6 +141,20 @@
         \nthrough the recents task list. In addition, the new task wil be affiliated with the
         \nlaunching activity\'s task. Affiliated tasks are grouped together in the recents task list.
     </string>
+    <string name="sampleHtmlString">
+        \"<img alt="Outdoor Location" class="img-responsive center-block col-md-12" src="https://s3.amazonaws.com/busites_www/tdp/media/option-media/ceremony_outdoor_1455044981_618.png"></img>
+        <div class="col-md-6">
+            <h3>Outdoor Location</h3>
+            <p><strong>Estimated Cost:</strong> $0 - $500</p>
+        </div>
+        <div class="col-md-12">
+                        <p><p>Do you feel most at peace outside?
+                            Have life\'s best moments occurred with the sun in your face and the wind at your back?
+                            If so, you might consider holding your funeral or cremation service outdoors.
+                            Friends, family and loved ones will find solace knowing Mother Nature is by your side.</p></p>
+                    </div>\"
+
+</string>
 
     <!-- web browser detail fragment screen -->
     <string name="webview_error_desc">The page did not load properly.</string>

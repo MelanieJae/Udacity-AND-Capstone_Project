@@ -62,60 +62,33 @@ public class PlanPageLoader extends AsyncTaskLoader{
     private ArrayList<PlanOption> extractOptionsListFromHTML(String urlString) {
         Timber.d("extractOptionsListFromHTML: ");
 
-        String heading = "Home";
-        String imageUrlString = "https://s3.amazonaws.com/busites_www/tdp/1/1/media/option-media" +
-                "/thumb_cooking03_1457631930_1349.png";
+        String heading = "";
+        String imageUrlString;
         String title = "";
-        String detailText = "Testing";
+        String detailText = "";
+        String estCostString = "";
         Document doc;
-        ArrayList<PlanOption> optionsList = new ArrayList<>();
         PlanOption option;
+        ArrayList<PlanOption> optionsList = new ArrayList<>();
 
-    try {
-        doc = Jsoup.connect(urlString).get();
+        doc = Jsoup.parse(urlString);
+        Elements headingElements = doc.select("div[class=col-md-6]>h3");
+        Elements imageUrlElements = doc.select("img[class=img-responsive center-block]");
+        Elements detailTextElements = doc.select("div[class=col-md-12]");
+        Elements estCostElements = doc.select("div[class=col-md-6]>p");
 
-        // get title of the page
-        title = doc.title();
-        System.out.println("Title: " + title);
+        heading = headingElements.first().text();
+        imageUrlString = imageUrlElements.attr("src");  // exact content value of the attribute.
+        detailText = detailTextElements.first().text();
+        estCostString = estCostElements.first().text();
 
-        // get all links
-        Elements links = doc.select("a[href]");
-        for (Element link : links) {
-
-            // get the value from href attribute
-            System.out.println("\nLink : " + link.attr("href"));
-            System.out.println("Text : " + link.text());
-//            if (link.text().contains("Home")) {
-//                heading = link.text();
-//            } else {
-//                heading = "Heading not available";
-//            }
-//
-//            if (link.text().contains("Create a Plan")) {
-//                detailText = link.text();
-//
-//            } else {
-//                detailText = "Detail Text not available";
-//            }
-//
-//            if (link.text().contains("http:")) {
-//                imageUrlString = link.text();
-//            } else {
-//                imageUrlString = "Image source not Available";
-//            }
-        }
-
-    } catch (IOException e) {
-        e.printStackTrace();
-    }
-        Timber.d("heading= " + heading);
-        Timber.d("detailText= " + detailText);
-        Timber.d("imageUrlString= " + imageUrlString);
-        option = new PlanOption("heading", "detailText",
-                BuildConfig.APP_BAR_IMAGE_URL, "0");
+        option = new PlanOption(heading, detailText,
+                imageUrlString, estCostString);
+        Timber.d("option: " + option.toString());
         optionsList.add(option);
-        return optionsList;
+        Timber.d("optionsList: " + optionsList);
 
+        return optionsList;
     }
 
 }

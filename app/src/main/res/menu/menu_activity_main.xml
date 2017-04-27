@@ -4,13 +4,14 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/action_pref_settings"
-        android:title="@string/menu_view_pref_settings"
+        android:id="@+id/action_access_preferences"
+        android:title="@string/pref_settings"
         android:orderInCategory="100"
         app:showAsAction="never" />
+
     <item
         android:id="@+id/action_view_plan_selections"
-        android:title="@string/view_plan_selections"
+        android:title="@string/view_saved_plan"
         android:orderInCategory="100"
         app:showAsAction="never" />
 
