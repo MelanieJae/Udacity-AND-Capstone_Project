@@ -6,6 +6,7 @@ import android.app.job.JobScheduler;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.PersistableBundle;
@@ -20,7 +21,6 @@ import android.widget.ImageView;
 
 import com.android.melanieh.dignitymemorialandroid.BuildConfig;
 import com.android.melanieh.dignitymemorialandroid.R;
-import com.android.melanieh.dignitymemorialandroid.sync.PlanResourcesFetchJobService;
 
 import timber.log.Timber;
 
@@ -34,7 +34,7 @@ public class PlanViewPagerActivity extends FragmentActivity {
     private boolean mTwoPane;
     ImageView itemImage;
     Class destClass;
-
+    Uri planUri;
     /** The pager adapter, which provides the pages to the view pager widget. */
     private PagerAdapter mPagerAdapter;
 
@@ -48,7 +48,7 @@ public class PlanViewPagerActivity extends FragmentActivity {
         // Instantiate a ViewPager and a PagerAdapter.
         mPager = (ViewPager) findViewById(R.id.pager);
         mPager.setPageTransformer(true, new ZoomOutPageTransformer());
-        mPagerAdapter = new ScreenSlidePagerAdapter(getSupportFragmentManager());
+        mPagerAdapter = new ScreenSlidePagerAdapter(this, getSupportFragmentManager());
         mPager.setAdapter(mPagerAdapter);
         itemImage = (ImageView)findViewById(R.id.imageview);
 
@@ -59,6 +59,7 @@ public class PlanViewPagerActivity extends FragmentActivity {
             // activity should be in two-pane mode.
             mTwoPane = true;
         }
+
 
     }
 
@@ -87,7 +88,11 @@ public class PlanViewPagerActivity extends FragmentActivity {
             case R.id.action_view_plan_selections:
                 destClass = PlanSummaryActivity.class;
                 break;
+            case R.id.action_share:
+                startActivity(Intent.createChooser(launchShareIntent(),
+                        getString(R.string.share_app_chooser_dialog_title)));
         }
+
         launchMenuIntent(destClass, null);
         return super.onOptionsItemSelected(item);
     }
@@ -96,8 +101,14 @@ public class PlanViewPagerActivity extends FragmentActivity {
         Intent intent = new Intent(this, destinationClass);
         startActivity(intent);
     }
-    // this is launched from the fragment
-    public Intent launchShareIntent() { return null; }
+    public Intent launchShareIntent() {
+        Intent shareIntent = new Intent(android.content.Intent.ACTION_SEND);
+        shareIntent.setType("text/plain");
+        String shareBodyText = getString(R.string.share_msg_body_text);
+        shareIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Subject/Title");
+        shareIntent.putExtra(android.content.Intent.EXTRA_TEXT, shareBodyText);
+        return shareIntent;
+    }
 
 
     @Override

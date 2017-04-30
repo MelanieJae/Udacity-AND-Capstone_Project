@@ -14,8 +14,11 @@ public class PlanOption {
     private String detailText;
     private String imageUrlString;
     private String estimatedCost;
+    private String title;
 
-    public PlanOption(String heading, String detailText, String imageUrlString, String estimatedCost) {
+    public PlanOption(String title, String heading, String detailText,
+                      String imageUrlString, String estimatedCost) {
+        this.title = title;
         this.heading = heading;
         this.detailText = detailText;
         this.imageUrlString = imageUrlString;
@@ -38,6 +41,10 @@ public class PlanOption {
         return estimatedCost;
     }
 
+    public String getTitle() {
+        return title;
+    }
+
     @Override
     public String toString() {
         return "PlanOption{" +
@@ -45,6 +52,7 @@ public class PlanOption {
                 ", detailText='" + detailText + '\'' +
                 ", imageUrlString='" + imageUrlString + '\'' +
                 ", estimatedCost='" + estimatedCost + '\'' +
+                ", title='" + title + '\'' +
                 '}';
     }
 }

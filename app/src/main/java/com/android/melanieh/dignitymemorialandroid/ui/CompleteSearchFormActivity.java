@@ -177,6 +177,7 @@ public class CompleteSearchFormActivity extends AppCompatActivity implements
             }
             Intent getSearchResults = new Intent(this, SearchResultActivity.class);
             getSearchResults.putExtra("query type", queryType);
+            Timber.d("completesearch: queryType: " + queryType);
             if (currentLocation != null && isUsingCurrentLocation) {
                 queryLocationLatExtra = currentLocation.getLatitude();
                 queryLocationLongExtra = currentLocation.getLongitude();

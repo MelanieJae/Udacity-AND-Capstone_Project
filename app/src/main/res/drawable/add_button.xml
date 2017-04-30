@@ -4,7 +4,7 @@
     android:shape="rectangle"
     android:background="?android:attr/selectableItemBackground">
     <size
-        android:width="200dp"
+        android:width="100dp"
         android:height="100dp"/>
     <solid
         android:color="@color/primary_light" />

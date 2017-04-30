@@ -16,6 +16,7 @@ public class PlanSummaryActivity extends AppCompatActivity
         implements MenuOptionsInterface {
 
     Class destClass;
+    MenuItem dynamicMenuItem;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,13 +35,19 @@ public class PlanSummaryActivity extends AppCompatActivity
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_activity_main, menu);
-        // Fetch and store ShareActionProvider
-
+        dynamicMenuItem = menu.findItem(R.id.action_view_plan_selections);
         return true;
     }
 
     @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        dynamicMenuItem.setVisible(false);
+        return super.onPrepareOptionsMenu(menu);
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        Context context = this;
         switch (item.getItemId()) {
             case android.R.id.home:
                 // This ID represents the Home or Up button. In the case of this
@@ -53,9 +60,12 @@ public class PlanSummaryActivity extends AppCompatActivity
                 return true;
             case R.id.action_access_preferences:
                 destClass = SettingsActivity.class;
+                launchMenuIntent(destClass, null);
                 break;
+            case R.id.action_share:
+                startActivity(Intent.createChooser(launchShareIntent(),
+                        getString(R.string.share_app_chooser_dialog_title)));
         }
-        launchMenuIntent(destClass, null);
         return super.onOptionsItemSelected(item);
     }
 
@@ -64,7 +74,14 @@ public class PlanSummaryActivity extends AppCompatActivity
         startActivity(intent);
     }
     // this is launched from the fragment
-    public Intent launchShareIntent() { return null; }
+    public Intent launchShareIntent() {
+        Intent shareIntent = new Intent(android.content.Intent.ACTION_SEND);
+        shareIntent.setType("text/plain");
+        String shareBodyText = getString(R.string.share_msg_body_text);
+        shareIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Subject/Title");
+        shareIntent.putExtra(android.content.Intent.EXTRA_TEXT, shareBodyText);
+        return shareIntent;
+    }
 
 
 }

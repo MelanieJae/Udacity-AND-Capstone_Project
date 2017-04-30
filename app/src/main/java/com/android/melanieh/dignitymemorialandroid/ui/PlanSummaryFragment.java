@@ -6,16 +6,17 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.provider.CalendarContract;
 import android.support.v4.app.Fragment;
-import android.app.LoaderManager;
-import android.content.CursorLoader;
-import android.content.Loader;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.LoaderManager;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.NotificationManagerCompat;
+import android.support.v4.content.CursorLoader;
+import android.support.v4.content.Loader;
 import android.support.v4.widget.CursorAdapter;
 import android.support.v7.widget.ShareActionProvider;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -79,8 +80,9 @@ public class PlanSummaryFragment extends Fragment implements
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
                              Bundle savedInstanceState) {
 
-        View rootView = inflater.inflate(R.layout.fragment_menu_item_detail, container, false);
-        planSummaryView = (TextView)rootView.findViewById(R.id.plan_summary_intro);
+        View rootView = inflater.inflate(R.layout.fragment_plan_summary, container, false);
+        planSummaryView = (TextView)rootView.findViewById(R.id.planSummaryDBTest);
+        getLoaderManager().initLoader(4, null, this);
         return rootView;
     }
 
@@ -88,12 +90,10 @@ public class PlanSummaryFragment extends Fragment implements
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
         return new
                 CursorLoader(getContext(), UserSelectionContract.PlanEntry.CONTENT_URI,
-                PLAN_COLUMNS, null, null, null);
-    }
+                PLAN_COLUMNS, null, null, null);    }
 
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
-
         while (data.moveToNext()) {
             String planName = data.getString(INDEX_PLAN_NAME);
             String ceremony = data.getString(INDEX_CEREMONY_SELECTION);
@@ -116,23 +116,15 @@ public class PlanSummaryFragment extends Fragment implements
             builder.append(getString(R.string.container_selection_label)
                     + String.format(getString(R.string.ceremony_selection), container));
             builder.append(String.format(getString(R.string.est_cost), estCost));
-
-            planSummaryView.setText(builder.toString());
+            planSummaryView.setText("Database test readout: " + planName);
         }
+        data.close();
 
     }
 
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
-        adapter.swapCursor(null);
-    }
-
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        super.onCreateOptionsMenu(menu, inflater);
-        inflater.inflate(R.menu.menu_share, menu);
-        MenuItem shareItem = menu.findItem(R.id.action_share);
-        shareItem.setIntent(launchShareIntent());
+        getLoaderManager().restartLoader(4, null, this);
     }
 
     @Override

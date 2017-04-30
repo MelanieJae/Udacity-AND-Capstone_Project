@@ -31,37 +31,18 @@ public class ScreenSlidePagerAdapter extends FragmentStatePagerAdapter {
     PlanPageFragment siteFragment;
     PlanPageFragment containerFragment;
     FragmentTransaction fragmentTransaction;
+    Context context;
     private static final int NUM_PAGES = 7;
 
-    public ScreenSlidePagerAdapter(FragmentManager fm) {
+    public ScreenSlidePagerAdapter(Context context, FragmentManager fm) {
         super(fm);
-        Timber.d("ScreenSlidePagerAdapter:");
-        fragmentTransaction = fm.beginTransaction();
+        this.context = context;
+        Timber.d("ScreenSlidePagerAdapter constructor:");
     }
 
     // ... and any specialty sub-item fragments, e.g. for catering
     // for the reception
     // PlanPage fragment cateringFragment;
-
-    public void setFragmentTags(Context c) {
-        Timber.d("setFragmentTags:");
-
-        // Set up the simple base fragments
-        ceremonyFragment = new PlanPageFragment();
-        visitationFragment = new PlanPageFragment();
-        receptionFragment = new PlanPageFragment();
-        siteFragment = new PlanPageFragment();
-        containerFragment = new PlanPageFragment();
-
-        Resources res = c.getResources();
-
-//        ceremonyFragment.loadOptionsListItems(APIlistCeremony);
-//        visitationFragment.loadOptionsListItems(APIlistVisitation);
-//        receptionFragment.loadOptionsListItems(APIListReception);
-//        siteFragment.loadOptionsListItems(APIListSiteNiche);
-//        containerFragment.loadOptionsListItems(APIListContainer);
-
-    }
 
     @Override
     public int getCount() {
@@ -72,30 +53,35 @@ public class ScreenSlidePagerAdapter extends FragmentStatePagerAdapter {
     @Override
     public Fragment getItem(int position) {
         Timber.d("getItem:");
-
-        String fragmentTag = "";
-        Fragment planPageFragment = new PlanPageFragment();
+        PlanPageFragment fragment;
+        String staticContent = "";
+        // each fragment needs its own loaderId to ensure content appears in the correct fragment
+        // since the PlanPage fragment is being recycled for all elements of the viewpager
+        int loaderId = 0;
         switch (position) {
             case 0:
-                fragmentTag = "ceremony";
+                staticContent = context.getString(R.string.ceremonyHtmlString);
+                loaderId = 10;
                 break;
             case 1:
-                fragmentTag = "visitation";
+                staticContent = context.getString(R.string.visitationHtmlString);
+                loaderId = 20;
                 break;
             case 2:
-                fragmentTag = "reception";
+                staticContent = context.getString(R.string.receptionHtmlString);
+                loaderId = 30;
                 break;
             case 3:
-                fragmentTag = "site or niche";
+                staticContent = context.getString(R.string.siteHtmlString);
+                loaderId = 40;
                 break;
             case 4:
-                fragmentTag = "container";
+                staticContent = context.getString(R.string.containerHtmlString);
+                loaderId = 50;
                 break;
         }
-//        planOptionsList = loadOptionsListItems(fragmentTag);
-        return new PlanPageFragment();
-//        return fragmentTransaction.add(planPageFragment, fragmentTag).commit();
-
+        fragment = PlanPageFragment.newInstance(staticContent, loaderId);
+        return fragment;
     }
 }
 

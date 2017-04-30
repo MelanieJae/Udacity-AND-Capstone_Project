@@ -61,33 +61,59 @@ public class PlanPageLoader extends AsyncTaskLoader{
 
     private ArrayList<PlanOption> extractOptionsListFromHTML(String urlString) {
         Timber.d("extractOptionsListFromHTML: ");
+        Timber.d("urlString:" + urlString);
 
+        String optionTitle = "";
         String heading = "";
-        String imageUrlString;
-        String title = "";
+        String imageUrlString = "";
         String detailText = "";
         String estCostString = "";
         Document doc;
         PlanOption option;
         ArrayList<PlanOption> optionsList = new ArrayList<>();
 
-        doc = Jsoup.parse(urlString);
-        Elements headingElements = doc.select("div[class=col-md-6]>h3");
-        Elements imageUrlElements = doc.select("img[class=img-responsive center-block]");
-        Elements detailTextElements = doc.select("div[class=col-md-12]");
-        Elements estCostElements = doc.select("div[class=col-md-6]>p");
+        if (urlString != null) {
+            doc = Jsoup.parse(urlString);
+            // Jsoup library handles validation/null checks of node values
+            Elements optionTitleElements = doc.select("span[class=menu-text]");
+            Elements headingElements = doc.select("div[class=col-md-6]>h3");
+            Elements imageUrlElements = doc.select("img[src]");
+            Elements detailTextElements = doc.select("div[class=col-md-12]");
+            Elements estCostElements = doc.select("div[class=col-md-6]>p");
 
-        heading = headingElements.first().text();
-        imageUrlString = imageUrlElements.attr("src");  // exact content value of the attribute.
-        detailText = detailTextElements.first().text();
-        estCostString = estCostElements.first().text();
+//            while (optionTitleElements.first() != null || optionTitleElements.next() != null) {
+                optionTitle = optionTitleElements.first().text();
+                Timber.d("optionTitle: " + optionTitle);
+                heading = headingElements.first().text();
+                imageUrlString = imageUrlElements.attr("src");  // exact content value of the attribute.
+                Timber.d("imageUrlString: " + imageUrlString);
+                detailText = detailTextElements.first().text();
+                Timber.d("detailText: " + detailText);
+                estCostString = estCostElements.first().text();
+                Timber.d("estCostString: " + estCostString);
 
-        option = new PlanOption(heading, detailText,
-                imageUrlString, estCostString);
-        Timber.d("option: " + option.toString());
-        optionsList.add(option);
-        Timber.d("optionsList: " + optionsList);
+                option = new PlanOption(optionTitle, heading, detailText,
+                        imageUrlString, estCostString);
+                Timber.d("option: " + option.toString());
+                optionsList.add(option);
+                Timber.d("optionsList: " + optionsList);
 
+//                while (headingElements.next() != null) {
+//                    heading = optionTitleElements.next().text();
+//                    imageUrlString = imageUrlElements.next().text();
+//                    detailText = optionTitleElements.next().text();
+//                    estCostString = estCostElements.next().text();
+//
+//                }
+
+
+
+//            }
+
+        } else {
+            Timber.e("Error: query string is null");
+        }
+//        Timber.d("optionsList: " + optionsList.toString());
         return optionsList;
     }
 

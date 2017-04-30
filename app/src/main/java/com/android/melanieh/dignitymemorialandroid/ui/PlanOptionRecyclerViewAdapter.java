@@ -1,8 +1,10 @@
 package com.android.melanieh.dignitymemorialandroid.ui;
 
 import android.app.Activity;
+import android.content.ContentValues;
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.FragmentActivity;
@@ -21,6 +23,7 @@ import android.widget.TextView;
 import com.android.melanieh.dignitymemorialandroid.BuildConfig;
 import com.android.melanieh.dignitymemorialandroid.PlanOption;
 import com.android.melanieh.dignitymemorialandroid.R;
+import com.android.melanieh.dignitymemorialandroid.data.UserSelectionContract;
 
 import java.util.ArrayList;
 
@@ -31,108 +34,68 @@ import timber.log.Timber;
  */
 
 public class PlanOptionRecyclerViewAdapter
-        extends RecyclerView.Adapter<PlanOptionRecyclerViewAdapter.OptionViewHolder>
-        implements View.OnClickListener {
+        extends RecyclerView.Adapter<PlanOptionRecyclerViewAdapter.OptionViewHolder> {
 
     ArrayList<PlanOption> options;
-    ImageView itemImage;
-    Bitmap bitmap;
-    Context context;
     String detailText;
-    String sampleImageURL;
-    public String SHARED_IMAGE_VIEW_NAME = "Shared Element ImageView";
+    String itemImageURL;
+    String optionSelection;
+    Context context;
+    Uri planUri;
+
     public static String DETAIL_TEXT_ARG_KEY = "Option item detail text";
     public static String IMAGE_STRING_ARG_KEY = "ImageURL string";
 
-    public PlanOptionRecyclerViewAdapter(Context context, ArrayList<PlanOption> options) {
-        Timber.d("recyclerview adapter constructor: ");
-        Timber.d("options: " + options.toString());
-        Timber.d("options size: " + options.size());
-
+    public PlanOptionRecyclerViewAdapter(Context context, ArrayList<PlanOption> options, Uri planUri) {
         this.context = context;
         this.options = options;
+        this.planUri = planUri;
     }
 
     @Override
-    public OptionViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        Timber.v("onCreateViewHolder: ");
+    public PlanOptionRecyclerViewAdapter.OptionViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        Timber.d("onCreateViewHolder:");
+        View inflateView = LayoutInflater.from(context).inflate(R.layout.plan_options_list_item, parent, false);
+        return new OptionViewHolder(inflateView);
+    }
 
-        View view = LayoutInflater.from(context)
-                .inflate(R.layout.plan_options_list_item, parent, false);
-        return new OptionViewHolder(view);
+    @Override
+    public void onBindViewHolder(PlanOptionRecyclerViewAdapter.OptionViewHolder holder, int position) {
+        Timber.d("onBindViewHolder:");
+        final PlanOption currentOption = options.get(position);
+        // temporarily capture detail text to pass as dialog fragment argument
+        // it is not displayed in the cardview, only in the dialog fragment
+        detailText = currentOption.getDetailText();
+        itemImageURL = currentOption.getImageUrlString();
+        optionSelection = currentOption.getHeading();
+        holder.heading.setText(currentOption.getHeading());
+        ImageHandler.getSharedInstance(context).load(itemImageURL).
+                fit().centerCrop().into(holder.itemImage);
+
+        holder.detailsBtnView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showDetailDialog();
+            }
+        });
+
+        holder.addBtnView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                addOptionToPlan(currentOption.getTitle(), optionSelection);
+            }
+        });
+
     }
 
     @Override
     public int getItemCount() {
-        Timber.d("getItemCount");
         return options.size();
     }
 
 
-    @Override
-    public void onBindViewHolder(final PlanOptionRecyclerViewAdapter.OptionViewHolder holder,
-                                 final int position) {
-        Timber.v("onBindViewHolder: ");
-        PlanOption currentOption = options.get(position);
-        // temporarily capture detail text to pass as dialog fragment argument
-        // it is not displayed in the cardview, only in the dialog fragment
-        detailText = currentOption.getDetailText();
-        holder.heading.setText(currentOption.getHeading());
-//        holder.addBtnView.setOnClickListener(clickListener);
-        holder.detailsBtnView.setOnClickListener(this);
-//        sampleImageURL = "https://s3.amazonaws.com/busites_www/tdp/1/1/media/option-media" +
-//                "/thumb_cooking03_1457631930_1349.png";
-        ImageHandler.getSharedInstance(context).load(
-                currentOption.getImageUrlString())
-                .fit().centerCrop().into(holder.itemImage);
-
-        holder.addBtnView.setContentDescription(String.format(context.getString(R.string.add_button_cd)
-                , options.get(position).getHeading()));
-        holder.detailsBtnView.setContentDescription
-                (String.format(context.getString(R.string.details_button_cd)
-                        , options.get(position).getHeading()));
-    }
-
-    // Perform the HTTP request for book listings data and process the response.
-
-//                            ArrayList<String> dialogStringExtras = new ArrayList<>();
-//                            dialogStringExtras.add(imageUrlString);
-//                            dialogStringExtras.add(detailTextString);
-
-
-//    // BEGIN_INCLUDE(detail_set_view_name)
-//    /**
-//     * Set the name of the view's which will be transition to, using the static values above.
-//     * This could be done in the layout XML, but exposing it via static variables allows easy
-//     * querying from other Activities
-//     */
-//                            ViewCompat.setTransitionName(itemImage, SHARED_IMAGE_VIEW_NAME);
-//    // END_INCLUDE(detail_set_view_name)
-
-                    // Construct an Intent as normal
-//                            Intent intent = new Intent(getContext(), PlanViewPagerActivity.class);
-//                            intent.putExtra
-//                                    (PlanDetailsDialogActivity.EXTRA_KEY, position);
-//                            startActivity(intent);
-                    // BEGIN_INCLUDE(start_activity)
-                    /**
-                     * Now create an {@link android.app.ActivityOptions} instance using the
-                     * {@link ActivityOptionsCompat#makeSceneTransitionAnimation(Activity, Pair[])} factory
-                     * method.
-                     */
-//                            ActivityOptionsCompat activityOptions
-//                                    = ActivityOptionsCompat.makeSceneTransitionAnimation(
-//                                    getActivity(),
-//                                    new Pair<View, String>(
-//                                            itemImage,
-//                                            PlanDetailsDialogActivity.SHARED_IMAGE_VIEW_NAME));
-
-                    // Now we can start the Activity, providing the activity options as a bundle
-//                                    ActivityCompat.startActivity(getContext(), intent, activityOptions.toBundle());
-//                             END_INCLUDE(start_activity)
-
     public class OptionViewHolder extends RecyclerView.ViewHolder {
-        public final ImageButton addBtnView;
+        public final Button addBtnView;
         public final Button detailsBtnView;
         public final TextView heading;
         public final ImageView itemImage;
@@ -141,7 +104,7 @@ public class PlanOptionRecyclerViewAdapter
             super(view);
             heading = (TextView) view.findViewById(R.id.heading);
             itemImage = (ImageView) view.findViewById(R.id.imageview);
-            addBtnView = (ImageButton) view.findViewById(R.id.add_button);
+            addBtnView = (Button) view.findViewById(R.id.add_button);
             detailsBtnView = (Button) view.findViewById(R.id.details_button);
         }
 
@@ -157,7 +120,7 @@ public class PlanOptionRecyclerViewAdapter
         if (context instanceof FragmentActivity) {
             // We can get the fragment manager
             FragmentActivity activity = (FragmentActivity) context;
-            String[] args = new String[]{detailText, sampleImageURL};
+            String[] args = new String[]{detailText, itemImageURL};
             PlanDetailsDialogFragment fragment = PlanDetailsDialogFragment.newInstance(args);
             FragmentManager fm = activity.getSupportFragmentManager();
             FragmentTransaction t = fm.beginTransaction();
@@ -165,16 +128,36 @@ public class PlanOptionRecyclerViewAdapter
         }
     }
 
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.add_button:
-//                addOptionToPlan(currentOption.getHeading());
+
+    private void addOptionToPlan(String optionsTitle, String optionSelection) {
+        ContentValues values = new ContentValues();
+        String cvKey = "";
+        // query first for existing plan URI and add to existing plan if there;
+        // otherwise insert new plan entry if not present
+
+        switch (optionsTitle) {
+            case "ceremony":
+                cvKey = UserSelectionContract.PlanEntry.COLUMN_CEREMONY_SELECTION;
                 break;
-            case R.id.details_button:
-                showDetailDialog();
+            case "reception":
+                cvKey = UserSelectionContract.PlanEntry.COLUMN_RECEPTION_SELECTION;
                 break;
+            case "visitation":
+                cvKey = UserSelectionContract.PlanEntry.COLUMN_VISITATION_SELECTION;
+                break;
+            case "site":
+                cvKey = UserSelectionContract.PlanEntry.COLUMN_SITE_SELECTION;
+                break;
+            case "container":
+                cvKey = UserSelectionContract.PlanEntry.COLUMN_CONTAINER_SELECTION;
+                break;
+            default:
+                Timber.e("Invalid Fragment tag");
         }
+        values.put(cvKey, optionSelection);
+        context.getContentResolver().update(planUri, values, null, null);
+
     }
+
 
 }

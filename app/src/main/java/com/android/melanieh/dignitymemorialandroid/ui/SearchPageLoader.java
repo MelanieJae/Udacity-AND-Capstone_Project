@@ -31,21 +31,6 @@ public class SearchPageLoader extends AsyncTaskLoader {
     ArrayList<Obituary> obituariesList;
     ArrayList<Provider> providersList;
     String urlString;
-    String kind;
-    String totalItems;
-    String itemsKind;
-    String id;
-    String eTag;
-    String selfLink;
-    CharSequence title;
-    String author;
-    String category;
-    String authors;
-    String categories;
-    CharSequence desc;
-    Double averageRating;
-    ArrayList<CharSequence> categoriesList;
-    ArrayList<CharSequence> authorsList;
 
     public SearchPageLoader(Context context, String urlString) {
         super(context);

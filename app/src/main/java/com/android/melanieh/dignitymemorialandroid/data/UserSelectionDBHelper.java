@@ -59,7 +59,7 @@ public class UserSelectionDBHelper extends SQLiteOpenHelper {
     public static final String COLUMN_EST_COST = "Estimated_Cost";
 
     private static final String CREATE_PLAN_TABLE = "CREATE TABLE"
-            + UserSelectionContract.PlanEntry.TABLE_NAME
+            + " " + UserSelectionContract.PlanEntry.TABLE_NAME
             + "(" + PlanEntry.COLUMN_ID + " " + INT_PRIMARY_KEY_AUTOINC + ", "
             + COLUMN_PLAN_NAME + VARCHAR_NOT_NULL_DEFAULT + ", "
             + COLUMN_PLAN_TYPE + VARCHAR_NOT_NULL_DEFAULT + ", "

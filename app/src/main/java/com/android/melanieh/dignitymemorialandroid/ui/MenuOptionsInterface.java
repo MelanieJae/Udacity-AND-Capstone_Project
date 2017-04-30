@@ -10,9 +10,6 @@ import android.view.MenuItem;
 
 public interface MenuOptionsInterface {
 
-    // launchMenuIntent is implemented only in activities throughout this project
     void launchMenuIntent(Class activity, String extraContent);
-
-    // launchShareIntent is implemented only in fragments throughout this project
     Intent launchShareIntent();
 }

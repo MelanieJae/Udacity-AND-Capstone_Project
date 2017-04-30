@@ -15,14 +15,10 @@
         android:allowBackup="true"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
-        android:supportsRtl="true"
-        android:theme="@style/AppTheme">
-
+        android:supportsRtl="true">
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
-
-
 
         <activity
             android:name=".ui.MenuItemListActivity"
@@ -36,9 +32,7 @@
             <!-- intent for notification calendar event viewing -->
             <intent-filter>
                 <action android:name="android.intent.ACTION_INSERT" />
-
                 <category android:name="android.intent.category.DEFAULT" />
-
                 <data android:mimeType="vnd.android.cursor.dir/event" />
             </intent-filter>
         </activity>
@@ -63,7 +57,9 @@
         </activity>
         <activity android:name=".ui.SettingsActivity" />
         <activity android:name=".ui.PlanSummaryActivity" />
-        <activity android:name=".ui.PlanViewPagerActivity" />
+        <activity android:name=".ui.PlanViewPagerActivity"
+            android:theme="@style/AppTheme.NoActionBar"/>
+
         <activity android:name=".ui.PlanDetailsDialogActivity" />
         <activity android:name=".ui.SearchResultActivity" />
 

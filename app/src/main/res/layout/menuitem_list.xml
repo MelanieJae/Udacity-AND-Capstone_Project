@@ -9,3 +9,5 @@
     android:layout_marginRight="@dimen/menulist_right_margin"
     tools:context="com.android.melanieh.dignitymemorialandroid.ui.MenuItemListActivity"
     tools:listitem="@layout/menuitem_list_content" />
+
+

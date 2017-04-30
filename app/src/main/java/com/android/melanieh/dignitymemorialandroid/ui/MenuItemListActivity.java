@@ -3,7 +3,9 @@ package com.android.melanieh.dignitymemorialandroid.ui;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.PersistableBundle;
 import android.support.annotation.NonNull;
+import android.support.v4.widget.NestedScrollView;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -20,6 +22,7 @@ import com.android.melanieh.dignitymemorialandroid.BuildConfig;
 import com.android.melanieh.dignitymemorialandroid.DMApplication;
 import com.android.melanieh.dignitymemorialandroid.content.MenuContent;
 import com.android.melanieh.dignitymemorialandroid.R;
+import com.github.florent37.picassopalette.PicassoPalette;
 
 import java.util.List;
 
@@ -46,6 +49,7 @@ public class MenuItemListActivity extends AppCompatActivity
     private String appBarLogoUrl;
     private ImageView toolBarIV;
     private ImageView appBarLogo;
+    NestedScrollView scrollView;
     Class destClass;
     String extraContent;
 
@@ -53,6 +57,8 @@ public class MenuItemListActivity extends AppCompatActivity
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Timber.d("onCreate");
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menuitem_list);
         Timber.plant(new Timber.DebugTree());
@@ -60,6 +66,7 @@ public class MenuItemListActivity extends AppCompatActivity
         recyclerView = (RecyclerView)findViewById(R.id.menuitem_list);
         toolBarIV = (ImageView)findViewById(R.id.toolbar_image);
         appBarLogo = (ImageView)findViewById(R.id.appbar_logo);
+        scrollView = (NestedScrollView)findViewById(R.id.scrollView);
         assert recyclerView != null;
         setupRecyclerView(recyclerView);
 
@@ -88,13 +95,14 @@ public class MenuItemListActivity extends AppCompatActivity
         Timber.d("start Analytics tracking...");
         ((DMApplication)getApplication()).startTracking();
 
-//        PicassoPalette.with(appBarImageUrl.toString(), toolBarIV)
-//                .use(PicassoPalette.Profile.VIBRANT_LIGHT)
-//                .intoBackground(scrollView);
+        PicassoPalette.with(appBarImageUrl.toString(), toolBarIV)
+                .use(PicassoPalette.Profile.VIBRANT_LIGHT)
+                .intoBackground(scrollView);
 
     }
 
     private void setupRecyclerView(@NonNull RecyclerView recyclerView) {
+        Timber.d("setUpRecyclerView");
         recyclerView.setAdapter(new SimpleItemRecyclerViewAdapter(MenuContent.ITEMS));
         recyclerView.setLayoutManager(getLayoutManager());
     }
@@ -109,6 +117,7 @@ public class MenuItemListActivity extends AppCompatActivity
 
         @Override
         public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+            Timber.d("onCreateViewHolder");
             View view = LayoutInflater.from(parent.getContext())
                     .inflate(R.layout.menuitem_list_content, parent, false);
             return new ViewHolder(view);
@@ -116,6 +125,8 @@ public class MenuItemListActivity extends AppCompatActivity
 
         @Override
         public void onBindViewHolder(final ViewHolder holder, int position) {
+            Timber.d("onBndViewHolder");
+
             holder.mItem = mValues.get(position);
 
             // destination class for intent; varies according to which button is selected
@@ -131,12 +142,14 @@ public class MenuItemListActivity extends AppCompatActivity
                     } else if (buttonLabel.contains("Checklist") || buttonLabel.contains("Pay")) {
                         destClass = MenuItemDetailActivity.class;
                         extraContent = holder.mItem.details;
+                    } else if (buttonLabel.contains("FAQ")) {
+                            destClass = MenuItemDetailActivity.class;
+                            extraContent = holder.mItem.details;
                     } else if (buttonLabel.contains("Start")){
                         // currently the only other option is the Start Planning button
                         destClass = PlanViewPagerActivity.class;
-//                        destClass = CompletePlanFormActivity.class;
                     } else {
-                        //
+                        destClass = PlanSummaryActivity.class;
                     }
                     launchMenuIntent(destClass, extraContent);
                 }
@@ -163,6 +176,7 @@ public class MenuItemListActivity extends AppCompatActivity
 
         @Override
         public int getItemCount() {
+            Timber.d("getItemCount");
             return mValues.size();
         }
 
@@ -190,8 +204,6 @@ public class MenuItemListActivity extends AppCompatActivity
     private RecyclerView.LayoutManager getLayoutManager() {
         if (getResources().getConfiguration().screenWidthDp < 900) {
             GridLayoutManager glm = new GridLayoutManager(this, 2);
-            glm.offsetChildrenVertical(2000);
-            glm.offsetChildrenHorizontal(getResources().getInteger(R.integer.horiz_offset));
             return glm;
         } else {
             RecyclerView.LayoutManager lm = new LinearLayoutManager(this);
@@ -201,13 +213,14 @@ public class MenuItemListActivity extends AppCompatActivity
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+        Timber.d("onCreateOptionsMenu");
         getMenuInflater().inflate(R.menu.menu_activity_main, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        Context context = this;
+        Timber.d("onOptionsItemSelected");
         switch (item.getItemId()) {
             case android.R.id.home:
                 // This ID represents the Home or Up button. In the case of this
@@ -220,22 +233,40 @@ public class MenuItemListActivity extends AppCompatActivity
                 return true;
             case R.id.action_access_preferences:
                 destClass = SettingsActivity.class;
+                launchMenuIntent(destClass, null);
                 break;
             case R.id.action_view_plan_selections:
                 destClass = PlanSummaryActivity.class;
+                launchMenuIntent(destClass, null);
                 break;
+            case R.id.action_share:
+                startActivity(Intent.createChooser(launchShareIntent(), getString(R.string.share_app_chooser_dialog_title)));
         }
-        launchMenuIntent(destClass, null);
-        return super.onOptionsItemSelected(item);
+        return true;
     }
 
     public void launchMenuIntent(Class destinationClass, String extraContent) {
+        Timber.d("launchMenuIntent:");
+        Timber.d("destinationClass=" + destinationClass.toString());
         Intent intent = new Intent(this, destinationClass);
-        intent.putExtra("EXTRA_CONTENT", extraContent);
+        intent.putExtra("button_extra_content", extraContent);
         startActivity(intent);
     }
 
-    public Intent launchShareIntent() {return null;}
+    public Intent launchShareIntent() {Intent shareIntent = new Intent(android.content.Intent.ACTION_SEND);
+        shareIntent.setType("text/plain");
+        String shareBodyText = getString(R.string.share_msg_body_text);
+        shareIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Subject/Title");
+        shareIntent.putExtra(android.content.Intent.EXTRA_TEXT, shareBodyText);
+        return shareIntent;
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState, PersistableBundle outPersistentState) {
+        Timber.d("onCreateOptionsMenu");
+        super.onSaveInstanceState(outState, outPersistentState);
+
+    }
 
 }
 

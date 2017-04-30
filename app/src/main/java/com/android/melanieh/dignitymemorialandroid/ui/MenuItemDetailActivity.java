@@ -13,6 +13,8 @@ import android.view.MenuItem;
 
 import com.android.melanieh.dignitymemorialandroid.R;
 
+import timber.log.Timber;
+
 
 /**
  * An activity representing a single MenuItem detail screen. This
@@ -75,23 +77,36 @@ public class MenuItemDetailActivity extends AppCompatActivity implements MenuOpt
                 return true;
             case R.id.action_access_preferences:
                 destClass = SettingsActivity.class;
+                launchMenuIntent(destClass, null);
                 break;
             case R.id.action_view_plan_selections:
                 destClass = PlanSummaryActivity.class;
+                launchMenuIntent(destClass, null);
                 break;
+            case R.id.action_share:
+                startActivity(Intent.createChooser(launchShareIntent(),
+                        getString(R.string.share_app_chooser_dialog_title)));
         }
-        launchMenuIntent(destClass, null);
         return super.onOptionsItemSelected(item);
     }
 
     public void launchMenuIntent(Class destinationClass, String extraContent) {
+        Timber.d("launchMenuIntent: ");
+        Timber.d("destinationClass: " + destinationClass.toString());
         Intent intent = new Intent(this, destinationClass);
         intent.putExtra("EXTRA_CONTENT", extraContent);
         startActivity(intent);
     }
 
-    public Intent launchShareIntent() { return null; };
-
+    @Override
+    public Intent launchShareIntent() {
+        Intent shareIntent = new Intent(android.content.Intent.ACTION_SEND);
+        shareIntent.setType("text/plain");
+        String shareBodyText = getString(R.string.share_msg_body_text);
+        shareIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Subject/Title");
+        shareIntent.putExtra(android.content.Intent.EXTRA_TEXT, shareBodyText);
+        return shareIntent;
+    }
     @Override
     public void onBackPressed() {
         if (getFragmentManager().getBackStackEntryCount() != 0) {

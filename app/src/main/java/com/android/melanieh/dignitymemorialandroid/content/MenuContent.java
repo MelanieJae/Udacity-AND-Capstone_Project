@@ -24,7 +24,7 @@ public class MenuContent {
     public static final Map<String, MenuItem> ITEM_MAP = new HashMap<String, MenuItem>();
 
     // temporarily includes button for nav to plan selection summary screen
-    private static final int COUNT = 5;
+    private static final int COUNT = 6;
 
     static {
         // Populate menu item list
@@ -53,6 +53,8 @@ public class MenuContent {
                 return BuildConfig.BILL_PAY_URL;
             case 5:
                 return "Plan Selection Summary";
+            case 6:
+                return "FAQs";
             default:
                 return builder.append("Details about Item: ").append(position).toString();
         }
@@ -74,6 +76,8 @@ public class MenuContent {
                 return "Bill Pay";
             case 5:
                 return "Plan Selection Summary";
+            case 6:
+                return "FAQs";
             default:
                 return builder.append("Item: ").append(position).toString();
         }

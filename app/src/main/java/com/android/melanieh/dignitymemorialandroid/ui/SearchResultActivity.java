@@ -84,6 +84,10 @@ public class SearchResultActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search_results);
 
+        // form layout groups
+        obitsFormLayout = (LinearLayout)findViewById(R.id.obits_search_form_layout);
+        providerFormLayout = (LinearLayout)findViewById(R.id.provider_search_form_layout);
+
         /* Location services Api client */
         googleApiClient = new GoogleApiClient.Builder(this)
                 .addApi(LocationServices.API)
@@ -102,7 +106,7 @@ public class SearchResultActivity extends AppCompatActivity
             provider = sharedPrefs.getString("provider", "");
         }
 
-        queryType = getIntent().getStringExtra("EXTRA_CONTENT");
+        queryType = getIntent().getStringExtra("query type");
         zipCode = getIntent().getStringExtra("zipCode");
         firstName = getIntent().getStringExtra("first name");
         lastName = getIntent().getStringExtra("last name");
@@ -110,6 +114,8 @@ public class SearchResultActivity extends AppCompatActivity
         locationLat = getIntent().getDoubleExtra("current location lat", 0);
         locationLong = getIntent().getDoubleExtra("current location long", 0);
         Timber.d("queryType: " + queryType);
+        Timber.d("firstName= " + firstName);
+        Timber.d("lastName= " + lastName);
         Timber.d("zipCode= " + zipCode);
         Timber.d("provider= " + provider);
         Timber.d("locationLat= " + locationLat);
@@ -169,7 +175,7 @@ public class SearchResultActivity extends AppCompatActivity
         // build query string on base URL with search form input
         StringBuilder queryBuilder;
         String querySuffix;
-        if (queryType.equalsIgnoreCase("Obituaries")) {
+        if (queryType.contains("obituaries")) {
             queryBuilder = new StringBuilder(OBITS_QUERY_BASE_URL);
 //            String firstName = firstNameET.getText().toString();
             queryBuilder.append("&fn=" + firstName);
@@ -194,7 +200,8 @@ public class SearchResultActivity extends AppCompatActivity
         queryBuilder.append(querySuffix);
         queryString = queryBuilder.toString();
         Timber.d("final query string: " + queryString);
-
+        Timber.d("obitsFormLayout" + obitsFormLayout);
+        Timber.d("providerFormLayout" + providerFormLayout);
         obitsFormLayout.setVisibility(View.GONE);
         providerFormLayout.setVisibility(View.GONE);
 

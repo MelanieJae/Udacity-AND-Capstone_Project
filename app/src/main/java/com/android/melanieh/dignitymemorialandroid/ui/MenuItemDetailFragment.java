@@ -6,9 +6,6 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebChromeClient;
@@ -66,43 +63,42 @@ public class MenuItemDetailFragment extends Fragment implements MenuOptionsInter
         // 1. search/find
         // 2. web browser
         // 3. custom planning fragment
+        // 4. pure text fragment, e.g. plan selection summary or FAQ page
 
-        rootView = inflater.inflate(R.layout.fragment_menu_item_detail, container, false);
+        rootView = inflater.inflate(R.layout.fragment_detail, container, false);
         webView = new WebView(getContext());
-        getActivity().setContentView(webView);
-        // inflate particular fragment based on value mapped by ARG_ITEM_ID
+        TextView faqsTempView = (TextView)rootView.findViewById(R.id.temp_faqs_view);
         id = getActivity().getIntent().getStringExtra(ARG_ITEM_ID);
-        menuButtonExtra = getActivity().getIntent().getStringExtra("EXTRA_CONTENT");
+        menuButtonExtra = getActivity().getIntent().getStringExtra("button_extra_content");
         Timber.d("menuButtonExtra: " + menuButtonExtra);
 
-        // Let's display the progress in the activity title bar, like the
-        // browser app does.
+        if (!menuButtonExtra.contains("FAQ")) {
+            webView.getSettings().setJavaScriptEnabled(true);
+            webView.setInitialScale(1);
+            webView.getSettings().setLoadWithOverviewMode(true);
+            webView.getSettings().setUseWideViewPort(true);
 
-        webView.getSettings().setJavaScriptEnabled(true);
+            webView.setWebChromeClient(new WebChromeClient() {
+                public void onProgressChanged(WebView view, int progress) {
+                    // Activities and WebViews measure progress with different scales.
+                    // The progress meter will automatically disappear when we reach 100%
+                    getActivity().setProgress(progress * 1000);
+                }
+            });
+            webView.setWebViewClient(new WebViewClient() {
+                public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
+                    Toast.makeText(getActivity(), getString(R.string.webview_error_desc), Toast.LENGTH_SHORT).show();
 
-        webView.setWebChromeClient(new WebChromeClient() {
-            public void onProgressChanged(WebView view, int progress) {
-                // Activities and WebViews measure progress with different scales.
-                // The progress meter will automatically disappear when we reach 100%
-                getActivity().setProgress(progress * 1000);
-            }
-        });
-        webView.setWebViewClient(new WebViewClient() {
-            public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
-                Toast.makeText(getActivity(), getString(R.string.webview_error_desc), Toast.LENGTH_SHORT).show();
-            }
-        });
+                }
+            });
 
-        webView.loadUrl(menuButtonExtra);
+            webView.loadUrl(menuButtonExtra);
+        } else {
+            webView.setVisibility(View.GONE);
+            faqsTempView.setText("FAQs go here");
+        }
         return rootView;
 
-    }
-
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        super.onCreateOptionsMenu(menu, inflater);
-        MenuItem menuItem = menu.findItem(R.id.action_share);
-        menuItem.setIntent(launchShareIntent());
     }
 
     @Override
@@ -129,4 +125,5 @@ public class MenuItemDetailFragment extends Fragment implements MenuOptionsInter
         shareIntent.putExtra(android.content.Intent.EXTRA_TEXT, shareBodyText);
         return shareIntent;
     }
+
 }
