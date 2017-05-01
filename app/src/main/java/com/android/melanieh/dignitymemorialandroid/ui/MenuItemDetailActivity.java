@@ -80,7 +80,7 @@ public class MenuItemDetailActivity extends AppCompatActivity implements MenuOpt
                 launchMenuIntent(destClass, null);
                 break;
             case R.id.action_view_plan_selections:
-                destClass = PlanSummaryActivity.class;
+                destClass = SettingsActivity.class;
                 launchMenuIntent(destClass, null);
                 break;
             case R.id.action_share:

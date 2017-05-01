@@ -176,6 +176,12 @@ public class SearchPageLoader extends AsyncTaskLoader {
                 JSONObject sortNameObject = resultsJSONArray.getJSONObject(i);
 
                 // validation/null checks
+                if (sortNameObject.has("NoticeText") == false) {
+                    Timber.i("NoticeText is null");
+                } else {
+                    noticeText = sortNameObject.getString("NoticeText");
+                }
+
                 if (sortNameObject.has("SortName") == false) {
                     Timber.i("SortName is null");
                 } else {
@@ -185,22 +191,17 @@ public class SearchPageLoader extends AsyncTaskLoader {
                 if (sortNameObject.has("DateOfDeath") == false) {
                     Timber.i("DateOfDeath is null");
                 } else {
-                    dateOfDeath = sortNameObject.getString("DateOfDeath")
-                            .substring(1);
+                    dateOfDeath = sortNameObject.getString("PublishedDateFormatted");
                 }
 
-                if (sortNameObject.has("NoticeText") == false) {
-                    Timber.i("DateOfDeath is null");
-                } else {
-                    noticeText = sortNameObject.getString("NoticeText");
-                }
-
-                Timber.i("extractData", "SortName= " + personName
+                Timber.d("extractData", "SortName= " + personName
                         + "; DateOfDeath= " + dateOfDeath
                         + "; NoticeText= " + noticeText);
                 obituariesList = new ArrayList<>();
                 Obituary currentObituary = new Obituary(personName, null, dateOfDeath, noticeText);
+                Timber.d("currentObituary: " + currentObituary.toString());
                 obituariesList.add(currentObituary);
+                Timber.d("obituariesList: " + obituariesList);
             }
 
         } catch (JSONException e) {

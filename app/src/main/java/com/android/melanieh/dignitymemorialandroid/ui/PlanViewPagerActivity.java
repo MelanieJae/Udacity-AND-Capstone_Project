@@ -85,12 +85,12 @@ public class PlanViewPagerActivity extends FragmentActivity {
             case R.id.action_access_preferences:
                 destClass = SettingsActivity.class;
                 break;
-            case R.id.action_view_plan_selections:
-                destClass = PlanSummaryActivity.class;
-                break;
-            case R.id.action_share:
-                startActivity(Intent.createChooser(launchShareIntent(),
-                        getString(R.string.share_app_chooser_dialog_title)));
+//            case R.id.action_view_plan_selections:
+//                destClass = PlanSummaryActivity.class;
+//                break;
+//            case R.id.action_share:
+//                startActivity(Intent.createChooser(launchShareIntent(),
+//                        getString(R.string.share_app_chooser_dialog_title)));
         }
 
         launchMenuIntent(destClass, null);

@@ -56,12 +56,12 @@
 
         </activity>
         <activity android:name=".ui.SettingsActivity" />
-        <activity android:name=".ui.PlanSummaryActivity" />
         <activity android:name=".ui.PlanViewPagerActivity"
             android:theme="@style/AppTheme.NoActionBar"/>
 
         <activity android:name=".ui.PlanDetailsDialogActivity" />
-        <activity android:name=".ui.SearchResultActivity" />
+        <activity android:name=".ui.SearchResultActivity"
+            android:theme="@style/AppTheme.NoActionBar"/>
 
         <!-- providers -->
         <provider
@@ -83,12 +83,6 @@
 
         <!-- intent service for fetching data and resources from web services -->
 
-
-        <!-- job service for loading resources for create-a-plan screens from web services -->
-        <service
-            android:name=".sync.PlanResourcesFetchJobService"
-            android:exported="true"
-            android:permission="android.permission.BIND_JOB_SERVICE" />
 
         <!-- analytics -->
         <!--
@@ -120,8 +114,8 @@
             </intent-filter>
         </receiver>
 
-        <activity android:name=".ui.CompletePlanFormActivity" />
-        <activity android:name=".ui.CompleteSearchFormActivity"></activity>
+        <activity android:name=".ui.CompleteFormActivity"
+            android:theme="@style/AppTheme.NoActionBar"/>
     </application>
 
 </manifest>

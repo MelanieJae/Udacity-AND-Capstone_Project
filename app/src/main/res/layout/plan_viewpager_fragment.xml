@@ -7,7 +7,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context=".ui.PlanPageFragment">
+    tools:context=".ui.PlanViewPagerFragment">
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/appbar"
@@ -16,35 +16,37 @@
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
         android:fitsSystemWindows="true">
 
-        <TextView
-            android:id="@+id/toolbar_step_title"
-            tools:text="Step title"
-            android:textSize="22sp"
-            android:layout_gravity="bottom"
-            android:textColor="@android:color/white"
+        <android.support.design.widget.CollapsingToolbarLayout
+            android:id="@+id/collapsing_toolbar"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:fitsSystemWindows="true"
-            app:layout_collapseMode="parallax"/>
-        <TextView
-            android:id="@+id/toolbar_est_cost_tv"
-            tools:text="Estimated Cost: $0-$500"
-            android:textSize="24sp"
-            android:textColor="@android:color/white"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed"
+            app:contentScrim="@color/primary"
+            android:fitsSystemWindows="true">
 
-        <android.widget.Toolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-            app:layout_collapseMode="pin"/>
+            <TextView
+                android:id="@+id/toolbar_step_title"
+                tools:text="Step title"
+                android:textSize="22sp"
+                android:layout_marginTop="20dp"
+                android:layout_marginLeft="8dp"
+                android:textColor="@android:color/white"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fitsSystemWindows="true"
+                app:layout_collapseMode="parallax"/>
 
+            <android.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+                app:layout_collapseMode="pin"/>
+        </android.support.design.widget.CollapsingToolbarLayout>
     </android.support.design.widget.AppBarLayout>
 
     <TextView
-        android:id="@+id/which_fragment"
+        android:id="@+id/static_content"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"/>

@@ -1,22 +1,12 @@
 package com.android.melanieh.dignitymemorialandroid.ui;
 
-import android.content.ContentValues;
 import android.content.Context;
-import android.content.res.Resources;
-import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.app.LoaderManager;
-import android.support.v4.content.Loader;
 
-import com.android.melanieh.dignitymemorialandroid.PlanOption;
 import com.android.melanieh.dignitymemorialandroid.R;
-import com.android.melanieh.dignitymemorialandroid.data.UserSelectionContract;
-
-import java.util.ArrayList;
 
 import timber.log.Timber;
 
@@ -25,14 +15,14 @@ import timber.log.Timber;
 public class ScreenSlidePagerAdapter extends FragmentStatePagerAdapter {
 
     // list of valid fragments
-    PlanPageFragment ceremonyFragment;
-    PlanPageFragment visitationFragment;
-    PlanPageFragment receptionFragment;
-    PlanPageFragment siteFragment;
-    PlanPageFragment containerFragment;
+    PlanViewPagerFragment ceremonyFragment;
+    PlanViewPagerFragment visitationFragment;
+    PlanViewPagerFragment receptionFragment;
+    PlanViewPagerFragment siteFragment;
+    PlanViewPagerFragment containerFragment;
     FragmentTransaction fragmentTransaction;
     Context context;
-    private static final int NUM_PAGES = 7;
+    private static final int NUM_PAGES = 6;
 
     public ScreenSlidePagerAdapter(Context context, FragmentManager fm) {
         super(fm);
@@ -53,8 +43,18 @@ public class ScreenSlidePagerAdapter extends FragmentStatePagerAdapter {
     @Override
     public Fragment getItem(int position) {
         Timber.d("getItem:");
-        PlanPageFragment fragment;
+        PlanViewPagerFragment fragment;
+        // these are left blank here and appended in the fragments after actual selections are made
+        // and fetched from the DB.
         String staticContent = "";
+        String planName="";
+        String ceremonySelection="";
+        String visitationSelection="";
+        String receptionSelection="";
+        String siteSelection="";
+        String containerSelection="";
+        String estCostString="";
+
         // each fragment needs its own loaderId to ensure content appears in the correct fragment
         // since the PlanPage fragment is being recycled for all elements of the viewpager
         int loaderId = 0;
@@ -79,8 +79,14 @@ public class ScreenSlidePagerAdapter extends FragmentStatePagerAdapter {
                 staticContent = context.getString(R.string.containerHtmlString);
                 loaderId = 50;
                 break;
+            case 5:
+                // left blank and appended after all selections are made and plan summary is to be displayed;
+                staticContent = "";
+                loaderId = 60;
+                break;
+
         }
-        fragment = PlanPageFragment.newInstance(staticContent, loaderId);
+        fragment = PlanViewPagerFragment.newInstance(staticContent, loaderId);
         return fragment;
     }
 }

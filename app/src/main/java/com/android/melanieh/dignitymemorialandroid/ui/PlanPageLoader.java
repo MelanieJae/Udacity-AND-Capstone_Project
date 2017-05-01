@@ -14,6 +14,7 @@ import org.json.JSONObject;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
+import org.jsoup.nodes.Node;
 import org.jsoup.select.Elements;
 
 import java.io.BufferedReader;
@@ -24,6 +25,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 import timber.log.Timber;
 
@@ -71,6 +73,10 @@ public class PlanPageLoader extends AsyncTaskLoader{
         Document doc;
         PlanOption option;
         ArrayList<PlanOption> optionsList = new ArrayList<>();
+        ArrayList<String> tempHeadingArray = new ArrayList<>();
+        ArrayList<String> tempImageUrlArray = new ArrayList<>();
+        ArrayList<String> tempDetailArray = new ArrayList<>();
+        ArrayList<String> tempCostArray = new ArrayList<>();
 
         if (urlString != null) {
             doc = Jsoup.parse(urlString);
@@ -81,39 +87,40 @@ public class PlanPageLoader extends AsyncTaskLoader{
             Elements detailTextElements = doc.select("div[class=col-md-12]");
             Elements estCostElements = doc.select("div[class=col-md-6]>p");
 
-//            while (optionTitleElements.first() != null || optionTitleElements.next() != null) {
-                optionTitle = optionTitleElements.first().text();
-                Timber.d("optionTitle: " + optionTitle);
-                heading = headingElements.first().text();
-                imageUrlString = imageUrlElements.attr("src");  // exact content value of the attribute.
-                Timber.d("imageUrlString: " + imageUrlString);
-                detailText = detailTextElements.first().text();
-                Timber.d("detailText: " + detailText);
-                estCostString = estCostElements.first().text();
-                Timber.d("estCostString: " + estCostString);
+            Element headingElement = doc.select("span[class=param]").first();
+            Node headingNode = headingElement.nextSibling();
+            heading = headingNode.toString();
 
-                option = new PlanOption(optionTitle, heading, detailText,
-                        imageUrlString, estCostString);
-                Timber.d("option: " + option.toString());
-                optionsList.add(option);
-                Timber.d("optionsList: " + optionsList);
+//            optionTitle = optionTitleElements.first().
+//                    text();
+//            heading = headingElements.first().text();
+//            imageUrlString = imageUrlElements.first().attr("src");
+//            detailText = detailTextElements.first().text();
+//            estCostString = estCostElements.first().text();
 
-//                while (headingElements.next() != null) {
-//                    heading = optionTitleElements.next().text();
-//                    imageUrlString = imageUrlElements.next().text();
-//                    detailText = optionTitleElements.next().text();
-//                    estCostString = estCostElements.next().text();
-//
-//                }
-
-
-
+//            if (headingElements.next() != null) {
+//                heading = headingElements.first().text();
 //            }
 
-        } else {
+//            if (imageUrlElements.next() != null) {
+//                imageUrlString = imageUrlElements.next().text();
+//            }
+//
+//            if (detailTextElements.next() != null) {
+//                detailText = detailTextElements.next().text();
+//            }
+//
+//            if (estCostElements.next() != null) {
+//                estCostString = estCostElements.next().text();
+//            }
+
+            option = new PlanOption(optionTitle, heading, detailText,
+                        imageUrlString, estCostString);
+            optionsList.add(option);
+            Timber.d("optionsList: " + optionsList);
+            } else {
             Timber.e("Error: query string is null");
         }
-//        Timber.d("optionsList: " + optionsList.toString());
         return optionsList;
     }
 

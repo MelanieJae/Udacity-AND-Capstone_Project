@@ -14,7 +14,7 @@
     </screenName>
     <screenName name="com.android.melanieh.dignitymemorialandroid.ui.PlanDetailsDialogActivity">
         Plan Option Details modal</screenName>
-    <screenName name="com.android.melanieh.dignitymemorialandroid.ui.PlanPageFragment">
+    <screenName name="com.android.melanieh.dignitymemorialandroid.ui.PlanViewPagerFragment">
         Plan option selections
     </screenName>
     <screenName name="com.android.melanieh.dignitymemorialandroid.ui.PlanSummaryActivity">

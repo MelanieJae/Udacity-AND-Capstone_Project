@@ -80,8 +80,6 @@
     <string name="pref_provider_key" translatable="false">Provider</string>
 
     <!-- view plan selections activity -->
-    <string name="contact_name_label">Contact Name</string>
-    <string name="contact_phone_label">Contact Phone</string>
     <string name="contact_email_label">Contact E-mail</string>
     <string name="contact_plan_name_label">Plan Name</string>
     <string name="ceremony_selection_label">Ceremony Selection</string>
@@ -123,13 +121,13 @@
     <!-- search result screens -->
     <string name="search_form_first_name_label">first name:</string>
     <string name="search_form_last_name_label">last name:</string>
-    <string name="search_form_zipcode_field_label">last name:</string>
+    <string name="search_form_zipcode_field_label">Enter a zip code:</string>
     <string name="get_directions">Get directions</string>
     <string name="obits_search_query_suffix">
-         &#160;cid=0&#160;sid=0&#160;d=15&#160;b=DM,GHL&#160;scope=0&#160;sort=0&#160;r=100&#160;pn=1&#160;mn=100&#160;v=1&#160;callback=getSearchResults
+         <![CDATA[&cid=&sid=0&d=15&b=DM,GHL&scope=0&sort=0&r=100&pn=1&mn=100&v=1]]>
     </string>
     <string name="provider_search_query_suffix">
-         &#160;brand=DM&#160;locale=EN&#160;startPage=1&#160;recordsPerPage=50&#160;radius=100&#160;isClickTracking=false&#160;callback=jQuery17105035656983934365_1492860920431</string>
+         <![CDATA[&brand=DM&locale=EN&startPage=1&recordsPerPage=50&radius=100&isClickTracking=false]]></string>
     <string name="save_provider">Save Provider</string>
     <!-- data package -->
     <!-- provider -->

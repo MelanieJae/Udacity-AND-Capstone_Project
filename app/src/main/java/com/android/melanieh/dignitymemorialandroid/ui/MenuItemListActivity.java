@@ -125,7 +125,7 @@ public class MenuItemListActivity extends AppCompatActivity
 
         @Override
         public void onBindViewHolder(final ViewHolder holder, int position) {
-            Timber.d("onBndViewHolder");
+            Timber.d("onBindViewHolder");
 
             holder.mItem = mValues.get(position);
 
@@ -134,45 +134,33 @@ public class MenuItemListActivity extends AppCompatActivity
             holder.mBtnView.setContentDescription(buttonLabel);
             holder.mBtnView.setText(mValues.get(position).content);
             holder.mBtnView.setOnClickListener(new View.OnClickListener() {
-
                 @Override
                 public void onClick(View v) {
-                    if (buttonLabel.contains("Search") || buttonLabel.contains("Find")) {
-                        destClass = CompleteSearchFormActivity.class;
-                    } else if (buttonLabel.contains("Checklist") || buttonLabel.contains("Pay")) {
-                        destClass = MenuItemDetailActivity.class;
-                        extraContent = holder.mItem.details;
-                    } else if (buttonLabel.contains("FAQ")) {
+                    if (mTwoPane) {
+                        Bundle arguments = new Bundle();
+                        arguments.putString(ARG_ITEM_ID, holder.mItem.id);
+                        MenuItemDetailFragment fragment = new MenuItemDetailFragment();
+                        fragment.setArguments(arguments);
+                        getSupportFragmentManager().beginTransaction()
+                                .replace(R.id.menuitem_detail_container, fragment)
+                                .commit();
+
+                    } else {
+                        if (buttonLabel.contains("Search") || buttonLabel.contains("Find")) {
+                            destClass = CompleteFormActivity.class;
+                        } else if (buttonLabel.contains("Checklist") || buttonLabel.contains("Pay")
+                                || buttonLabel.contains("FAQ")) {
                             destClass = MenuItemDetailActivity.class;
                             extraContent = holder.mItem.details;
-                    } else if (buttonLabel.contains("Start")){
-                        // currently the only other option is the Start Planning button
-                        destClass = PlanViewPagerActivity.class;
-                    } else {
-                        destClass = PlanSummaryActivity.class;
+                        } else if (buttonLabel.contains("Start")) {
+                            // currently the only other option is the Start Planning button
+                            destClass = PlanViewPagerActivity.class;
+                        }
+                        launchMenuIntent(destClass, extraContent);
                     }
-                    launchMenuIntent(destClass, extraContent);
                 }
-
-//                    if (mTwoPane) {
-//                        Bundle arguments = new Bundle();
-//                        arguments.putString(ARG_ITEM_ID, holder.mItem.id);
-//                        MenuItemDetailFragment fragment = new MenuItemDetailFragment();
-//                        fragment.setArguments(arguments);
-//                        getSupportFragmentManager().beginTransaction()
-//                                    .replace(R.id.menuitem_detail_container, fragment)
-//                                    .commit();
-//
-//                    } else {
-//                        Context context = v.getContext();
-//                        Intent intent = new Intent(context, MenuItemDetailActivity.class);
-//                        intent.putExtra(ARG_ITEM_ID, holder.mItem.id);
-//                        context.startActivity(intent);
-//                        }
-
             });
         }
-
 
         @Override
         public int getItemCount() {
@@ -235,10 +223,10 @@ public class MenuItemListActivity extends AppCompatActivity
                 destClass = SettingsActivity.class;
                 launchMenuIntent(destClass, null);
                 break;
-            case R.id.action_view_plan_selections:
-                destClass = PlanSummaryActivity.class;
-                launchMenuIntent(destClass, null);
-                break;
+//            case R.id.action_view_plan_selections:
+//                destClass = PlanSummaryActivity.class;
+//                launchMenuIntent(destClass, null);
+//                break;
             case R.id.action_share:
                 startActivity(Intent.createChooser(launchShareIntent(), getString(R.string.share_app_chooser_dialog_title)));
         }

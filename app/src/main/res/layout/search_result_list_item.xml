@@ -8,37 +8,37 @@
     android:layout_margin="6dp"
     card_view:cardCornerRadius="3dp"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="match_parent">
 
     <!-- this view is shared by search result lists consisting of differently typed Objects
     and thus contains fields for all possible Objects. Visibility is controlled dynamically via the
     activity or fragment -->
 
-    <LinearLayout
-        android:id="@+id/obit_object_layout"
-        android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:contentDescription="@string/obituary_view_cd">
-        <!-- Obituary object fields -->
-        <TextView
-            android:id="@+id/person_name"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="18sp"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true" />
-        <TextView
-            android:id="@+id/life_death_date_span"
-            android:textSize="18sp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-        <TextView
-            android:id="@+id/obit_text"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+    <!--<LinearLayout-->
+        <!--android:id="@+id/obit_object_layout"-->
+        <!--android:orientation="vertical"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:contentDescription="@string/obituary_view_cd">-->
+        <!--&lt;!&ndash; Obituary object fields &ndash;&gt;-->
+        <!--<TextView-->
+            <!--android:id="@+id/person_name"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:textSize="18sp"-->
+            <!--android:layout_alignParentStart="true"-->
+            <!--android:layout_alignParentTop="true" />-->
+        <!--<TextView-->
+            <!--android:id="@+id/life_death_date_span"-->
+            <!--android:textSize="18sp"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content" />-->
+        <!--<TextView-->
+            <!--android:id="@+id/obit_text"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content" />-->
 
-    </LinearLayout>
+    <!--</LinearLayout>-->
 
     <LinearLayout
         android:id="@+id/provider_object_layout"
@@ -72,11 +72,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="28sp" />
-
     </LinearLayout>
 
     <TextView
-        android:id="@+id/site_get_directions"
+        android:id="@+id/provider_get_directions"
         android:text="@string/get_directions"
         android:focusable="false"
         android:textSize="18sp"

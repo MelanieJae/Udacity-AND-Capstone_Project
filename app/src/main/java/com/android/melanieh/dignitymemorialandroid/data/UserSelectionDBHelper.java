@@ -44,11 +44,7 @@ public class UserSelectionDBHelper extends SQLiteOpenHelper {
     public static final String COLUMN_ID = BaseColumns._ID;
     public static final String COLUMN_PLAN_NAME = PlanEntry.COLUMN_PLAN_NAME;
     public static final String COLUMN_PLAN_TYPE = PlanEntry.COLUMN_PLAN_TYPE;
-    public static final String COLUMN_CONTACT_NAME = PlanEntry.COLUMN_CONTACT_NAME;
-    public static final String COLUMN_CONTACT_PHONE = PlanEntry.COLUMN_CONTACT_PHONE;
     public static final String COLUMN_CONTACT_EMAIL = PlanEntry.COLUMN_CONTACT_EMAIL;
-    // pulled from sharedprefs
-    public static final String COLUMN_ZIP_CODE = PlanEntry.COLUMN_ZIP_CODE;
     public static final String COLUMN_PROVIDER = PlanEntry.COLUMN_PROVIDER;
 
     public static final String COLUMN_CEREMONY_SELECTION = "Ceremony_Selection";
@@ -63,10 +59,7 @@ public class UserSelectionDBHelper extends SQLiteOpenHelper {
             + "(" + PlanEntry.COLUMN_ID + " " + INT_PRIMARY_KEY_AUTOINC + ", "
             + COLUMN_PLAN_NAME + VARCHAR_NOT_NULL_DEFAULT + ", "
             + COLUMN_PLAN_TYPE + VARCHAR_NOT_NULL_DEFAULT + ", "
-            + COLUMN_CONTACT_NAME + VARCHAR_NOT_NULL_DEFAULT + ", "
-            + COLUMN_CONTACT_PHONE + BIGINT + ", "
             + COLUMN_CONTACT_EMAIL + VARCHAR_NOT_NULL_DEFAULT + ", "
-            + COLUMN_ZIP_CODE + BIGINT + ", "
             + COLUMN_PROVIDER + VARCHAR_NOT_NULL_DEFAULT + ", "
             + COLUMN_CEREMONY_SELECTION + VARCHAR_NOT_NULL_DEFAULT + ", "
             + COLUMN_VISITATION_SELECTION + VARCHAR_NOT_NULL_DEFAULT + ", "
@@ -83,7 +76,7 @@ public class UserSelectionDBHelper extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        // since it is not intended that the database change, this method is currently not implemented.
+        // since it is not intended that the database be upgraded, this method is currently not implemented.
     }
 
 

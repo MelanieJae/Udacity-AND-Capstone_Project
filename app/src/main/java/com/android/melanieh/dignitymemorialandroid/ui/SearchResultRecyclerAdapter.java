@@ -45,13 +45,13 @@ public class SearchResultRecyclerAdapter
     TextView cityStateZipTV;
     TextView phoneNumTV;
     Context context;
-    ArrayList<Object> objectsList;
+    ArrayList<? extends Object> objectsList;
     TextView getSiteDirectionsLinkTV;
     TextView getProviderDirectionsLinkTV;
     LinearLayout obitViewLL;
     LinearLayout providerViewLL;
 
-    public SearchResultRecyclerAdapter(Context context, ArrayList<Object> objectsList) {
+    public SearchResultRecyclerAdapter(Context context, ArrayList<? extends Object> objectsList) {
         Timber.d("adapter constructor");
         this.context = context;
         this.objectsList = objectsList;
@@ -63,18 +63,15 @@ public class SearchResultRecyclerAdapter
 
         public ResultViewHolder(View itemView) {
             super(itemView);
-            obitViewLL = (LinearLayout)itemView.findViewById(R.id.obit_object_layout);
-            providerViewLL = (LinearLayout)itemView.findViewById(R.id.provider_object_layout);
-            personNameTV = (TextView) itemView.findViewById(R.id.person_name);
-            dateSpanTV = (TextView) itemView.findViewById(R.id.life_death_date_span);
-            obitTextTV = (TextView) itemView.findViewById(R.id.obit_text);
+//            personNameTV = (TextView) itemView.findViewById(R.id.person_name);
+//            dateSpanTV = (TextView) itemView.findViewById(R.id.life_death_date_span);
+//            obitTextTV = (TextView) itemView.findViewById(R.id.obit_text);
             providerNameTV = (TextView) itemView.findViewById(R.id.provider_name);
             address1TV = (TextView) itemView.findViewById(R.id.address_1);
             address2TV = (TextView) itemView.findViewById(R.id.address_2);
             cityStateZipTV = (TextView) itemView.findViewById(R.id.city_state_zip);
             phoneNumTV = (TextView) itemView.findViewById(R.id.phone_num);
-            getSiteDirectionsLinkTV = (TextView) itemView.findViewById(R.id.site_get_directions);
-            getProviderDirectionsLinkTV = (TextView) itemView.findViewById(R.id.site_get_directions);
+            getProviderDirectionsLinkTV = (TextView) itemView.findViewById(R.id.provider_get_directions);
 
         }
     }
@@ -91,7 +88,7 @@ public class SearchResultRecyclerAdapter
         Timber.d("onBindViewHolder: ");
         final Object currentObject = objectsList.get(position);
         if (currentObject instanceof Obituary) {
-            providerViewLL.setVisibility(View.GONE);
+//            providerViewLL.setVisibility(View.GONE);
             personNameTV.setText(((Obituary) currentObject).getPersonName());
             dateSpanTV.setText(((Obituary) currentObject).getDeathDate());
             obitTextTV.setText(((Obituary) currentObject).getObitText());
@@ -100,7 +97,7 @@ public class SearchResultRecyclerAdapter
             Timber.d("obitTextTV: " + ((Obituary) currentObject).getObitText());
 
         } else {
-            obitViewLL.setVisibility(View.GONE);
+//            obitViewLL.setVisibility(View.GONE);
             providerNameTV.setText(((Provider) currentObject).getProviderName());
             address1TV.setText(((Provider) currentObject).getAddress1());
             address2TV.setText(((Provider) currentObject).getAddress2());
@@ -113,10 +110,10 @@ public class SearchResultRecyclerAdapter
             Timber.d("phoneNumTV: " + ((Provider) currentObject).getPhoneNum());
         }
 
-        obitViewLL.setContentDescription(String.format(context.getString(R.string.obituary_view_cd),
-                personNameTV.getText()));
-        providerViewLL.setContentDescription(String.format
-                (context.getString(R.string.provider_view_cd), providerNameTV.getText()));
+//        obitViewLL.setContentDescription(String.format(context.getString(R.string.obituary_view_cd),
+//                personNameTV.getText()));
+//        providerViewLL.setContentDescription(String.format
+//                (context.getString(R.string.provider_view_cd), providerNameTV.getText()));
 
         // click listeners
         providerNameTV.setOnClickListener(new View.OnClickListener() {
