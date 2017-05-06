@@ -70,7 +70,7 @@ public class UserSelectionProvider extends ContentProvider {
                 break;
             case PLAN_ID:
                 selection = PlanEntry._ID + "=?";
-                selectionArgs = new String[] { String.valueOf(ContentUris.parseId(uri)) };
+                selectionArgs = new String[] {String.valueOf(ContentUris.parseId(uri))};
                 // Cursor containing that row of the table.
                 cursor = db.query(PlanEntry.TABLE_NAME, projection, selection, selectionArgs,
                         null, null, sortOrder);
@@ -83,28 +83,12 @@ public class UserSelectionProvider extends ContentProvider {
         return cursor;
     }
 
+    @Nullable
     @Override
-    public Uri insert(Uri uri, ContentValues contentValues) {
-
-        final int match = sUriMatcher.match(uri);
-        switch (match) {
-            case PLANS:
-                // updating for the favorites table is only supported for the entire table so the selection
-                // and selectionArgs values are set to null here
-                return saveFavorite(uri, contentValues, null, null);
-            default:
-                throw new IllegalArgumentException("Insertion is not supported for " + uri);
-        }
-    }
-
-    /*** helper method for updating the favorites  */
-    private Uri saveFavorite(Uri uri, ContentValues contentValues, String selection, String selectionArgs) {
+    public Uri insert(@NonNull Uri uri, @Nullable ContentValues contentValues) {
         db = mDbHelper.getWritableDatabase();
-
         long newRowId = db.insert(PlanEntry.TABLE_NAME, null, contentValues);
-
         getContext().getContentResolver().notifyChange(uri, null);
-
         // Return the new URI with the ID (of the newly inserted row) appended at the end
         return ContentUris.withAppendedId(PlanEntry.CONTENT_URI, newRowId);
     }
@@ -112,16 +96,25 @@ public class UserSelectionProvider extends ContentProvider {
     @Override
     public int update(Uri uri, ContentValues contentValues, String selection,
                       String[] selectionArgs) {
-        db = mDbHelper.getWritableDatabase();
-        selection = PlanEntry._ID + "=?";
-        selectionArgs = new String[] { String.valueOf(ContentUris.parseId(uri)) };
-        int numRowsUpdated = db.update(PlanEntry.TABLE_NAME, contentValues, selection, selectionArgs);
-        return numRowsUpdated;
+
+        final int match = sUriMatcher.match(uri);
+        switch (match) {
+            case PLANS:
+                return updatePlan(uri, contentValues, selection, selectionArgs);
+            case PLAN_ID:
+//                selection =  PlanEntry.COLUMN_ID + "=?";
+                selectionArgs = new String[]{String.valueOf(ContentUris.parseId(uri))};
+                return updatePlan(uri, contentValues, selection, selectionArgs);
+            default:
+                throw new IllegalArgumentException("Update is not supported for " + uri);
+        }
+
     }
 
     @Override
     public int delete(Uri uri, String selection, String[] selectionArgs) {
         // Get writeable database
+        db = mDbHelper.getWritableDatabase();
 
         final int match = sUriMatcher.match(uri);
         switch (match) {
@@ -130,7 +123,7 @@ public class UserSelectionProvider extends ContentProvider {
                 deleteAllPlans();
             case PLAN_ID:
                 // Delete a single row given by the ID in the URI
-                selection = PlanEntry._ID + "=?";
+                selection = PlanEntry._ID + " = ?";
                 selectionArgs = new String[] { String.valueOf(ContentUris.parseId(uri)) };
                 return db.delete(PlanEntry.TABLE_NAME, selection, selectionArgs);
             default:
@@ -160,5 +153,59 @@ public class UserSelectionProvider extends ContentProvider {
             default:
                 throw new IllegalStateException("Unknown URI " + uri + " with match " + match);
         }
+    }
+
+    /**
+     * Update plan in the database with the given content values.
+     * Return the number of rows that were successfully updated.
+     */
+    private int updatePlan(Uri uri, ContentValues values, String selection, String[] selectionArgs) {
+
+        // validation of content values
+        // plan name
+        if (values.containsKey(PlanEntry.COLUMN_PLAN_NAME)) {
+            String name = values.getAsString(PlanEntry.COLUMN_PLAN_NAME);
+            if (name == null) {
+                throw new IllegalArgumentException("Plan must have a name");
+            }
+        }
+
+        // planType
+        if (values.containsKey(PlanEntry.COLUMN_PLAN_TYPE)) {
+            Integer planType = values.getAsInteger(PlanEntry.COLUMN_PLAN_TYPE);
+            if (planType == null || !PlanEntry.isValidPlanType(planType)) {
+                throw new IllegalArgumentException("Plan requires valid plan type");
+            }
+        }
+
+        // contact e-mail
+        if (values.containsKey(PlanEntry.COLUMN_CONTACT_EMAIL)) {
+            // Check that the weight is greater than or equal to 0 kg
+            String contactEmail = values.getAsString(PlanEntry.COLUMN_CONTACT_EMAIL);
+            if (contactEmail != null) {
+                throw new IllegalArgumentException("Plan requires a contact e-mail");
+            }
+        }
+
+        // No need to check the breed, any value is valid (including null).
+
+        // If there are no values to update, then don't try to update the database
+        if (values.size() == 0) {
+            return 0;
+        }
+
+        db = mDbHelper.getWritableDatabase();
+
+        // Perform the update on the database and get the number of rows affected
+        int rowsUpdated = db.update(PlanEntry.TABLE_NAME, values, selection, selectionArgs);
+
+        // If 1 or more rows were updated, then notify all listeners that the data at the
+        // given URI has changed
+        if (rowsUpdated != 0) {
+            getContext().getContentResolver().notifyChange(uri, null);
+        }
+
+        // Return the number of rows updated
+        return rowsUpdated;
     }
 }

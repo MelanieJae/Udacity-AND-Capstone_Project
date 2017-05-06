@@ -146,15 +146,15 @@ public class MenuItemListActivity extends AppCompatActivity
                                 .commit();
 
                     } else {
-                        if (buttonLabel.contains("Search") || buttonLabel.contains("Find")) {
+                        if (buttonLabel.contains("Search") || buttonLabel.contains("Find")
+                                || (buttonLabel.contains("Plan")) ) {
                             destClass = CompleteFormActivity.class;
+                            extraContent = holder.mItem.details;
+
                         } else if (buttonLabel.contains("Checklist") || buttonLabel.contains("Pay")
                                 || buttonLabel.contains("FAQ")) {
                             destClass = MenuItemDetailActivity.class;
                             extraContent = holder.mItem.details;
-                        } else if (buttonLabel.contains("Start")) {
-                            // currently the only other option is the Start Planning button
-                            destClass = PlanViewPagerActivity.class;
                         }
                         launchMenuIntent(destClass, extraContent);
                     }
@@ -199,39 +199,39 @@ public class MenuItemListActivity extends AppCompatActivity
         }
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        Timber.d("onCreateOptionsMenu");
-        getMenuInflater().inflate(R.menu.menu_activity_main, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        Timber.d("onOptionsItemSelected");
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                // This ID represents the Home or Up button. In the case of this
-                // activity, the Up button is shown. For
-                // more details, see the Navigation pattern on Android Design:
-                //
-                // http://developer.android.com/design/patterns/navigation.html#up-vs-back
-                //
-                navigateUpTo(new Intent(this, MenuItemListActivity.class));
-                return true;
-            case R.id.action_access_preferences:
-                destClass = SettingsActivity.class;
-                launchMenuIntent(destClass, null);
-                break;
-//            case R.id.action_view_plan_selections:
-//                destClass = PlanSummaryActivity.class;
+//    @Override
+//    public boolean onCreateOptionsMenu(Menu menu) {
+//        Timber.d("onCreateOptionsMenu");
+//        getMenuInflater().inflate(R.menu.menu_activity_main, menu);
+//        return true;
+//    }
+//
+//    @Override
+//    public boolean onOptionsItemSelected(MenuItem item) {
+//        Timber.d("onOptionsItemSelected");
+//        switch (item.getItemId()) {
+//            case android.R.id.home:
+//                // This ID represents the Home or Up button. In the case of this
+//                // activity, the Up button is shown. For
+//                // more details, see the Navigation pattern on Android Design:
+//                //
+//                // http://developer.android.com/design/patterns/navigation.html#up-vs-back
+//                //
+//                navigateUpTo(new Intent(this, MenuItemListActivity.class));
+//                return true;
+//            case R.id.action_access_preferences:
+//                destClass = SettingsActivity.class;
 //                launchMenuIntent(destClass, null);
 //                break;
-            case R.id.action_share:
-                startActivity(Intent.createChooser(launchShareIntent(), getString(R.string.share_app_chooser_dialog_title)));
-        }
-        return true;
-    }
+////            case R.id.action_view_plan_selections:
+////                destClass = PlanSummaryActivity.class;
+////                launchMenuIntent(destClass, null);
+////                break;
+//            case R.id.action_share:
+//                startActivity(Intent.createChooser(launchShareIntent(), getString(R.string.share_app_chooser_dialog_title)));
+//        }
+//        return true;
+//    }
 
     public void launchMenuIntent(Class destinationClass, String extraContent) {
         Timber.d("launchMenuIntent:");

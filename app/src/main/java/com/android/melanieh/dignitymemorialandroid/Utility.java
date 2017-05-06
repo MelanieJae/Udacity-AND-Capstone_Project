@@ -49,16 +49,6 @@ public class Utility {
                 context.getString(R.string.pref_zip_code_default));
     }
 
-    public static boolean entryIsEmpty(TextView view) {
-        boolean isEntryEmpty = true;
-        if (!TextUtils.isEmpty(view.getText())) {
-            isEntryEmpty = false;
-        }
-
-        return isEntryEmpty;
-    }
-
-
     public static String formatCityStateZip(Context context, String cityStateZipString) {
         // TODO: replace with regex
         String city =  cityStateZipString.substring(0,20);

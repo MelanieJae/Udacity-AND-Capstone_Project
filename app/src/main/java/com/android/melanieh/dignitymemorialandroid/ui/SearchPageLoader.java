@@ -66,7 +66,6 @@ public class SearchPageLoader extends AsyncTaskLoader {
 
         // Perform HTTP request to the URL and receive a JSON response back
         String jsonResponse = "";
-        Timber.v("obtainData: requestUrlString= " + requestUrlString);
         try {
             URL url = new URL(urlString);
             jsonResponse = makeHttpRequest(url);
@@ -77,11 +76,11 @@ public class SearchPageLoader extends AsyncTaskLoader {
         // Extract relevant fields from the JSON response and create an {@link Object} object
         // depending on the type of object for which the search is conducted
 
-        if (requestUrlString.contains("SearchObituaries?")) {
+//        if (requestUrlString.contains("SearchObituaries?")) {
             resultsList = extractObituaryDataFromJSON(jsonResponse);
-        } else {
-            resultsList = extractProviderDataFromJSON(jsonResponse);
-        }
+//        } else {
+//            resultsList = extractProviderDataFromJSON(jsonResponse);
+//        }
 
         // Return a list of {@link Object} events. The object will be either:
         // 1. an Obituary object or 2. a Provider object
@@ -162,7 +161,7 @@ public class SearchPageLoader extends AsyncTaskLoader {
          * 3. "NoticeText"
          *
          */
-
+        obituariesList = new ArrayList<>();
         Timber.d("jsonResponse: " + jsonResponse);
         String personName = "";
         String dateOfDeath = "";
@@ -173,31 +172,30 @@ public class SearchPageLoader extends AsyncTaskLoader {
             JSONObject baseJsonResponse = new JSONObject(jsonResponse);
             JSONArray resultsJSONArray = baseJsonResponse.getJSONArray("Results");
             for (int i = 0; i < resultsJSONArray.length(); i++) {
-                JSONObject sortNameObject = resultsJSONArray.getJSONObject(i);
+                JSONObject resultObitObject = resultsJSONArray.getJSONObject(i);
 
                 // validation/null checks
-                if (sortNameObject.has("NoticeText") == false) {
+                if (resultObitObject.has("NoticeText") == false) {
                     Timber.i("NoticeText is null");
                 } else {
-                    noticeText = sortNameObject.getString("NoticeText");
+                    noticeText = resultObitObject.getString("NoticeText");
                 }
 
-                if (sortNameObject.has("SortName") == false) {
+                if (resultObitObject.has("SortName") == false) {
                     Timber.i("SortName is null");
                 } else {
-                    personName = sortNameObject.getString("SortName");
+                    personName = resultObitObject.getString("SortName");
                 }
 
-                if (sortNameObject.has("DateOfDeath") == false) {
+                if (resultObitObject.has("DateOfDeath") == false) {
                     Timber.i("DateOfDeath is null");
                 } else {
-                    dateOfDeath = sortNameObject.getString("PublishedDateFormatted");
+                    dateOfDeath = resultObitObject.getString("DateOfDeath");
                 }
 
                 Timber.d("extractData", "SortName= " + personName
                         + "; DateOfDeath= " + dateOfDeath
                         + "; NoticeText= " + noticeText);
-                obituariesList = new ArrayList<>();
                 Obituary currentObituary = new Obituary(personName, null, dateOfDeath, noticeText);
                 Timber.d("currentObituary: " + currentObituary.toString());
                 obituariesList.add(currentObituary);

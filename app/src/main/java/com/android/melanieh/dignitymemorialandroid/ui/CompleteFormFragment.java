@@ -37,7 +37,7 @@ import com.google.android.gms.common.api.Status;
 import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
-
+import com.android.melanieh.dignitymemorialandroid.data.UserSelectionContract.PlanEntry;
 import java.util.ArrayList;
 
 import timber.log.Timber;
@@ -56,7 +56,8 @@ public class CompleteFormFragment extends Fragment implements GoogleApiClient.Co
     EditText lastNameET;
     TextView zipCodeTV;
     TextView useCurrentLocationTV;
-    Button startSearchBtn;
+    Button startObitSearchBtn;
+    Button startProviderSearchBtn;
     String queryType;
     TextView locSvcsView;
     boolean isUsingCurrentLocation;
@@ -68,11 +69,12 @@ public class CompleteFormFragment extends Fragment implements GoogleApiClient.Co
     int planType;
     String zipCode;
     EditText planNameET;
-    EditText zipCodeET;
+    EditText contactEmailET;
     SharedPreferences sharedPrefs;
     Button startPlanningBtn;
     Uri newPlanUri;
-
+    String spinnerSelection;
+    String contactEmail;
 
     @Override
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
@@ -94,81 +96,102 @@ public class CompleteFormFragment extends Fragment implements GoogleApiClient.Co
                              @Nullable Bundle savedInstanceState) {
 
         View rootView;
-        if (TextUtils.isEmpty(planNameET.getText().toString())) {
-            rootView = inflater.inflate(R.layout.search_form, container, false);
-            // provider form input
-            zipCodeTV = (TextView) rootView.findViewById(R.id.zip_code);
-            zipCodeET = (EditText) rootView.findViewById(R.id.search_form_zipcode_et);
+        rootView = inflater.inflate(R.layout.plan_form, container, false);
 
-            //obits form input
-            firstNameTV = (TextView) rootView.findViewById(R.id.first_name);
-            firstNameET = (EditText) rootView.findViewById(R.id.search_form_first_name_et);
+//        //obits form input
+        firstNameET = (EditText) rootView.findViewById(R.id.search_form_first_name_et);
+        lastNameET = (EditText) rootView.findViewById(R.id.search_form_last_name_et);
 
-            lastNameTV = (TextView) rootView.findViewById(R.id.last_name);
-            lastNameET = (EditText) rootView.findViewById(R.id.search_form_last_name_et);
+        planTypeSpinner = (AppCompatSpinner) rootView.findViewById(R.id.planTypeSpinner);
+        planNameET = (EditText) rootView.findViewById(R.id.plan_form_plan_name_et);
+        contactEmailET = (EditText) rootView.findViewById(R.id.plan_form_contact_email_et);
+//
+        locSvcsView = (TextView) rootView.findViewById(R.id.location_svcs_readout);
+//        useCurrentLocationTV = (TextView) rootView.findViewById(R.id.location_svcs_readout);
+        startObitSearchBtn = (Button) rootView.findViewById(R.id.start_obit_search_btn);
+        startPlanningBtn = (Button) rootView.findViewById(R.id.start_planning_btn);
 
-            locSvcsView = (TextView) rootView.findViewById(R.id.location_svcs_readout);
-            useCurrentLocationTV = (TextView) rootView.findViewById(R.id.location_svcs_readout);
-            startSearchBtn = (Button) rootView.findViewById(R.id.start_search_btn);
+        // initialize isUsingCurrentLocation to its default value of false
+        isUsingCurrentLocation = false;
 
-        } else {
-            rootView = inflater.inflate(R.layout.activity_complete_form, container, false);
-            planTypeSpinner = (AppCompatSpinner) rootView.findViewById(R.id.planTypeSpinner);
-            planNameET = (EditText) rootView.findViewById(R.id.plan_form_plan_name_et);
-            zipCodeET = (EditText) rootView.findViewById(R.id.plan_form_zip_code_et);
-            startPlanningBtn = (Button) rootView.findViewById(R.id.start_planning_btn);
-
-            /**
-             * Type of plan, possible valid values are in the UserSelectionContract.java file:
-             * {@link UserSelectionContract.PlanEntry#BURIAL}, {@link UserSelectionContract.PlanEntry#CREMATION}, or
-             * {@link UserSelectionContract.PlanEntry#UNDECIDED}.
-             * Default value is UNDECIDED
-             */
-
-            planType = UserSelectionContract.PlanEntry.UNDECIDED;
-            populatePlanTypeSpinner();
-
-            // grab inputs
-            String planName = planNameET.getText().toString();
-            // content values
-            ContentValues contentValues = new ContentValues();
-            contentValues.put(UserSelectionContract.PlanEntry.COLUMN_PLAN_NAME, planName);
-            contentValues.put(UserSelectionContract.PlanEntry.COLUMN_PLAN_TYPE, planType);
-            // insert in DB
-            newPlanUri = getActivity().getContentResolver().insert(UserSelectionContract.PlanEntry.CONTENT_URI, contentValues);
-            if (newPlanUri != null) {
-                Toast.makeText(getContext(), getString(R.string.plan_entry_creation_successful), Toast.LENGTH_LONG).show();
-            } else {
-                Toast.makeText(getContext(), getString(R.string.error_creating_plan), Toast.LENGTH_LONG).show();
-            }
-
-            // initialize isUsingCurrentLocation to its default value of false
-            isUsingCurrentLocation = false;
-
-            View.OnClickListener clickListener = new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    switch (v.getId()) {
-                        case R.id.location_svcs_readout:
-                            isUsingCurrentLocation = true;
-                            break;
-                        case R.id.start_search_btn:
-                            startSearch();
-                            break;
-                        case R.id.start_planning_btn:
-                            startPlanning();
-                    }
+        View.OnClickListener clickListener = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                switch (v.getId()) {
+                    case R.id.location_svcs_readout:
+                        isUsingCurrentLocation = true;
+                        break;
+                    case R.id.start_obit_search_btn:
+                    case R.id.start_provider_search_btn:
+                        startSearch();
+                        break;
+                    case R.id.start_planning_btn:
+                        startPlanning();
+                        break;
                 }
-            };
-
-            startSearchBtn.setOnClickListener(clickListener);
-            locSvcsView.setOnClickListener(clickListener);
-            startPlanningBtn.setOnClickListener(clickListener);
-        }
-
+            }
+        };
+//
+//        startObitSearchBtn.setOnClickListener(clickListener);
+//        startProviderSearchBtn.setOnClickListener(clickListener);
+        startPlanningBtn.setOnClickListener(clickListener);
+//        locSvcsView.setOnClickListener(clickListener);
+        populatePlanTypeSpinner();
         return rootView;
 
     }
+
+    private void startSearch() {
+        Timber.d("startSearch:");
+
+        // first check if valid entries are present; button functionality can only be activated
+        // if this is true
+        Double queryLocationLatExtra;
+        Double queryLocationLongExtra;
+
+//        if (!validEntriesArePresent) {
+//            showInvalidEntriesDialog();
+//        } else {
+//            if (isUsingCurrentLocation) {
+//                queryType = "provider";
+//            } else {
+//                boolean zipCodeIsEmpty = Utility.entryIsEmpty(zipCodeET);
+//                if (zipCodeIsEmpty) {
+//                    queryType = "obituaries";
+//                }
+//            }
+//        }
+
+//        if (zipCodeET != null) {
+//            promptUserToSaveZipCodeEntry();
+//        }
+        Intent getSearchResults = new Intent(getActivity(), SearchResultActivity.class);
+        getSearchResults.putExtra("query type", queryType);
+
+        Timber.d("completesearch: queryType: " + queryType);
+//        if (currentLocation != null && isUsingCurrentLocation) {
+//            queryLocationLatExtra = currentLocation.getLatitude();
+//            queryLocationLongExtra = currentLocation.getLongitude();
+//            getSearchResults.putExtra("current location lat", queryLocationLatExtra);
+//            getSearchResults.putExtra("current location long", queryLocationLongExtra);
+//        } else if (!isUsingCurrentLocation && zipCodeET != null) {
+//            getSearchResults.putExtra("zipCode", zipCodeET.getText().toString());
+//        } else {
+            Timber.d("first name", firstNameET.getText().toString());
+
+            getSearchResults.putExtra("first name", "john");
+            getSearchResults.putExtra("last name", "smith");
+//        }
+        startActivity(getSearchResults);
+    }
+
+    /**
+     * Type of plan, possible valid values are in the UserSelectionContract.java file:
+     * {@link UserSelectionContract.PlanEntry#BURIAL}, {@link UserSelectionContract.PlanEntry#CREMATION}, or
+     * {@link UserSelectionContract.PlanEntry#UNDECIDED}.
+     * Default value is UNDECIDED
+     */
+
 
     private void populatePlanTypeSpinner() {
         ArrayAdapter spinnerAdapter = ArrayAdapter.createFromResource(getContext(),
@@ -184,108 +207,75 @@ public class CompleteFormFragment extends Fragment implements GoogleApiClient.Co
         planTypeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                String selection = (String) parent.getItemAtPosition(position);
-                if (selection.equals(getString(R.string.cremation))) {
-                    planType = UserSelectionContract.PlanEntry.CREMATION;
-                } else if (selection.equals(getString(R.string.burial))) {
-                    planType = UserSelectionContract.PlanEntry.BURIAL;
+                spinnerSelection = (String) parent.getItemAtPosition(position);
+                if (spinnerSelection.equals(getString(R.string.cremation))) {
+                    planType = UserSelectionContract.CREMATION;
+                } else if (spinnerSelection.equals(getString(R.string.burial))) {
+                    planType = UserSelectionContract.BURIAL;
                 } else {
-                    planType = UserSelectionContract.PlanEntry.UNDECIDED;
+                    planType = UserSelectionContract.UNDECIDED;
                 }
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-                planType = UserSelectionContract.PlanEntry.UNDECIDED;
+                planType = UserSelectionContract.UNDECIDED;
             }
         });
     }
 
-    private void startSearch() {
-        Timber.d("startSearch:");
-
-        // first check if valid entries are present; button functionality can only be activated
-        // if this is true
-        validEntriesArePresent = checkValidEntriesPresent();
-        Double queryLocationLatExtra;
-        Double queryLocationLongExtra;
-
-        if (!validEntriesArePresent) {
-            showInvalidEntriesDialog();
-        } else {
-            if (isUsingCurrentLocation) {
-                queryType = "provider";
-            } else {
-                boolean zipCodeIsEmpty = Utility.entryIsEmpty(zipCodeET);
-                if (zipCodeIsEmpty) {
-                    queryType = "obituaries";
-                }
-            }
-        }
-
-        if (zipCodeET != null) {
-            promptUserToSaveZipCodeEntry();
-        }
-        Intent getSearchResults = new Intent(getActivity(), SearchResultActivity.class);
-        getSearchResults.putExtra("query type", queryType);
-
-        Timber.d("completesearch: queryType: " + queryType);
-        if (currentLocation != null && isUsingCurrentLocation) {
-            queryLocationLatExtra = currentLocation.getLatitude();
-            queryLocationLongExtra = currentLocation.getLongitude();
-            getSearchResults.putExtra("current location lat", queryLocationLatExtra);
-            getSearchResults.putExtra("current location long", queryLocationLongExtra);
-        } else if (!isUsingCurrentLocation && zipCodeET != null) {
-            getSearchResults.putExtra("zipCode", zipCodeET.getText().toString());
-        } else {
-            Timber.d("first name", firstNameET.getText().toString());
-
-            getSearchResults.putExtra("first name", "john");
-            getSearchResults.putExtra("last name", "smith");
-        }
-        startActivity(getSearchResults);
-    }
-
     private void startPlanning() {
+        // store plan form inputs from user in plan DB
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(PlanEntry.COLUMN_PLAN_NAME, planNameET.getText().toString());
+        contentValues.put(PlanEntry.COLUMN_PLAN_TYPE, spinnerSelection);
+        contentValues.put(PlanEntry.COLUMN_CONTACT_EMAIL, contactEmailET.getText().toString());
+        Uri newPlanUri = getContext().getContentResolver().insert(PlanEntry.CONTENT_URI, contentValues);
+        if (newPlanUri == null) {
+            Toast.makeText(getContext(), "Error saving new plan", Toast.LENGTH_LONG).show();
+        } else {
+            Toast.makeText(getContext(), "New plan saved successfully", Toast.LENGTH_LONG).show();
+        }
+
         Intent beginPlanningIntent = new Intent(getActivity(), PlanViewPagerActivity.class);
         beginPlanningIntent.setData(newPlanUri);
         startActivity(beginPlanningIntent);
     }
 
-    public void promptUserToSaveZipCodeEntry() {
-        showSaveZipCodeEntryDialog();
+//    public void promptUserToSaveZipCodeEntry() {
+//        showSaveZipCodeEntryDialog();
+//
+//    }
 
-    }
-
-    private void showSaveZipCodeEntryDialog() {
-        AlertDialog.Builder deleteConfADBuilder = new AlertDialog.Builder(getContext());
-//        ButterKnife.bind(this);
-        deleteConfADBuilder.setMessage(getString(R.string.save_entries_dialog_msg));
-
-        // positive button=yes, save entry to DB or sharedprefs as applicable
-        DialogInterface.OnClickListener yesButtonListener = new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                saveZipCodeEntry();
-            }
-        };
-
-        // negative button=no, keep editing, dismiss dialog
-        DialogInterface.OnClickListener noButtonListener = new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                if (dialogInterface != null) {
-                    return;
-                }
-            }
-        };
-
-        String yesString = getString(R.string.dialog_yes_btn);
-        String noString = getString(R.string.dialog_no_btn);
-        deleteConfADBuilder.setPositiveButton(yesString, yesButtonListener);
-        deleteConfADBuilder.setNegativeButton(noString, noButtonListener);
-
-    }
+//    private void showSaveZipCodeEntryDialog() {
+//        AlertDialog.Builder deleteConfADBuilder = new AlertDialog.Builder(getContext());
+////        ButterKnife.bind(this);
+//        deleteConfADBuilder.setMessage(getString(R.string.save_entries_dialog_msg));
+//
+//        // positive button=yes, save entry to DB or sharedprefs as applicable
+//        DialogInterface.OnClickListener yesButtonListener = new DialogInterface.OnClickListener() {
+//            @Override
+//            public void onClick(DialogInterface dialogInterface, int i) {
+//                saveZipCodeEntry();
+//            }
+//        };
+//
+//        // negative button=no, keep editing, dismiss dialog
+//        DialogInterface.OnClickListener noButtonListener = new DialogInterface.OnClickListener() {
+//            @Override
+//            public void onClick(DialogInterface dialogInterface, int i) {
+//                if (dialogInterface != null) {
+//                    return;
+//                }
+//            }
+//        };
+//
+//        String yesString = getString(R.string.dialog_yes_btn);
+//        String noString = getString(R.string.dialog_no_btn);
+//        deleteConfADBuilder.setPositiveButton(yesString, yesButtonListener);
+//        deleteConfADBuilder.setNegativeButton(noString, noButtonListener);
+//
+//    }
 
     private void showInvalidEntriesDialog() {
         AlertDialog.Builder deleteConfADBuilder = new AlertDialog.Builder(getContext());
@@ -314,44 +304,16 @@ public class CompleteFormFragment extends Fragment implements GoogleApiClient.Co
         deleteConfADBuilder.setPositiveButton(okString, yesButtonListener);
     }
 
-    private void saveZipCodeEntry() {
-        if (!Utility.entryIsEmpty(zipCodeET)) {
-            SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getContext());
-            SharedPreferences.Editor editor = sharedPref.edit();
-            editor.putString(getString(R.string.pref_zip_code_key), zipCodeET.getText().toString());
-            editor.commit();
-
-        }
-        // provider name is saved in the search result screen
-    }
-
-    private boolean checkValidEntriesPresent() {
-        Timber.d("checkValidEntriesArePresent:");
-        boolean entryIsEmpty;
-        // initially all edit text fields are empty; if counter is still three after all are checked,
-        // then the method returns false for "areValidEntriesPresent" and the start search functionality
-        // cannot be initialized
-
-        int emptyViewCounter = 3;
-        ArrayList<EditText> viewsToValidateList = new ArrayList<EditText>();
-        viewsToValidateList.add(firstNameET);
-        viewsToValidateList.add(lastNameET);
-        viewsToValidateList.add(zipCodeET);
-        Timber.d("viewsToValidateList: " + viewsToValidateList);
-
-        for (int index = 0; index < viewsToValidateList.size(); index++) {
-            entryIsEmpty = Utility.entryIsEmpty(viewsToValidateList.get(index));
-            if (!entryIsEmpty) {
-                emptyViewCounter--;
-            }
-        }
-
-        if (emptyViewCounter < 3 || isUsingCurrentLocation) {
-            return true;
-        } else {
-            return false;
-        }
-    }
+//    private void saveZipCodeEntry() {
+//        if (!TextUtils.isEmpty(zipCodeET.getText())) {
+//            SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getContext());
+//            SharedPreferences.Editor editor = sharedPref.edit();
+//            editor.putString(getString(R.string.pref_zip_code_key), zipCodeET.getText().toString());
+//            editor.commit();
+//
+//        }
+//        // provider name is saved in the search result screen
+//    }
 
     @Override
     public void onConnected(@Nullable Bundle bundle) {

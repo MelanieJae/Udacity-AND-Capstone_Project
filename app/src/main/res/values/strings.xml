@@ -106,12 +106,12 @@
     <string name="cremation">Cremation</string>
 
     <!-- search form screen -->
-    <string name="search_form_heading">Search for Obituaries and Providers</string>
     <string name="obit_search_first_name">First Name</string>
     <string name="obit_search_last_name">Last Name</string>
     <string name="provider_zip_code">Enter ZIP code</string>
     <string name="use_current_location">Use Current Location</string>
-    <string name="start_search_btn">Start Search</string>
+    <string name="start_obits_search_btn">Start Obituary Search</string>
+    <string name="start_provider_search_btn">Start Provider Search</string>
     <string name="no_valid_entries_present_error_msg">Sorry, there are no completed fields present and "Use current location"
     was not selected. Please enter a first name, last name, zip code or click "use current location" to
     get search results</string>

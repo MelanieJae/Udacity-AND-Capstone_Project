@@ -55,13 +55,29 @@
             </intent-filter>
 
         </activity>
-        <activity android:name=".ui.SettingsActivity" />
+        <activity android:name=".ui.SettingsActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.android.melanieh.dignitymemorialandroid.ui.MenuItemListActivity" />
+
+        </activity>
+        <meta-data
+            android:name="android.support.PARENT_ACTIVITY"
+            android:value="com.android.melanieh.dignitymemorialandroid.ui.MenuItemListActivity" />
+
         <activity android:name=".ui.PlanViewPagerActivity"
-            android:theme="@style/AppTheme.NoActionBar"/>
+            android:theme="@style/AppTheme.NoActionBar"
+            android:parentActivityName=".ui.MenuItemListActivity"/>
 
         <activity android:name=".ui.PlanDetailsDialogActivity" />
         <activity android:name=".ui.SearchResultActivity"
-            android:theme="@style/AppTheme.NoActionBar"/>
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.android.melanieh.dignitymemorialandroid.ui.MenuItemListActivity" />
+
+        </activity>
 
         <!-- providers -->
         <provider

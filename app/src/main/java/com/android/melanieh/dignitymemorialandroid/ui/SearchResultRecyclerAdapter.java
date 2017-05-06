@@ -22,6 +22,8 @@ import com.android.melanieh.dignitymemorialandroid.Provider;
 import com.android.melanieh.dignitymemorialandroid.R;
 import com.android.melanieh.dignitymemorialandroid.Utility;
 
+import org.w3c.dom.Text;
+
 import java.util.ArrayList;
 
 import timber.log.Timber;
@@ -63,15 +65,17 @@ public class SearchResultRecyclerAdapter
 
         public ResultViewHolder(View itemView) {
             super(itemView);
-//            personNameTV = (TextView) itemView.findViewById(R.id.person_name);
-//            dateSpanTV = (TextView) itemView.findViewById(R.id.life_death_date_span);
-//            obitTextTV = (TextView) itemView.findViewById(R.id.obit_text);
-            providerNameTV = (TextView) itemView.findViewById(R.id.provider_name);
-            address1TV = (TextView) itemView.findViewById(R.id.address_1);
-            address2TV = (TextView) itemView.findViewById(R.id.address_2);
-            cityStateZipTV = (TextView) itemView.findViewById(R.id.city_state_zip);
-            phoneNumTV = (TextView) itemView.findViewById(R.id.phone_num);
-            getProviderDirectionsLinkTV = (TextView) itemView.findViewById(R.id.provider_get_directions);
+            obitViewLL = (LinearLayout)itemView.findViewById(R.id.obit_object_layout);
+//            providerViewLL = (LinearLayout)itemView.findViewById(R.id.provider_object_layout);
+            personNameTV = (TextView)itemView.findViewById(R.id.person_name);
+            dateSpanTV = (TextView)itemView.findViewById(R.id.life_death_date_span);
+            obitTextTV = (TextView)itemView.findViewById(R.id.obit_text);
+//            providerNameTV = (TextView) itemView.findViewById(R.id.provider_name);
+//            address1TV = (TextView) itemView.findViewById(R.id.address_1);
+//            address2TV = (TextView) itemView.findViewById(R.id.address_2);
+//            cityStateZipTV = (TextView) itemView.findViewById(R.id.city_state_zip);
+//            phoneNumTV = (TextView) itemView.findViewById(R.id.phone_num);
+//            getProviderDirectionsLinkTV = (TextView) itemView.findViewById(R.id.provider_get_directions);
 
         }
     }
@@ -86,15 +90,17 @@ public class SearchResultRecyclerAdapter
     @Override
     public void onBindViewHolder(ResultViewHolder holder, int position) {
         Timber.d("onBindViewHolder: ");
+
         final Object currentObject = objectsList.get(position);
+        Timber.d("personNameTV: " + ((Obituary) currentObject).getPersonName());
+        Timber.d("dateSpanTV: " + ((Obituary) currentObject).getDeathDate());
+        Timber.d("obitTextTV: " + ((Obituary) currentObject).getObitText());
+
         if (currentObject instanceof Obituary) {
 //            providerViewLL.setVisibility(View.GONE);
             personNameTV.setText(((Obituary) currentObject).getPersonName());
             dateSpanTV.setText(((Obituary) currentObject).getDeathDate());
             obitTextTV.setText(((Obituary) currentObject).getObitText());
-            Timber.d("personNameTV: " + ((Obituary) currentObject).getPersonName());
-            Timber.d("dateSpanTV: " + ((Obituary) currentObject).getDeathDate());
-            Timber.d("obitTextTV: " + ((Obituary) currentObject).getObitText());
 
         } else {
 //            obitViewLL.setVisibility(View.GONE);
@@ -116,25 +122,25 @@ public class SearchResultRecyclerAdapter
 //                (context.getString(R.string.provider_view_cd), providerNameTV.getText()));
 
         // click listeners
-        providerNameTV.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (currentObject instanceof Provider) {
-                    saveProviderEntry((Provider)currentObject);
-                }
-            }
-        });
-        getProviderDirectionsLinkTV.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (currentObject instanceof Provider) {
-                    String address1 = ((Provider)currentObject).getAddress1();
-                    String address2 = ((Provider)currentObject).getAddress2();
-                    String cityStateZip = ((Provider) currentObject).getCityStateZip();
-                    getSiteDirections(address1, cityStateZip);
-                }
-            }
-        });
+//        providerNameTV.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                if (currentObject instanceof Provider) {
+//                    saveProviderEntry((Provider)currentObject);
+//                }
+//            }
+//        });
+//        getProviderDirectionsLinkTV.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                if (currentObject instanceof Provider) {
+//                    String address1 = ((Provider)currentObject).getAddress1();
+//                    String address2 = ((Provider)currentObject).getAddress2();
+//                    String cityStateZip = ((Provider) currentObject).getCityStateZip();
+//                    getSiteDirections(address1, cityStateZip);
+//                }
+//            }
+//        });
     }
 
     @Override

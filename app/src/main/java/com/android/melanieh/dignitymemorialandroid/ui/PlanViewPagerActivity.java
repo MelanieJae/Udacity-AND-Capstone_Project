@@ -44,13 +44,15 @@ public class PlanViewPagerActivity extends FragmentActivity {
         Timber.d("onCreate:");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_plan_viewpager);
+        planUri = getIntent().getData();
+        Timber.d("planUri: " + planUri.toString());
 
         // Instantiate a ViewPager and a PagerAdapter.
         mPager = (ViewPager) findViewById(R.id.pager);
         mPager.setPageTransformer(true, new ZoomOutPageTransformer());
-        mPagerAdapter = new ScreenSlidePagerAdapter(this, getSupportFragmentManager());
+        mPagerAdapter = new ScreenSlidePagerAdapter(this,
+                getSupportFragmentManager(), planUri.toString());
         mPager.setAdapter(mPagerAdapter);
-        itemImage = (ImageView)findViewById(R.id.imageview);
 
         if (findViewById(R.id.menuitem_detail_container) != null) {
             // The detail container view will be present only in the
@@ -59,7 +61,6 @@ public class PlanViewPagerActivity extends FragmentActivity {
             // activity should be in two-pane mode.
             mTwoPane = true;
         }
-
 
     }
 

@@ -72,11 +72,11 @@ public class SearchResultFragment extends Fragment implements
 
 
     /* Location services Api client for current location and Maps */
-        googleApiClient = new GoogleApiClient.Builder(getContext())
-                .addApi(LocationServices.API)
-                .addConnectionCallbacks(this)
-                .addOnConnectionFailedListener(this)
-                .build();
+//        googleApiClient = new GoogleApiClient.Builder(getContext())
+//                .addApi(LocationServices.API)
+//                .addConnectionCallbacks(this)
+//                .addOnConnectionFailedListener(this)
+//                .build();
 
         queryType = getActivity().getIntent().getStringExtra("query type");
 
@@ -98,7 +98,7 @@ public class SearchResultFragment extends Fragment implements
             provider = sharedPrefs.getString("provider", "");
         }
 
-        queryType="providers";
+        queryType="obituaries";
 //        queryType = getActivity().getIntent().getStringExtra("query type");
         zipCode = getActivity().getIntent().getStringExtra("zipCode");
         firstName = getActivity().getIntent().getStringExtra("first name");
@@ -123,14 +123,14 @@ public class SearchResultFragment extends Fragment implements
     @Override
     public void onStart() {
         super.onStart();
-        googleApiClient.connect();
+//        googleApiClient.connect();
         Timber.d("connecting to API client...");
     }
 
     @Override
     public void onStop() {
         // disconnect Google Play services API client
-        googleApiClient.disconnect();
+//        googleApiClient.disconnect();
         Timber.d("API client disconnected.");
         super.onStop();
     }
@@ -149,9 +149,7 @@ public class SearchResultFragment extends Fragment implements
 
     @Override
     public Loader<ArrayList<? extends Object>> onCreateLoader(int id, Bundle args) {
-        queryString = "http://ows.dignitymemorial.com/mapcontrol/DignityMemorialServices.svc/" +
-                "PlotSCILocations?latitude=28.0027256011963&longitude=-81.6789169311523&zipCode=33884" +
-                "&brand=DM&locale=EN&startPage=1&recordsPerPage=50&radius=100&isClickTracking=false";
+        Timber.d("loader: queryString: " + queryString);
         return new SearchPageLoader(getContext(), queryString);
     }
 
@@ -211,7 +209,7 @@ public class SearchResultFragment extends Fragment implements
         String querySuffix;
         if (queryType.contains("obituaries")) {
             queryBuilder = new StringBuilder(OBITS_QUERY_BASE_URL);
-            queryBuilder.append("&fn=john");
+            queryBuilder.append("fn=john");
             queryBuilder.append("&ln=smith");
             querySuffix = getString(R.string.obits_search_query_suffix);
 
@@ -232,8 +230,7 @@ public class SearchResultFragment extends Fragment implements
         queryBuilder.append(querySuffix);
         queryString = queryBuilder.toString();
         Timber.d("final query string: " + queryString);
-        Timber.d("obitsFormLayout" + obitsFormLayout);
-        Timber.d("providerFormLayout" + providerFormLayout);
+
 
         getActivity().getSupportLoaderManager().initLoader(SEARCH_LOADER_ID, null, this).forceLoad();
     }

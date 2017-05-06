@@ -1,8 +1,11 @@
 package com.android.melanieh.dignitymemorialandroid.ui;
 
 import android.content.Context;
+import android.net.Uri;
+import android.os.Parcelable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.app.FragmentTransaction;
 
@@ -12,22 +15,17 @@ import timber.log.Timber;
 
 /*** Created by melanieh on 4/17/17 for the PlanViewPager Activity */
 
-public class ScreenSlidePagerAdapter extends FragmentStatePagerAdapter {
+public class ScreenSlidePagerAdapter extends FragmentPagerAdapter {
 
-    // list of valid fragments
-    PlanViewPagerFragment ceremonyFragment;
-    PlanViewPagerFragment visitationFragment;
-    PlanViewPagerFragment receptionFragment;
-    PlanViewPagerFragment siteFragment;
-    PlanViewPagerFragment containerFragment;
-    FragmentTransaction fragmentTransaction;
     Context context;
+    String planUriString;
     private static final int NUM_PAGES = 6;
 
-    public ScreenSlidePagerAdapter(Context context, FragmentManager fm) {
+    public ScreenSlidePagerAdapter(Context context, FragmentManager fm, String planUriString) {
         super(fm);
-        this.context = context;
         Timber.d("ScreenSlidePagerAdapter constructor:");
+        this.context = context;
+        this.planUriString = planUriString;
     }
 
     // ... and any specialty sub-item fragments, e.g. for catering
@@ -54,9 +52,9 @@ public class ScreenSlidePagerAdapter extends FragmentStatePagerAdapter {
         String siteSelection="";
         String containerSelection="";
         String estCostString="";
-
-        // each fragment needs its own loaderId to ensure content appears in the correct fragment
-        // since the PlanPage fragment is being recycled for all elements of the viewpager
+//
+//        // each fragment needs its own loaderId to ensure content appears in the correct fragment
+//        // since the PlanPage fragment is being recycled for all elements of the viewpager
         int loaderId = 0;
         switch (position) {
             case 0:
@@ -86,8 +84,9 @@ public class ScreenSlidePagerAdapter extends FragmentStatePagerAdapter {
                 break;
 
         }
-        fragment = PlanViewPagerFragment.newInstance(staticContent, loaderId);
+        fragment = PlanViewPagerFragment.newInstance(staticContent, loaderId, planUriString);
         return fragment;
     }
+
 }
 

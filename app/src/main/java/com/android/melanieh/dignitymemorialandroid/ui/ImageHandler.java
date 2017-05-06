@@ -26,7 +26,7 @@ public class ImageHandler {
         {
             instance =
                     new Picasso.Builder(context).executor(Executors.newSingleThreadExecutor())
-                            .memoryCache(Cache.NONE).indicatorsEnabled(true).build();
+                            .memoryCache(Cache.NONE).indicatorsEnabled(false).build();
         }
         return instance;
     }

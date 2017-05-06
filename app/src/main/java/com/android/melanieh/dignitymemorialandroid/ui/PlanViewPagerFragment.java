@@ -12,6 +12,7 @@ import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -46,15 +47,15 @@ public class PlanViewPagerFragment extends Fragment implements LoaderManager.Loa
     Uri planUri;
     static TextView staticContentView;
     String STATIC_CONTENT;
+    String planUriString;
 
-    private String staticContent;
     private int loaderId;
 
     /** projection for DB query to display plan selection summary */
-    public static String[] SELECTION_COLUMNS = {PlanEntry.COLUMN_PLAN_NAME,
+    public static String[] SELECTION_COLUMNS = {
+                                    PlanEntry.COLUMN_PLAN_NAME,
                                     PlanEntry.COLUMN_PLAN_TYPE,
                                     PlanEntry.COLUMN_CONTACT_EMAIL,
-                                    PlanEntry.COLUMN_PROVIDER,
                                     PlanEntry.COLUMN_CEREMONY_SELECTION,
                                     PlanEntry.COLUMN_VISITATION_SELECTION,
                                     PlanEntry.COLUMN_RECEPTION_SELECTION,
@@ -66,24 +67,23 @@ public class PlanViewPagerFragment extends Fragment implements LoaderManager.Loa
     private static final int INDEX_PLAN_NAME = 1;
     private static final int INDEX_PLAN_TYPE = 2;
     private static final int INDEX_CONTACT_EMAIL = 3;
-    private static final int INDEX_PROVIDER = 4;
-    private static final int CEREMONY_SELECTION = 5;
-    private static final int VISITATION_SELECTION = 6;
-    private static final int RECEPTION_SELECTION = 7;
-    private static final int SITE_SELECTION = 8;
-    private static final int CONTAINER_SELECTION = 9;
-    private static final int EST_COST = 10;
-
+    private static final int INDEX_CEREMONY_SELECTION = 4;
+    private static final int INDEX_VISITATION_SELECTION = 5;
+    private static final int INDEX_RECEPTION_SELECTION = 6;
+    private static final int INDEX_SITE_SELECTION = 7;
+    private static final int INDEX_CONTAINER_SELECTION = 8;
+    private static final int INDEX_EST_COST = 9;
 
     public PlanViewPagerFragment() {
         //
     }
 
-    public static PlanViewPagerFragment newInstance(String content, int loaderId) {
+    public static PlanViewPagerFragment newInstance(String content, int loaderId, String planUriString) {
         PlanViewPagerFragment fragment = new PlanViewPagerFragment();
         Bundle args = new Bundle();
         args.putString("static content", content);
         args.putInt("loaderId", loaderId);
+        args.putString("planUriString", planUriString);
         fragment.setArguments(args);
         return fragment;
 
@@ -95,6 +95,8 @@ public class PlanViewPagerFragment extends Fragment implements LoaderManager.Loa
         setHasOptionsMenu(true);
         STATIC_CONTENT = getArguments().getString("static content");
         loaderId = getArguments().getInt("loaderId");
+        planUriString = getArguments().getString("planUriString");
+
     }
 
     @Nullable
@@ -109,32 +111,34 @@ public class PlanViewPagerFragment extends Fragment implements LoaderManager.Loa
         toolbar = (CollapsingToolbarLayout) rootView.findViewById(R.id.collapsing_toolbar);
 //        estCostView = (TextView) rootView.findViewById(R.id.toolbar_est_cost_tv);
         planningStepTitleView = (TextView) rootView.findViewById(R.id.toolbar_step_title);
-//        planningStepTitleView.setText(fragmentTagTitleString);
-
-
         recyclerView = (RecyclerView) rootView.findViewById(R.id.plan_option_rv);
 
-        // get new plan Uri from plan creation form
-//        planUri = getActivity().getIntent().getData();
+        // ensures the planning step title stays visible when the toolbar is collapsed
 
+        toolbar.setCollapsedTitleTextAppearance(R.style.CollapsedToolbar);
+        toolbar.setExpandedTitleTextAppearance(R.style.ExpandedToolbar);
+
+        // This AsyncTask is to be used for the final screen only to display the plan details
         // since two loaders returning different objects can't exist and db queries are very infrequent
-        // (ideally only once or twice) an async task is used for the cursor creation and a loader is used for the recycler view.
-//        ReadCursorAsyncTask asyncTask = new ReadCursorAsyncTask(getContext());
-//        asyncTask.execute(planUri);
+        // (ideally only once or twice) an async task is used for the cursor creation
+        // and a loader is used for the recycler view.
 
-        getActivity().getSupportLoaderManager().initLoader(loaderId, null, this).forceLoad();
+        if (loaderId > 50) {
+            Timber.d("planUriString: " + planUriString);
+            ReadCursorAsyncTask asyncTask = new ReadCursorAsyncTask(getContext());
+            asyncTask.execute(Uri.parse(planUriString));
+        } else {
+            getActivity().getSupportLoaderManager().initLoader(loaderId, null, this).forceLoad();
+        }
+
         return rootView;
     }
 
     @Override
     public Loader<ArrayList<PlanOption>> onCreateLoader(int id, Bundle args) {
         Timber.d("onCreateLoader:");
-//        if (id != 60) {
-            return new PlanPageLoader(getContext(), STATIC_CONTENT);
-//        }
-//        return null;
+        return new PlanPageLoader(getContext(), STATIC_CONTENT);
     }
-
 
     @Override
     public void onLoadFinished(Loader<ArrayList<PlanOption>> loader, ArrayList<PlanOption> data) {
@@ -144,7 +148,7 @@ public class PlanViewPagerFragment extends Fragment implements LoaderManager.Loa
         planningStepTitleView.setText(data.get(0).getTitle());
 
         if (data != null && !data.isEmpty()) {
-            rvAdapter = new PlanOptionRecyclerViewAdapter(getContext(), data, planUri);
+            rvAdapter = new PlanOptionRecyclerViewAdapter(getContext(), data, planUriString);
             recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
             recyclerView.setAdapter(rvAdapter);
         } else {
@@ -193,12 +197,12 @@ public class PlanViewPagerFragment extends Fragment implements LoaderManager.Loa
             String planName = cursor.getString(PlanViewPagerFragment.INDEX_PLAN_NAME);
             String planType = cursor.getString(PlanViewPagerFragment.INDEX_PLAN_TYPE);
             String contactEmail = cursor.getString(PlanViewPagerFragment.INDEX_CONTACT_EMAIL);
-            String ceremonySelection = cursor.getString(PlanViewPagerFragment.CEREMONY_SELECTION);
-            String visitationSelection = cursor.getString(PlanViewPagerFragment.VISITATION_SELECTION);
-            String receptionSelection = cursor.getString(PlanViewPagerFragment.RECEPTION_SELECTION);
-            String siteSelection = cursor.getString(PlanViewPagerFragment.SITE_SELECTION);
-            String containerSelection = cursor.getString(PlanViewPagerFragment.CONTAINER_SELECTION);
-            String estCostString = cursor.getString(PlanViewPagerFragment.EST_COST);
+            String ceremonySelection = cursor.getString(PlanViewPagerFragment.INDEX_CEREMONY_SELECTION);
+            String visitationSelection = cursor.getString(PlanViewPagerFragment.INDEX_VISITATION_SELECTION);
+            String receptionSelection = cursor.getString(PlanViewPagerFragment.INDEX_RECEPTION_SELECTION);
+            String siteSelection = cursor.getString(PlanViewPagerFragment.INDEX_SITE_SELECTION);
+            String containerSelection = cursor.getString(PlanViewPagerFragment.INDEX_CONTAINER_SELECTION);
+            String estCostString = cursor.getString(PlanViewPagerFragment.INDEX_EST_COST);
 
             // append staticContent string with these values
             StringBuilder planSummaryContent = new StringBuilder();

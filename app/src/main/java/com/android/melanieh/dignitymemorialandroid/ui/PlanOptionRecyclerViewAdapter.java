@@ -1,6 +1,7 @@
 package com.android.melanieh.dignitymemorialandroid.ui;
 
 import android.app.Activity;
+import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -19,6 +20,7 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.melanieh.dignitymemorialandroid.BuildConfig;
 import com.android.melanieh.dignitymemorialandroid.PlanOption;
@@ -41,15 +43,17 @@ public class PlanOptionRecyclerViewAdapter
     String itemImageURL;
     String optionSelection;
     Context context;
-    Uri planUri;
+    String planUriString;
 
     public static String DETAIL_TEXT_ARG_KEY = "Option item detail text";
     public static String IMAGE_STRING_ARG_KEY = "ImageURL string";
 
-    public PlanOptionRecyclerViewAdapter(Context context, ArrayList<PlanOption> options, Uri planUri) {
+    public PlanOptionRecyclerViewAdapter(Context context, ArrayList<PlanOption> options,
+                                         String planUriString) {
+        Timber.d("PlanOptionRecyclerAdapter constructor");
         this.context = context;
         this.options = options;
-        this.planUri = planUri;
+        this.planUriString = planUriString;
     }
 
     @Override
@@ -63,12 +67,12 @@ public class PlanOptionRecyclerViewAdapter
     public void onBindViewHolder(PlanOptionRecyclerViewAdapter.OptionViewHolder holder, int position) {
         Timber.d("onBindViewHolder:");
         final PlanOption currentOption = options.get(position);
+        Timber.d("options: " + options.toString());
         // temporarily capture detail text to pass as dialog fragment argument
         // it is not displayed in the cardview, only in the dialog fragment
         detailText = currentOption.getDetailText();
         itemImageURL = currentOption.getImageUrlString();
         optionSelection = currentOption.getHeading();
-        holder.heading.setText(currentOption.getHeading());
         ImageHandler.getSharedInstance(context).load(itemImageURL).
                 fit().centerCrop().into(holder.itemImage);
 
@@ -93,24 +97,16 @@ public class PlanOptionRecyclerViewAdapter
         return options.size();
     }
 
-
     public class OptionViewHolder extends RecyclerView.ViewHolder {
         public final Button addBtnView;
         public final Button detailsBtnView;
-        public final TextView heading;
         public final ImageView itemImage;
 
         public OptionViewHolder(View view) {
             super(view);
-            heading = (TextView) view.findViewById(R.id.heading);
             itemImage = (ImageView) view.findViewById(R.id.imageview);
             addBtnView = (Button) view.findViewById(R.id.add_button);
             detailsBtnView = (Button) view.findViewById(R.id.details_button);
-        }
-
-        @Override
-        public String toString() {
-            return super.toString() + " '" + heading.getText() + "'";
         }
 
     }
@@ -155,7 +151,14 @@ public class PlanOptionRecyclerViewAdapter
                 Timber.e("Invalid Fragment tag");
         }
         values.put(cvKey, optionSelection);
-        context.getContentResolver().update(planUri, values, null, null);
+        Uri planUri = Uri.parse(planUriString);
+        Timber.d("planUri: " + planUri.toString());
+        int numRowsUpdated = context.getContentResolver().update(planUri, values, null, null);
+        if (numRowsUpdated == 0) {
+            Toast.makeText(context, "Error updating plan with selection", Toast.LENGTH_LONG).show();
+        } else {
+            Toast.makeText(context, "Plan update with selection successful", Toast.LENGTH_LONG).show();
+        }
 
     }
 

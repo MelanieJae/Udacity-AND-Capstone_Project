@@ -88,15 +88,13 @@ public class PlanPageLoader extends AsyncTaskLoader{
             Elements estCostElements = doc.select("div[class=col-md-6]>p");
 
             Element headingElement = doc.select("span[class=param]").first();
-            Node headingNode = headingElement.nextSibling();
-            heading = headingNode.toString();
 
-//            optionTitle = optionTitleElements.first().
-//                    text();
-//            heading = headingElements.first().text();
-//            imageUrlString = imageUrlElements.first().attr("src");
-//            detailText = detailTextElements.first().text();
-//            estCostString = estCostElements.first().text();
+            optionTitle = optionTitleElements.first().
+                    text();
+            heading = headingElements.first().text();
+            imageUrlString = imageUrlElements.first().attr("src");
+            detailText = detailTextElements.first().text();
+            estCostString = estCostElements.first().text();
 
 //            if (headingElements.next() != null) {
 //                heading = headingElements.first().text();

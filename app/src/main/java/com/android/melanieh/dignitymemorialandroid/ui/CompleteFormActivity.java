@@ -35,37 +35,30 @@ public class CompleteFormActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         String formType = getIntent().getStringExtra("menu button content");
+        setContentView(R.layout.activity_complete_form);
 
-        Bundle args = new Bundle();
-        if (formType.contains("plan")) {
-            setContentView(R.layout.activity_complete_form);
-        } else{
-            setContentView(R.layout.search_form);
-        }
-
-        if (savedInstanceState == null) {
-            fragment = new CompleteFormFragment();
-            FragmentManager fragmentManager = getSupportFragmentManager();
-            FragmentTransaction fragmentTransaction = fragmentManager
-                    .beginTransaction()
-                    .add(R.id.formFragment, fragment);
-            fragmentTransaction.commit();
-            getSupportFragmentManager().beginTransaction();
-        } else {
-            fragment = (CompleteFormFragment) getSupportFragmentManager()
-                    .findFragmentByTag("formFragment");
-        }
+//        if (savedInstanceState == null) {
+//            fragment = new CompleteFormFragment();
+//            FragmentManager fragmentManager = getSupportFragmentManager();
+//            FragmentTransaction fragmentTransaction = fragmentManager
+//                    .beginTransaction()
+//                    .add(R.id.formFragment, fragment);
+//            fragmentTransaction.commit();
+//        } else {
+//            fragment = (CompleteFormFragment) getSupportFragmentManager()
+//                    .findFragmentByTag("formFragment");
+//        }
 
 
     }
 
-    @Override
-    protected void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-
-        //Save the fragment's instance
-        getSupportFragmentManager().putFragment(outState, "formFragment", fragment);
-    }
+//    @Override
+//    protected void onSaveInstanceState(Bundle outState) {
+//        super.onSaveInstanceState(outState);
+//
+//        //Save the fragment's instance
+//        getSupportFragmentManager().putFragment(outState, "formFragment", fragment);
+//    }
 
 
 }
