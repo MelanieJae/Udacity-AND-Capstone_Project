@@ -11,7 +11,7 @@ import com.android.melanieh.dignitymemorialandroid.data.UserSelectionContract.Pl
 
 public class UserSelectionDBHelper extends SQLiteOpenHelper {
 
-    public static final String DATABASE_NAME="plans.db";
+    public static final String DATABASE_NAME="planentries.db";
     // it is not intended that the database change versions so this will almost always stay at 1.
     public static final int DATABASE_VERSION = 1;
     private static UserSelectionDBHelper mInstance = null;

@@ -80,42 +80,46 @@ public class PlanPageLoader extends AsyncTaskLoader{
 
         if (urlString != null) {
             doc = Jsoup.parse(urlString);
+
             // Jsoup library handles validation/null checks of node values
             Elements optionTitleElements = doc.select("span[class=menu-text]");
-            Elements headingElements = doc.select("div[class=col-md-6]>h3");
-            Elements imageUrlElements = doc.select("img[src]");
-            Elements detailTextElements = doc.select("div[class=col-md-12]");
-            Elements estCostElements = doc.select("div[class=col-md-6]>p");
-
-            Element headingElement = doc.select("span[class=param]").first();
-
             optionTitle = optionTitleElements.first().
                     text();
-            heading = headingElements.first().text();
-            imageUrlString = imageUrlElements.first().attr("src");
-            detailText = detailTextElements.first().text();
-            estCostString = estCostElements.first().text();
 
-//            if (headingElements.next() != null) {
-//                heading = headingElements.first().text();
-//            }
+            Elements headingElements = doc.select("div[class=col-md-6]>h3");
+            Iterator<Element> headingsIterator = headingElements.iterator();
+            while (headingsIterator.hasNext()) {
+                heading = headingsIterator.next().text();
+                tempHeadingArray.add(heading);
+            }
 
-//            if (imageUrlElements.next() != null) {
-//                imageUrlString = imageUrlElements.next().text();
-//            }
-//
-//            if (detailTextElements.next() != null) {
-//                detailText = detailTextElements.next().text();
-//            }
-//
-//            if (estCostElements.next() != null) {
-//                estCostString = estCostElements.next().text();
-//            }
+            Elements imageUrlElements = doc.select("img[src]");
+            Iterator<Element> imageStringIterator = imageUrlElements.iterator();
+            while (imageStringIterator.hasNext()) {
+                imageUrlString = imageStringIterator.next().attr("src");
+                tempImageUrlArray.add(imageUrlString);
+            }
 
-            option = new PlanOption(optionTitle, heading, detailText,
-                        imageUrlString, estCostString);
-            optionsList.add(option);
-            Timber.d("optionsList: " + optionsList);
+            Elements detailTextElements = doc.select("div[class=col-md-12]");
+            Iterator<Element> detailIterator = detailTextElements.iterator();
+            while (detailIterator.hasNext()) {
+                detailText = detailIterator.next().text();
+                tempDetailArray.add(detailText);
+            }
+
+            Elements estCostElements = doc.select("div[class=col-md-6]>p");
+            Iterator<Element> costIterator = estCostElements.iterator();
+            while (costIterator.hasNext()) {
+                estCostString = costIterator.next().text();
+                tempCostArray.add(estCostString);
+            }
+            
+            for (int i=0; i<headingElements.size(); i++) {
+                option = new PlanOption(optionTitle, tempHeadingArray.get(i), tempDetailArray.get(i),
+                        tempImageUrlArray.get(i), tempCostArray.get(i));
+                optionsList.add(option);
+                Timber.d("optionsList: " + optionsList);
+            }
             } else {
             Timber.e("Error: query string is null");
         }

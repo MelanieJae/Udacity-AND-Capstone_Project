@@ -102,8 +102,9 @@ public class UserSelectionProvider extends ContentProvider {
             case PLANS:
                 return updatePlan(uri, contentValues, selection, selectionArgs);
             case PLAN_ID:
-//                selection =  PlanEntry.COLUMN_ID + "=?";
-                selectionArgs = new String[]{String.valueOf(ContentUris.parseId(uri))};
+                String id = "" + ContentUris.parseId(uri);
+                selection = "_id=" + id;
+                selectionArgs = null;
                 return updatePlan(uri, contentValues, selection, selectionArgs);
             default:
                 throw new IllegalArgumentException("Update is not supported for " + uri);
@@ -123,7 +124,7 @@ public class UserSelectionProvider extends ContentProvider {
                 deleteAllPlans();
             case PLAN_ID:
                 // Delete a single row given by the ID in the URI
-                selection = PlanEntry._ID + " = ?";
+                selection = PlanEntry.COLUMN_ID + " =?";
                 selectionArgs = new String[] { String.valueOf(ContentUris.parseId(uri)) };
                 return db.delete(PlanEntry.TABLE_NAME, selection, selectionArgs);
             default:
@@ -172,8 +173,8 @@ public class UserSelectionProvider extends ContentProvider {
 
         // planType
         if (values.containsKey(PlanEntry.COLUMN_PLAN_TYPE)) {
-            Integer planType = values.getAsInteger(PlanEntry.COLUMN_PLAN_TYPE);
-            if (planType == null || !PlanEntry.isValidPlanType(planType)) {
+            Integer type = values.getAsInteger(PlanEntry.COLUMN_PLAN_TYPE);
+            if (type == null || !PlanEntry.isValidPlanType(type)) {
                 throw new IllegalArgumentException("Plan requires valid plan type");
             }
         }
@@ -182,8 +183,59 @@ public class UserSelectionProvider extends ContentProvider {
         if (values.containsKey(PlanEntry.COLUMN_CONTACT_EMAIL)) {
             // Check that the weight is greater than or equal to 0 kg
             String contactEmail = values.getAsString(PlanEntry.COLUMN_CONTACT_EMAIL);
-            if (contactEmail != null) {
+            if (contactEmail == null) {
                 throw new IllegalArgumentException("Plan requires a contact e-mail");
+            }
+        }
+
+        // ceremony selection
+        if (values.containsKey(PlanEntry.COLUMN_CEREMONY_SELECTION)) {
+            // Check that the weight is greater than or equal to 0 kg
+            String ceremony = values.getAsString(PlanEntry.COLUMN_CEREMONY_SELECTION);
+            if (ceremony == null) {
+                throw new IllegalArgumentException("Plan requires a contact e-mail");
+            }
+        }
+
+        // reception selection
+        if (values.containsKey(PlanEntry.COLUMN_RECEPTION_SELECTION)) {
+            // Check that the weight is greater than or equal to 0 kg
+            String reception = values.getAsString(PlanEntry.COLUMN_RECEPTION_SELECTION);
+            if (reception == null) {
+                throw new IllegalArgumentException("Plan requires a contact e-mail");
+            }
+        }
+
+        // visitation selection
+        if (values.containsKey(PlanEntry.COLUMN_VISITATION_SELECTION)) {
+            // Check that the weight is greater than or equal to 0 kg
+            String visitation = values.getAsString(PlanEntry.COLUMN_VISITATION_SELECTION);
+            if (visitation == null) {
+                throw new IllegalArgumentException("Plan requires a contact e-mail");
+            }
+        }
+
+        // container selection
+        if (values.containsKey(PlanEntry.COLUMN_CONTAINER_SELECTION)) {
+            String container = values.getAsString(PlanEntry.COLUMN_CONTAINER_SELECTION);
+            if (container == null) {
+                throw new IllegalArgumentException("Plan requires a contact e-mail");
+            }
+        }
+
+        // site selection
+        if (values.containsKey(PlanEntry.COLUMN_SITE_SELECTION)) {
+            String site = values.getAsString(PlanEntry.COLUMN_SITE_SELECTION);
+            if (site == null) {
+                throw new IllegalArgumentException("Plan requires a contact e-mail");
+            }
+        }
+
+        // estimated cost
+        if (values.containsKey(PlanEntry.COLUMN_EST_COST)) {
+            String estCost = values.getAsString(PlanEntry.COLUMN_EST_COST);
+            if (estCost == null) {
+                throw new IllegalArgumentException("Plan requires an contact e-mail");
             }
         }
 
