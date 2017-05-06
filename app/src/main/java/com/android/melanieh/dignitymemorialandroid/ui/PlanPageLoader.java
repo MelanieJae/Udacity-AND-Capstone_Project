@@ -113,7 +113,7 @@ public class PlanPageLoader extends AsyncTaskLoader{
                 estCostString = costIterator.next().text();
                 tempCostArray.add(estCostString);
             }
-            
+
             for (int i=0; i<headingElements.size(); i++) {
                 option = new PlanOption(optionTitle, tempHeadingArray.get(i), tempDetailArray.get(i),
                         tempImageUrlArray.get(i), tempCostArray.get(i));

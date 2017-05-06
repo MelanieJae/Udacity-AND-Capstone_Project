@@ -21,7 +21,7 @@
             tools:src="@drawable/map_sample"
             android:scaleType="centerCrop"
             android:layout_height="200dp" />
-        <Button
+        <ImageButton
             android:id="@+id/add_button"
             android:layout_width="48dp"
             android:layout_height="48dp"
@@ -30,7 +30,7 @@
             android:layout_marginBottom="8dp"
             android:layout_marginLeft="8dp"
             android:contentDescription="@string/add_button_cd"
-            android:text="+"
+            android:src="@drawable/ic_add_white_48dp"
             android:textColor="@android:color/white"
             android:background="@drawable/add_button"/>
 

@@ -98,14 +98,14 @@ public class PlanOptionRecyclerViewAdapter
     }
 
     public class OptionViewHolder extends RecyclerView.ViewHolder {
-        public final Button addBtnView;
+        public final ImageButton addBtnView;
         public final Button detailsBtnView;
         public final ImageView itemImage;
 
         public OptionViewHolder(View view) {
             super(view);
             itemImage = (ImageView) view.findViewById(R.id.imageview);
-            addBtnView = (Button) view.findViewById(R.id.add_button);
+            addBtnView = (ImageButton) view.findViewById(R.id.add_button);
             detailsBtnView = (Button) view.findViewById(R.id.details_button);
         }
 
