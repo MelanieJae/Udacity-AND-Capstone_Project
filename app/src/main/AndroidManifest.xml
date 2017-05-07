@@ -72,6 +72,7 @@
 
         <activity android:name=".ui.PlanDetailsDialogActivity" />
         <activity android:name=".ui.SearchResultActivity"
+            android:parentActivityName=".ui.CompleteFormActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"

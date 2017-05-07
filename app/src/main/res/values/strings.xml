@@ -114,11 +114,13 @@
     <string name="use_current_location">Use Current Location</string>
     <string name="start_obits_search_btn">Start Obituary Search</string>
     <string name="start_provider_search_btn">Start Provider Search</string>
-    <string name="no_valid_entries_present_error_msg">Sorry, there are no completed fields present and "Use current location"
-    was not selected. Please enter a first name, last name, zip code or click "use current location" to
-    get search results</string>
-    <string name="save_entries_dialog_msg">Would you like to save your entries to conduct this and other
-    searches related to your entries later?</string>
+    <string name="no_valid_entries_present_error_msg">Sorry, there are no completed fields present
+        and \"Use current location\" was not selected.
+        Provider searches require either a zip code or a click on \"Use current Location.\"</string>
+
+    <string name="save_zip_code_dialog_msg">Would you like to save this zip code to your app settings?
+        This allows you to conduct this search later and
+        to set the nearest provider as a preferred provider.</string>
 
     <!-- search result screens -->
     <string name="search_form_first_name_label">first name:</string>

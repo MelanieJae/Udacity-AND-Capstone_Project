@@ -6,30 +6,10 @@
     android:layout_height="match_parent"
     tools:context="com.android.melanieh.dignitymemorialandroid.ui.SettingsActivity">
 
-    <TableLayout
+    <fragment
+        android:id="@+id/pref_frag"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <TableRow>
-            <TextView
-                android:id="@+id/saved_zip_codes_tv"
-                android:text="@string/saved_zip_codes"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-            <EditText
-                android:id="@+id/search_zip_codes_et"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-        </TableRow>
-        <TableRow>
-            <TextView
-                android:id="@+id/saved_providers_tv"
-                android:text="@string/saved_providers"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-            <EditText
-                android:id="@+id/saved_providers_et"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-        </TableRow>
-    </TableLayout>
+        android:layout_height="match_parent"
+        android:name="com.android.melanieh.dignitymemorialandroid.ui.SettingsActivity$UserPreferenceFragment"
+        tools:context=".SettingsActivity"/>
 </android.support.constraint.ConstraintLayout>

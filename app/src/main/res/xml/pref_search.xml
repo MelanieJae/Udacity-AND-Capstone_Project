@@ -8,12 +8,12 @@
     <EditTextPreference
         android:title="@string/pref_zip_code_label"
         android:key="@string/pref_zip_code_key"
-        android:inputType="numberDecimal"
+        android:inputType="textNoSuggestions"
         android:selectAllOnFocus="true"/>
     <EditTextPreference
         android:title="@string/pref_provider_label"
         android:key="@string/pref_provider_key"
-        android:inputType="numberDecimal"
+        android:inputType="textNoSuggestions"
         android:selectAllOnFocus="true"/>
 
 </PreferenceScreen>
