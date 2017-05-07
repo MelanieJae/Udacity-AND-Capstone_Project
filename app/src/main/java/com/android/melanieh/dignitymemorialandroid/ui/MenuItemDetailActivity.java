@@ -47,7 +47,7 @@ public class MenuItemDetailActivity extends AppCompatActivity implements MenuOpt
             fragmentManager = getSupportFragmentManager();
             fragmentTransaction = fragmentManager
                     .beginTransaction()
-                    .add(R.id.detailFragment, fragment);
+                    .replace(R.id.detailFragment, fragment);
             fragmentTransaction.commit();
             getSupportFragmentManager().beginTransaction();
         } else {

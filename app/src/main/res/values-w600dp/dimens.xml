@@ -15,6 +15,10 @@
     <dimen name="widget_today_min_resize_width">200dp</dimen>
     <dimen name="widget_margin">8dp</dimen>
 
+    <!-- margins -->
+    <dimen name="horiz_margin">24dp</dimen>
+    <dimen name="vert_margin">24dp</dimen>
+
     <!-- menu recyclerview item offsets [pixels]-->
     <integer name="vert_offset">20</integer>
     <integer name="horiz_offset">100</integer>

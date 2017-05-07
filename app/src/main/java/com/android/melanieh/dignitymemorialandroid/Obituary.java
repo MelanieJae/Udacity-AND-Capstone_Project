@@ -10,31 +10,24 @@ import android.os.Parcelable;
 public class Obituary {
 
     private String personName;
-    private String birthDate;
-    private String deathDate;
-    private String obitText;
+    private String obitPreviewText;
+    private String obitFullTextLink;
 
-    public Obituary(String personName, String birthDate, String deathDate, String obitText) {
+    public Obituary(String personName, String obitPreviewText, String obitFullTextLink) {
         this.personName = personName;
-        this.birthDate = birthDate;
-        this.deathDate = deathDate;
-        this.obitText = obitText;
+        this.obitPreviewText = obitPreviewText;
+        this.obitFullTextLink = obitFullTextLink;
     }
 
     public String getPersonName() {
         return personName;
     }
 
-    public String getBirthDate() {
-        return birthDate;
+    public String getObitPreviewText() {
+        return obitPreviewText;
     }
 
-    public String getDeathDate() {
-        return deathDate;
+    public String getObitFullTextLink() {
+        return obitFullTextLink;
     }
-
-    public String getObitText() {
-        return obitText;
-    }
-
 }

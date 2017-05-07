@@ -10,6 +10,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -63,10 +64,11 @@ public class MenuItemListActivity extends AppCompatActivity
         setContentView(R.layout.activity_menuitem_list);
         Timber.plant(new Timber.DebugTree());
 
-        recyclerView = (RecyclerView)findViewById(R.id.menuitem_list);
         toolBarIV = (ImageView)findViewById(R.id.toolbar_image);
         appBarLogo = (ImageView)findViewById(R.id.appbar_logo);
         scrollView = (NestedScrollView)findViewById(R.id.scrollView);
+
+        recyclerView = (RecyclerView)findViewById(R.id.menuitem_list);
         assert recyclerView != null;
         setupRecyclerView(recyclerView);
 
@@ -81,15 +83,12 @@ public class MenuItemListActivity extends AppCompatActivity
         appBarImageUrl = BuildConfig.APP_BAR_IMAGE_URL;
         appBarLogoUrl = BuildConfig.APP_BAR_LOGO_URL;
 
-        if (getResources().getConfiguration().screenWidthDp < 900) {
-            // toolbar image
-            ImageHandler.getSharedInstance(this).load(appBarImageUrl.toString()).
-                    fit().centerCrop().into(toolBarIV);
-            // company logo
-            ImageHandler.getSharedInstance(this).load(appBarLogoUrl.toString())
-                    .fit().centerInside().into(appBarLogo);
-
-        }
+        // toolbar image
+        ImageHandler.getSharedInstance(this).load(appBarImageUrl.toString()).
+                fit().centerCrop().into(toolBarIV);
+        // company logo
+        ImageHandler.getSharedInstance(this).load(appBarLogoUrl.toString())
+                .fit().centerInside().into(appBarLogo);
 
         // start Google Analytics tracking
         Timber.d("start Analytics tracking...");
@@ -138,7 +137,7 @@ public class MenuItemListActivity extends AppCompatActivity
                 public void onClick(View v) {
                     if (mTwoPane) {
                         Bundle arguments = new Bundle();
-                        arguments.putString(ARG_ITEM_ID, holder.mItem.id);
+                        arguments.putString("menu_button_content", holder.mItem.details);
                         MenuItemDetailFragment fragment = new MenuItemDetailFragment();
                         fragment.setArguments(arguments);
                         getSupportFragmentManager().beginTransaction()
@@ -150,6 +149,7 @@ public class MenuItemListActivity extends AppCompatActivity
                                 || (buttonLabel.contains("Plan")) ) {
                             destClass = CompleteFormActivity.class;
                             extraContent = holder.mItem.details;
+                            Timber.d("extraContent: " + extraContent);
 
                         } else if (buttonLabel.contains("Checklist") || buttonLabel.contains("Pay")
                                 || buttonLabel.contains("FAQ")) {
@@ -236,6 +236,7 @@ public class MenuItemListActivity extends AppCompatActivity
     public void launchMenuIntent(Class destinationClass, String extraContent) {
         Timber.d("launchMenuIntent:");
         Timber.d("destinationClass=" + destinationClass.toString());
+        Timber.d("extraContent: " + extraContent);
         Intent intent = new Intent(this, destinationClass);
         intent.putExtra("button_extra_content", extraContent);
         startActivity(intent);

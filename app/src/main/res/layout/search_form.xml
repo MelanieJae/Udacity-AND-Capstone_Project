@@ -56,8 +56,8 @@
         android:layout_marginEnd="@dimen/horiz_margin">
 
         <EditText
-            android:id="@+id/search_zip_codes_et"
-            android:hint="@string/search_form_first_name_label"
+            android:id="@+id/search_form_zip_codes_et"
+            android:hint="@string/search_form_zipcode_field_label"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
         <TextView

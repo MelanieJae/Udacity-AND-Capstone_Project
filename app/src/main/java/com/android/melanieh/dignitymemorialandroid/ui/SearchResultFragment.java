@@ -138,12 +138,12 @@ public class SearchResultFragment extends Fragment implements
     /* Results Recycler View */
 
     private RecyclerView.LayoutManager getLayoutManager() {
-        if (getResources().getConfiguration().screenWidthDp < 600) {
-            RecyclerView.LayoutManager lm = new LinearLayoutManager(getContext());
-            return lm;
-        } else {
+        if (getResources().getConfiguration().screenWidthDp > 600) {
             GridLayoutManager glm = new GridLayoutManager(getContext(), 2);
             return glm;
+        } else {
+            RecyclerView.LayoutManager lm = new LinearLayoutManager(getContext());
+            return lm;
         }
     }
 
@@ -209,8 +209,8 @@ public class SearchResultFragment extends Fragment implements
         String querySuffix;
         if (queryType.contains("obituaries")) {
             queryBuilder = new StringBuilder(OBITS_QUERY_BASE_URL);
-            queryBuilder.append("fn=john");
-            queryBuilder.append("&ln=smith");
+            queryBuilder.append("&firstname=" + firstName);
+            queryBuilder.append("&lastname=" + lastName);
             querySuffix = getString(R.string.obits_search_query_suffix);
 
         } else {

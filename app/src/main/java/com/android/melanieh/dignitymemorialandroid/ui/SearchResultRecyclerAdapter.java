@@ -37,8 +37,8 @@ public class SearchResultRecyclerAdapter
 
     // obit UI fields
     TextView personNameTV;
-    TextView dateSpanTV;
-    TextView obitTextTV;
+    TextView obitPreviewTextTV;
+    TextView obitFullTextLinkTV;
 
     // provider UI fields
     TextView providerNameTV;
@@ -68,8 +68,9 @@ public class SearchResultRecyclerAdapter
             obitViewLL = (LinearLayout)itemView.findViewById(R.id.obit_object_layout);
 //            providerViewLL = (LinearLayout)itemView.findViewById(R.id.provider_object_layout);
             personNameTV = (TextView)itemView.findViewById(R.id.person_name);
-            dateSpanTV = (TextView)itemView.findViewById(R.id.life_death_date_span);
-            obitTextTV = (TextView)itemView.findViewById(R.id.obit_text);
+            obitPreviewTextTV = (TextView)itemView.findViewById(R.id.obit_preview_text);
+            obitFullTextLinkTV = (TextView)itemView.findViewById(R.id.obit_full_text_link);
+
 //            providerNameTV = (TextView) itemView.findViewById(R.id.provider_name);
 //            address1TV = (TextView) itemView.findViewById(R.id.address_1);
 //            address2TV = (TextView) itemView.findViewById(R.id.address_2);
@@ -93,14 +94,14 @@ public class SearchResultRecyclerAdapter
 
         final Object currentObject = objectsList.get(position);
         Timber.d("personNameTV: " + ((Obituary) currentObject).getPersonName());
-        Timber.d("dateSpanTV: " + ((Obituary) currentObject).getDeathDate());
-        Timber.d("obitTextTV: " + ((Obituary) currentObject).getObitText());
+        Timber.d("obitPreviewTextTV: " + ((Obituary) currentObject).getObitPreviewText());
+        Timber.d("obitFullTextLinkTV: " + ((Obituary) currentObject).getObitFullTextLink());
 
         if (currentObject instanceof Obituary) {
 //            providerViewLL.setVisibility(View.GONE);
             personNameTV.setText(((Obituary) currentObject).getPersonName());
-            dateSpanTV.setText(((Obituary) currentObject).getDeathDate());
-            obitTextTV.setText(((Obituary) currentObject).getObitText());
+            obitPreviewTextTV.setText(((Obituary) currentObject).getObitPreviewText());
+            obitFullTextLinkTV.setText(((Obituary) currentObject).getObitFullTextLink());
 
         } else {
 //            obitViewLL.setVisibility(View.GONE);

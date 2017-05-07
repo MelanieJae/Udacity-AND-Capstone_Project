@@ -4,6 +4,8 @@ import android.content.ContentValues;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
+import android.support.annotation.IdRes;
+import android.support.annotation.LayoutRes;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
@@ -18,6 +20,8 @@ import android.widget.Toast;
 
 import com.android.melanieh.dignitymemorialandroid.R;
 import com.android.melanieh.dignitymemorialandroid.data.UserSelectionContract.PlanEntry;
+
+import timber.log.Timber;
 
 public class CompleteFormActivity extends AppCompatActivity {
 
@@ -34,21 +38,24 @@ public class CompleteFormActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        String formType = getIntent().getStringExtra("menu button content");
         setContentView(R.layout.activity_complete_form);
+//        String formType = getIntent().getStringExtra("button_extra_content");
+//        Timber.d("formType: " + formType);
 
 //        if (savedInstanceState == null) {
+//            Bundle args = new Bundle();
+//            args.putString("formType", formType);
 //            fragment = new CompleteFormFragment();
+//            fragment.setArguments(args);
 //            FragmentManager fragmentManager = getSupportFragmentManager();
 //            FragmentTransaction fragmentTransaction = fragmentManager
 //                    .beginTransaction()
-//                    .add(R.id.formFragment, fragment);
+//                    .replace(R.id.formFragment, fragment);
 //            fragmentTransaction.commit();
 //        } else {
 //            fragment = (CompleteFormFragment) getSupportFragmentManager()
 //                    .findFragmentByTag("formFragment");
 //        }
-
 
     }
 

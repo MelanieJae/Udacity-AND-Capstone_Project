@@ -13,6 +13,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -113,10 +114,10 @@ public class PlanViewPagerFragment extends Fragment implements LoaderManager.Loa
         planningStepTitleView = (TextView) rootView.findViewById(R.id.toolbar_step_title);
         recyclerView = (RecyclerView) rootView.findViewById(R.id.plan_option_rv);
 
-        // ensures the planning step title stays visible when the toolbar is collapsed
-
-        toolbar.setCollapsedTitleTextAppearance(R.style.CollapsedToolbar);
-        toolbar.setExpandedTitleTextAppearance(R.style.ExpandedToolbar);
+//        // ensures the planning step title stays visible when the toolbar is collapsed
+//
+//        toolbar.setCollapsedTitleTextAppearance(R.style.CollapsedToolbar);
+//        toolbar.setExpandedTitleTextAppearance(R.style.ExpandedToolbar);
 
         // This AsyncTask is to be used for the final screen only to display the plan details
         // since two loaders returning different objects can't exist and db queries are very infrequent
@@ -149,7 +150,8 @@ public class PlanViewPagerFragment extends Fragment implements LoaderManager.Loa
 
         if (data != null && !data.isEmpty()) {
             rvAdapter = new PlanOptionRecyclerViewAdapter(getContext(), data, planUriString);
-            recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+            layoutManager = getLayoutManager();
+            recyclerView.setLayoutManager(layoutManager);
             recyclerView.setAdapter(rvAdapter);
         } else {
             updateEmptyView();
@@ -169,6 +171,17 @@ public class PlanViewPagerFragment extends Fragment implements LoaderManager.Loa
             emptyViewText.setText(getString(R.string.emptyview_no_results));
         }
     }
+
+    private RecyclerView.LayoutManager getLayoutManager() {
+        if (getResources().getConfiguration().screenWidthDp > 600) {
+            GridLayoutManager glm = new GridLayoutManager(getContext(), 2);
+            return glm;
+        } else {
+            RecyclerView.LayoutManager lm = new LinearLayoutManager(getContext());
+            return lm;
+        }
+    }
+
 
     /**
      * Created by melanieh on 4/30/17

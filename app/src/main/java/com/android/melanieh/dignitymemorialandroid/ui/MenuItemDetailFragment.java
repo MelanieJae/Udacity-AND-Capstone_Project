@@ -54,6 +54,7 @@ public class MenuItemDetailFragment extends Fragment implements MenuOptionsInter
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
+        menuButtonExtra = getArguments().getString("menu_button_content");
     }
 
     @Override
@@ -69,7 +70,6 @@ public class MenuItemDetailFragment extends Fragment implements MenuOptionsInter
         webView = new WebView(getContext());
         TextView faqsTempView = (TextView)rootView.findViewById(R.id.temp_faqs_view);
         id = getActivity().getIntent().getStringExtra(ARG_ITEM_ID);
-        menuButtonExtra = getActivity().getIntent().getStringExtra("button_extra_content");
         Timber.d("menuButtonExtra: " + menuButtonExtra);
 
         if (!menuButtonExtra.contains("FAQ")) {
@@ -85,12 +85,12 @@ public class MenuItemDetailFragment extends Fragment implements MenuOptionsInter
                     getActivity().setProgress(progress * 1000);
                 }
             });
-            webView.setWebViewClient(new WebViewClient() {
-                public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
-                    Toast.makeText(getActivity(), getString(R.string.webview_error_desc), Toast.LENGTH_SHORT).show();
-
-                }
-            });
+//            webView.setWebViewClient(new WebViewClient() {
+//                public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
+//                    Toast.makeText(getActivity(), getString(R.string.webview_error_desc), Toast.LENGTH_SHORT).show();
+//
+//                }
+//            });
 
             webView.loadUrl(menuButtonExtra);
         } else {

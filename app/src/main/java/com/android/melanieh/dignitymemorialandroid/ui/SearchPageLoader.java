@@ -4,11 +4,16 @@ import android.content.Context;
 import android.support.v4.content.AsyncTaskLoader;
 
 import com.android.melanieh.dignitymemorialandroid.Obituary;
+import com.android.melanieh.dignitymemorialandroid.PlanOption;
 import com.android.melanieh.dignitymemorialandroid.Provider;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -59,28 +64,13 @@ public class SearchPageLoader extends AsyncTaskLoader {
 ////         uncomment for testing purposes only to simulate slow network
 ///         response to test the progress indicator
 ////        try {
-////            Thread.sleep(2000);
+////            Thread.sleep(5000);
 ////        } catch (InterruptedException e) {
 ////            e.printStackTrace();
 ////        }
 
-        // Perform HTTP request to the URL and receive a JSON response back
-        String jsonResponse = "";
-        try {
-            URL url = new URL(urlString);
-            jsonResponse = makeHttpRequest(url);
-        } catch (IOException e) {
-            Timber.wtf(e, "Error closing input stream");
-        }
-
-        // Extract relevant fields from the JSON response and create an {@link Object} object
-        // depending on the type of object for which the search is conducted
-
-//        if (requestUrlString.contains("SearchObituaries?")) {
-            resultsList = extractObituaryDataFromJSON(jsonResponse);
-//        } else {
-//            resultsList = extractProviderDataFromJSON(jsonResponse);
-//        }
+        String htmlResponse = "";
+        resultsList = extractObituaryData(htmlResponse);
 
         // Return a list of {@link Object} events. The object will be either:
         // 1. an Obituary object or 2. a Provider object
@@ -89,7 +79,9 @@ public class SearchPageLoader extends AsyncTaskLoader {
     }
 
     /**
-     * Make an HTTP request to the given URL and return a String as the response.
+     * Make an HTTP request to the given URL and return a String as the response (used for JSON
+     * and non-JSoup HTML parsing as JSoup connect method called in the extractData methods below
+     * handles the Http connection.)
      */
     private String makeHttpRequest(URL url) throws IOException {
         String jsonResponse = "";
@@ -154,58 +146,62 @@ public class SearchPageLoader extends AsyncTaskLoader {
      * 2. a Provider object
      */
 
-    private ArrayList<Obituary> extractObituaryDataFromJSON(String jsonResponse) {
-        /** fields needed for obituary:
-         * 1. "SortName"
-         * 2. "DateOfDeath"
-         * 3. "NoticeText"
+    private ArrayList<Obituary> extractObituaryData(String htmlResponse) {
+        /** tags needed for obituary:
+         * 1. "ObitName"
+         * 2. "ObitText"
          *
          */
+        Timber.d("htmlResponse: " + htmlResponse);
+        String obitName = "";
+        String obitPreviewText = "";
+
+        String obitFullTextLink = "";
+        String detailText = "";
+        String estCostString = "";
+        Document doc;
+        Obituary obituary;
         obituariesList = new ArrayList<>();
-        Timber.d("jsonResponse: " + jsonResponse);
-        String personName = "";
-        String dateOfDeath = "";
-        String noticeText = "";
+        ArrayList<String> tempNameArray = new ArrayList<>();
+        ArrayList<String> tempObitPreviewTextArray = new ArrayList<>();
+        ArrayList<String> tempObitFullTextArray = new ArrayList<>();
 
         try {
-            // Extracts the JSONObject mapped by "items" from the base response.
-            JSONObject baseJsonResponse = new JSONObject(jsonResponse);
-            JSONArray resultsJSONArray = baseJsonResponse.getJSONArray("Results");
-            for (int i = 0; i < resultsJSONArray.length(); i++) {
-                JSONObject resultObitObject = resultsJSONArray.getJSONObject(i);
+            if (urlString != null) {
+                doc = Jsoup.connect(urlString).get();
 
-                // validation/null checks
-                if (resultObitObject.has("NoticeText") == false) {
-                    Timber.i("NoticeText is null");
-                } else {
-                    noticeText = resultObitObject.getString("NoticeText");
+                // Jsoup library handles validation/null checks of node values
+                Elements obitNameElements = doc.getElementsByClass("obitName");
+                Elements obitPreviewTextElements = doc.getElementsByClass("obitText");
+
+                Iterator<Element> namesIterator = obitNameElements.iterator();
+                while (namesIterator.hasNext()) {
+                    obitName = namesIterator.next().text();
+                    tempNameArray.add(obitName);
                 }
 
-                if (resultObitObject.has("SortName") == false) {
-                    Timber.i("SortName is null");
-                } else {
-                    personName = resultObitObject.getString("SortName");
+                Iterator<Element> obitPreviewTextIterator = obitPreviewTextElements.iterator();
+                while (obitPreviewTextIterator.hasNext()) {
+                    obitPreviewText = obitPreviewTextIterator.next().text();
+//                    obitFullTextLink = obitPreviewTextIterator.next().attr("href");
+                    tempObitPreviewTextArray.add(obitPreviewText);
+                    tempObitFullTextArray.add(obitFullTextLink);
                 }
 
-                if (resultObitObject.has("DateOfDeath") == false) {
-                    Timber.i("DateOfDeath is null");
-                } else {
-                    dateOfDeath = resultObitObject.getString("DateOfDeath");
+                for (int i = 0; i < obitNameElements.size(); i++) {
+                    obituary = new Obituary(tempNameArray.get(i), tempObitPreviewTextArray.get(i),
+                            tempObitFullTextArray.get(i));
+                    obituariesList.add(obituary);
+                    Timber.d("obituariesList: " + obituariesList);
                 }
-
-                Timber.d("extractData", "SortName= " + personName
-                        + "; DateOfDeath= " + dateOfDeath
-                        + "; NoticeText= " + noticeText);
-                Obituary currentObituary = new Obituary(personName, null, dateOfDeath, noticeText);
-                Timber.d("currentObituary: " + currentObituary.toString());
-                obituariesList.add(currentObituary);
-                Timber.d("obituariesList: " + obituariesList);
+            } else {
+                Timber.e("Error: query string is null");
             }
-
-        } catch (JSONException e) {
-            Timber.wtf(e, "extractObit: ");
+        } catch (IOException e) {
+            Timber.wtf(e, "Error: IO Exception");
         }
         return obituariesList;
+
     }
 
     private ArrayList<Provider> extractProviderDataFromJSON(String jsonResponse) {

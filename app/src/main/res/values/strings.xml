@@ -106,6 +106,8 @@
     <string name="cremation">Cremation</string>
 
     <!-- search form screen -->
+    <string name="search_form_headng">Search for Obituaries and Providers</string>
+    <string name="plan_form_heading">Create a Plan</string>
     <string name="obit_search_first_name">First Name</string>
     <string name="obit_search_last_name">Last Name</string>
     <string name="provider_zip_code">Enter ZIP code</string>
@@ -124,7 +126,7 @@
     <string name="search_form_zipcode_field_label">Enter a zip code:</string>
     <string name="get_directions">Get directions</string>
     <string name="obits_search_query_suffix">
-         <![CDATA[&cid=&sid=0&d=15&b=DM,GHL&scope=0&sort=0&r=100&pn=1&mn=100&v=1]]>
+         <![CDATA[&countryid=1&stateid=0&affiliateid=-1]]>
     </string>
     <string name="provider_search_query_suffix">
          <![CDATA[&brand=DM&locale=EN&startPage=1&recordsPerPage=50&radius=100&isClickTracking=false]]></string>

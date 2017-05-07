@@ -10,6 +10,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -54,7 +55,7 @@ public class CompleteFormFragment extends Fragment implements GoogleApiClient.Co
     TextView lastNameTV;
     EditText firstNameET;
     EditText lastNameET;
-    TextView zipCodeTV;
+    EditText zipCodeET;
     TextView useCurrentLocationTV;
     Button startObitSearchBtn;
     Button startProviderSearchBtn;
@@ -75,12 +76,14 @@ public class CompleteFormFragment extends Fragment implements GoogleApiClient.Co
     Uri newPlanUri;
     String spinnerSelection;
     String contactEmail;
+    String formType;
 
     @Override
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
+
         /* Location services Api client */
         googleApiClient = new GoogleApiClient.Builder(getActivity())
                 .addApi(LocationServices.API)
@@ -96,24 +99,7 @@ public class CompleteFormFragment extends Fragment implements GoogleApiClient.Co
                              @Nullable Bundle savedInstanceState) {
 
         View rootView;
-        rootView = inflater.inflate(R.layout.plan_form, container, false);
-
-//        //obits form input
-        firstNameET = (EditText) rootView.findViewById(R.id.search_form_first_name_et);
-        lastNameET = (EditText) rootView.findViewById(R.id.search_form_last_name_et);
-
-        planTypeSpinner = (AppCompatSpinner) rootView.findViewById(R.id.planTypeSpinner);
-        planNameET = (EditText) rootView.findViewById(R.id.plan_form_plan_name_et);
-        contactEmailET = (EditText) rootView.findViewById(R.id.plan_form_contact_email_et);
-//
-        locSvcsView = (TextView) rootView.findViewById(R.id.location_svcs_readout);
-//        useCurrentLocationTV = (TextView) rootView.findViewById(R.id.location_svcs_readout);
-        startObitSearchBtn = (Button) rootView.findViewById(R.id.start_obit_search_btn);
-        startPlanningBtn = (Button) rootView.findViewById(R.id.start_planning_btn);
-
-        // initialize isUsingCurrentLocation to its default value of false
-        isUsingCurrentLocation = false;
-
+        TextView formHeadingView;
         View.OnClickListener clickListener = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -131,12 +117,56 @@ public class CompleteFormFragment extends Fragment implements GoogleApiClient.Co
                 }
             }
         };
-//
-//        startObitSearchBtn.setOnClickListener(clickListener);
-//        startProviderSearchBtn.setOnClickListener(clickListener);
-        startPlanningBtn.setOnClickListener(clickListener);
-//        locSvcsView.setOnClickListener(clickListener);
-        populatePlanTypeSpinner();
+
+        // initialize isUsingCurrentLocation to its default value of false
+        isUsingCurrentLocation = false;
+
+        String formType = getActivity().getIntent().getStringExtra("button_extra_content");
+        Timber.d("formType: " + formType);
+        if (formType.equalsIgnoreCase("Search Obituaries and Providers")) {
+            rootView = inflater.inflate(R.layout.search_form, container, false);
+            // obits fields
+            firstNameET = (EditText) rootView.findViewById(R.id.search_form_first_name_et);
+            lastNameET = (EditText) rootView.findViewById(R.id.search_form_last_name_et);
+
+            // provider fields
+            zipCodeET = (EditText) rootView.findViewById(R.id.search_form_zip_codes_et);
+
+            locSvcsView = (TextView) rootView.findViewById(R.id.location_svcs_readout);
+            useCurrentLocationTV = (TextView) rootView.findViewById(R.id.location_svcs_readout);
+            startObitSearchBtn = (Button) rootView.findViewById(R.id.start_obit_search_btn);
+            startProviderSearchBtn = (Button) rootView.findViewById(R.id.start_provider_search_btn);
+
+            startObitSearchBtn.setOnClickListener(clickListener);
+            startProviderSearchBtn.setOnClickListener(clickListener);
+
+        } else {
+            rootView = inflater.inflate(R.layout.plan_form, container, false);
+            planTypeSpinner = (AppCompatSpinner) rootView.findViewById(R.id.planTypeSpinner);
+            planNameET = (EditText) rootView.findViewById(R.id.plan_form_plan_name_et);
+            contactEmailET = (EditText) rootView.findViewById(R.id.plan_form_contact_email_et);
+            startPlanningBtn = (Button) rootView.findViewById(R.id.start_planning_btn);
+
+            populatePlanTypeSpinner();
+            startPlanningBtn.setOnClickListener(clickListener);
+            locSvcsView.setOnClickListener(clickListener);
+
+        }
+//        switch (formType) {
+//            case "Search Obituaries and Providers":
+//                rootView = inflater.inflate(R.layout.search_form, container, false);
+//                break;
+//            case "Start Planning a Service":
+//                rootView = inflater.inflate(R.layout.plan_form, container, false);
+//        }
+
+//        formHeadingView = (TextView)rootView.findViewById(R.id.form_heading);
+//        if (formType.equalsIgnoreCase("Search Obituaries and Providers")) {
+//            formHeadingView.setText(getString(R.string.search_form_heading));
+//        } else {
+//            formHeadingView.setText(getString(R.string.plan_form_heading));
+//        }
+
         return rootView;
 
     }
@@ -149,18 +179,19 @@ public class CompleteFormFragment extends Fragment implements GoogleApiClient.Co
         Double queryLocationLatExtra;
         Double queryLocationLongExtra;
 
-//        if (!validEntriesArePresent) {
-//            showInvalidEntriesDialog();
-//        } else {
-//            if (isUsingCurrentLocation) {
-//                queryType = "provider";
-//            } else {
-//                boolean zipCodeIsEmpty = Utility.entryIsEmpty(zipCodeET);
-//                if (zipCodeIsEmpty) {
-//                    queryType = "obituaries";
-//                }
-//            }
-//        }
+        if (TextUtils.isEmpty(firstNameET.getText()) && TextUtils.isEmpty(lastNameET.getText())
+                && TextUtils.isEmpty(zipCodeET.getText()) && !isUsingCurrentLocation) {
+            showInvalidEntriesDialog();
+        } else {
+            if (isUsingCurrentLocation) {
+                queryType = "provider";
+            } else {
+                boolean zipCodeIsEmpty = TextUtils.isEmpty(zipCodeET.getText());
+                if (zipCodeIsEmpty && !isUsingCurrentLocation) {
+                    queryType = "obituaries";
+                }
+            }
+        }
 
 //        if (zipCodeET != null) {
 //            promptUserToSaveZipCodeEntry();
@@ -179,8 +210,8 @@ public class CompleteFormFragment extends Fragment implements GoogleApiClient.Co
 //        } else {
             Timber.d("first name", firstNameET.getText().toString());
 
-            getSearchResults.putExtra("first name", "john");
-            getSearchResults.putExtra("last name", "smith");
+            getSearchResults.putExtra("first name", firstNameET.getText().toString());
+            getSearchResults.putExtra("last name", lastNameET.getText().toString());
 //        }
         startActivity(getSearchResults);
     }
