@@ -156,6 +156,7 @@ public class SearchPageLoader extends AsyncTaskLoader {
         String obitName = "";
         String obitPreviewText = "";
 
+        String obitFullTextLinkHeading = "";
         String obitFullTextLink = "";
         String detailText = "";
         String estCostString = "";
@@ -173,6 +174,7 @@ public class SearchPageLoader extends AsyncTaskLoader {
                 // Jsoup library handles validation/null checks of node values
                 Elements obitNameElements = doc.getElementsByClass("obitName");
                 Elements obitPreviewTextElements = doc.getElementsByClass("obitText");
+                Elements obitFullTextElements = doc.select("a.RightLink[href]");
 
                 Iterator<Element> namesIterator = obitNameElements.iterator();
                 while (namesIterator.hasNext()) {
@@ -183,8 +185,12 @@ public class SearchPageLoader extends AsyncTaskLoader {
                 Iterator<Element> obitPreviewTextIterator = obitPreviewTextElements.iterator();
                 while (obitPreviewTextIterator.hasNext()) {
                     obitPreviewText = obitPreviewTextIterator.next().text();
-//                    obitFullTextLink = obitPreviewTextIterator.next().attr("href");
                     tempObitPreviewTextArray.add(obitPreviewText);
+                }
+
+                Iterator<Element> obitFullTextIterator = obitFullTextElements.iterator();
+                while (obitFullTextIterator.hasNext()) {
+                    obitFullTextLink = obitFullTextIterator.next().attr("abs:href");
                     tempObitFullTextArray.add(obitFullTextLink);
                 }
 
