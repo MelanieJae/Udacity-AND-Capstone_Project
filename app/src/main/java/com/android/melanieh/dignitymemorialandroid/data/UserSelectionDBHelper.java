@@ -17,17 +17,18 @@ public class UserSelectionDBHelper extends SQLiteOpenHelper {
     private static UserSelectionDBHelper mInstance = null;
 
 
-    public static UserSelectionDBHelper getInstance(Context context) {
+//    public static UserSelectionDBHelper getInstance(Context context) {
+//
+//        // Use the application context, which will ensure that you
+//        // don't accidentally leak an Activity's context.
+//        // See this article for more information: http://bit.ly/6LRzfx
+//        if (mInstance == null) {
+//            mInstance = new UserSelectionDBHelper(context);
+//        }
+//        return mInstance;
+//    }
 
-        // Use the application context, which will ensure that you
-        // don't accidentally leak an Activity's context.
-        // See this article for more information: http://bit.ly/6LRzfx
-        if (mInstance == null) {
-            mInstance = new UserSelectionDBHelper(context.getApplicationContext());
-        }
-        return mInstance;
-    }
-    private UserSelectionDBHelper (Context context) {
+    public UserSelectionDBHelper (Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
@@ -43,7 +44,6 @@ public class UserSelectionDBHelper extends SQLiteOpenHelper {
 
     public static final String COLUMN_ID = BaseColumns._ID;
     public static final String COLUMN_PLAN_NAME = PlanEntry.COLUMN_PLAN_NAME;
-    public static final String COLUMN_PLAN_TYPE = PlanEntry.COLUMN_PLAN_TYPE;
     public static final String COLUMN_CONTACT_EMAIL = PlanEntry.COLUMN_CONTACT_EMAIL;
     public static final String COLUMN_PROVIDER = PlanEntry.COLUMN_PROVIDER;
 
@@ -58,7 +58,6 @@ public class UserSelectionDBHelper extends SQLiteOpenHelper {
             + " " + UserSelectionContract.PlanEntry.TABLE_NAME
             + "(" + PlanEntry.COLUMN_ID + " " + INT_PRIMARY_KEY_AUTOINC + ", "
             + COLUMN_PLAN_NAME + VARCHAR_NOT_NULL_DEFAULT + ", "
-            + COLUMN_PLAN_TYPE + VARCHAR_NOT_NULL_DEFAULT + ", "
             + COLUMN_CONTACT_EMAIL + VARCHAR_NOT_NULL_DEFAULT + ", "
             + COLUMN_PROVIDER + VARCHAR_NOT_NULL_DEFAULT + ", "
             + COLUMN_CEREMONY_SELECTION + VARCHAR_NOT_NULL_DEFAULT + ", "

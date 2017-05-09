@@ -536,7 +536,7 @@
         <span class="menu-text">Would you like a Casket or an Urn?</span>
 
         <img alt="Outdoor Location" class="img-responsive center-block col-md-12"
-        src="https://s3.amazonaws.com/busites_www/tdp/media/option-media/ceremony_outdoor_1455044981_618.png"></img>
+        src="https://s3.amazonaws.com/busites_www/tdp/media/option-carousel-media/thumb_oak_casket_1454890804_554.jpg"></img>
         <div class="col-md-6">
             <h3>Caskets</h3>
             <p><strong>Estimated Cost:</strong><br> $1,500 - $8,000</p>
@@ -548,7 +548,7 @@
 
 
         <img class="img-responsive center-block col-md-12"
-        src="https://s3.amazonaws.com/busites_www/tdp/media/option-media/religiousfacility_1455035214_612.png" alt="Urns">
+        src="https://s3.amazonaws.com/busites_www/tdp/1/1/media/option-carousel-media/thumb_brass_urn_1454908484_588.jpg" alt="Urns">
         <div class="col-md-6">
                     <h3>Urns</h3>
                     <p><strong>Estimated Cost:</strong><br> $300 - $1,500</p>
@@ -562,4 +562,7 @@
     <!-- web browser detail fragment screen -->
     <string name="webview_error_desc">The page did not load properly.</string>
 
+
+    <!-- credentials -->
+    <string name="maps_v2_key">AIzaSyD7lDjQTrH5Mc5vmobw-Gav6Qt-svuhE3Q</string>
 </resources>

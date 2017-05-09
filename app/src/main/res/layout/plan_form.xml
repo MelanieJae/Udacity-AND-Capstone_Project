@@ -13,11 +13,6 @@
         android:layout_marginEnd="@dimen/horiz_margin"
         android:layout_marginTop="@dimen/vert_margin" />
 
-    <android.support.v7.widget.AppCompatSpinner
-        android:id="@+id/planTypeSpinner"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
-
     <EditText
         android:id="@+id/plan_form_plan_name_et"
         android:hint="Plan Name, e.g. 'Aunt Lila'"

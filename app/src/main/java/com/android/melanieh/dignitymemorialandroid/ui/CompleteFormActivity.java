@@ -39,33 +39,5 @@ public class CompleteFormActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_complete_form);
-//        String formType = getIntent().getStringExtra("button_extra_content");
-//        Timber.d("formType: " + formType);
-
-//        if (savedInstanceState == null) {
-//            Bundle args = new Bundle();
-//            args.putString("formType", formType);
-//            fragment = new CompleteFormFragment();
-//            fragment.setArguments(args);
-//            FragmentManager fragmentManager = getSupportFragmentManager();
-//            FragmentTransaction fragmentTransaction = fragmentManager
-//                    .beginTransaction()
-//                    .replace(R.id.formFragment, fragment);
-//            fragmentTransaction.commit();
-//        } else {
-//            fragment = (CompleteFormFragment) getSupportFragmentManager()
-//                    .findFragmentByTag("formFragment");
-//        }
-
     }
-
-//    @Override
-//    protected void onSaveInstanceState(Bundle outState) {
-//        super.onSaveInstanceState(outState);
-//
-//        //Save the fragment's instance
-//        getSupportFragmentManager().putFragment(outState, "formFragment", fragment);
-//    }
-
-
 }

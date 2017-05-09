@@ -52,39 +52,18 @@ public class PlanViewPagerFragment extends Fragment implements LoaderManager.Loa
 
     private int loaderId;
 
-    /** projection for DB query to display plan selection summary */
-    public static String[] SELECTION_COLUMNS = {
-                                    PlanEntry.COLUMN_PLAN_NAME,
-                                    PlanEntry.COLUMN_PLAN_TYPE,
-                                    PlanEntry.COLUMN_CONTACT_EMAIL,
-                                    PlanEntry.COLUMN_CEREMONY_SELECTION,
-                                    PlanEntry.COLUMN_VISITATION_SELECTION,
-                                    PlanEntry.COLUMN_RECEPTION_SELECTION,
-                                    PlanEntry.COLUMN_SITE_SELECTION,
-                                    PlanEntry.COLUMN_CONTAINER_SELECTION,
-                                    PlanEntry.COLUMN_EST_COST
-                                    };
-
-    private static final int INDEX_PLAN_NAME = 1;
-    private static final int INDEX_PLAN_TYPE = 2;
-    private static final int INDEX_CONTACT_EMAIL = 3;
-    private static final int INDEX_CEREMONY_SELECTION = 4;
-    private static final int INDEX_VISITATION_SELECTION = 5;
-    private static final int INDEX_RECEPTION_SELECTION = 6;
-    private static final int INDEX_SITE_SELECTION = 7;
-    private static final int INDEX_CONTAINER_SELECTION = 8;
-    private static final int INDEX_EST_COST = 9;
-
     public PlanViewPagerFragment() {
         //
     }
 
-    public static PlanViewPagerFragment newInstance(String content, int loaderId, String planUriString) {
+    public static PlanViewPagerFragment newInstance(String content, int loaderId
+            , String planUriString) {
         PlanViewPagerFragment fragment = new PlanViewPagerFragment();
         Bundle args = new Bundle();
         args.putString("static content", content);
         args.putInt("loaderId", loaderId);
         args.putString("planUriString", planUriString);
+        Timber.d("planUriString: " + planUriString);
         fragment.setArguments(args);
         return fragment;
 
@@ -113,24 +92,11 @@ public class PlanViewPagerFragment extends Fragment implements LoaderManager.Loa
 //        estCostView = (TextView) rootView.findViewById(R.id.toolbar_est_cost_tv);
         planningStepTitleView = (TextView) rootView.findViewById(R.id.toolbar_step_title);
         recyclerView = (RecyclerView) rootView.findViewById(R.id.plan_option_rv);
-
+        getLoaderManager().initLoader(loaderId, null, this).forceLoad();
 //        // ensures the planning step title stays visible when the toolbar is collapsed
 //
 //        toolbar.setCollapsedTitleTextAppearance(R.style.CollapsedToolbar);
 //        toolbar.setExpandedTitleTextAppearance(R.style.ExpandedToolbar);
-
-        // This AsyncTask is to be used for the final screen only to display the plan details
-        // since two loaders returning different objects can't exist and db queries are very infrequent
-        // (ideally only once or twice) an async task is used for the cursor creation
-        // and a loader is used for the recycler view.
-
-        if (loaderId > 50) {
-            Timber.d("planUriString: " + planUriString);
-            ReadCursorAsyncTask asyncTask = new ReadCursorAsyncTask(getContext());
-            asyncTask.execute(Uri.parse(planUriString));
-        } else {
-            getActivity().getSupportLoaderManager().initLoader(loaderId, null, this).forceLoad();
-        }
 
         return rootView;
     }
@@ -182,55 +148,6 @@ public class PlanViewPagerFragment extends Fragment implements LoaderManager.Loa
         }
     }
 
-
-    /**
-     * Created by melanieh on 4/30/17
-     * It is intended that the saved plan database only be read a few times at most,
-     * ideally no more than once or twice to produce the plan summary info and then pass that
-     * info along to the widget, notification and share functions
-     */
-
-    public static class ReadCursorAsyncTask extends AsyncTask<Uri, Void, Cursor> {
-
-        Context context;
-        public ReadCursorAsyncTask(Context context) {
-            this.context = context;
-        }
-
-        @Override
-        protected Cursor doInBackground(Uri... params) {
-            Cursor cursor =
-                    context.getContentResolver().query(params[0],
-                            PlanViewPagerFragment.SELECTION_COLUMNS, null, null, null);
-            return cursor;
-        }
-
-        @Override
-        protected void onPostExecute(Cursor cursor) {
-            String planName = cursor.getString(PlanViewPagerFragment.INDEX_PLAN_NAME);
-            String planType = cursor.getString(PlanViewPagerFragment.INDEX_PLAN_TYPE);
-            String contactEmail = cursor.getString(PlanViewPagerFragment.INDEX_CONTACT_EMAIL);
-            String ceremonySelection = cursor.getString(PlanViewPagerFragment.INDEX_CEREMONY_SELECTION);
-            String visitationSelection = cursor.getString(PlanViewPagerFragment.INDEX_VISITATION_SELECTION);
-            String receptionSelection = cursor.getString(PlanViewPagerFragment.INDEX_RECEPTION_SELECTION);
-            String siteSelection = cursor.getString(PlanViewPagerFragment.INDEX_SITE_SELECTION);
-            String containerSelection = cursor.getString(PlanViewPagerFragment.INDEX_CONTAINER_SELECTION);
-            String estCostString = cursor.getString(PlanViewPagerFragment.INDEX_EST_COST);
-
-            // append staticContent string with these values
-            StringBuilder planSummaryContent = new StringBuilder();
-            String planSummary = String.format(context.getString(R.string.plan_summary_intro), planName)
-                    + String.format(context.getString(R.string.ceremony_selection), ceremonySelection)
-                    + String.format(context.getString(R.string.visitation_selection), visitationSelection)
-                    + String.format(context.getString(R.string.reception_selection), receptionSelection)
-                    + String.format(context.getString(R.string.site_selection), siteSelection)
-                    + String.format(context.getString(R.string.container_selection), containerSelection)
-                    + String.format(context.getString(R.string.est_cost), Double.valueOf(estCostString));
-            planSummaryContent.append(planSummary);
-            staticContentView.setText(planSummaryContent);
-
-        }
-    }
 }
 
 

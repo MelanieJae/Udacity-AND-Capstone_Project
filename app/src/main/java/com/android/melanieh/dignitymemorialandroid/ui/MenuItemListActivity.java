@@ -223,10 +223,10 @@ public class MenuItemListActivity extends AppCompatActivity
                 destClass = SettingsActivity.class;
                 launchMenuIntent(destClass, null);
                 break;
-//            case R.id.action_view_plan_selections:
-//                destClass = PlanSummaryActivity.class;
-//                launchMenuIntent(destClass, null);
-//                break;
+            case R.id.action_view_plan_selections:
+                destClass = PlanSummaryActivity.class;
+                launchMenuIntent(destClass, null);
+                break;
             case R.id.action_share:
                 startActivity(Intent.createChooser(launchShareIntent(), getString(R.string.share_app_chooser_dialog_title)));
         }
@@ -248,13 +248,6 @@ public class MenuItemListActivity extends AppCompatActivity
         shareIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Subject/Title");
         shareIntent.putExtra(android.content.Intent.EXTRA_TEXT, shareBodyText);
         return shareIntent;
-    }
-
-    @Override
-    public void onSaveInstanceState(Bundle outState, PersistableBundle outPersistentState) {
-        Timber.d("onCreateOptionsMenu");
-        super.onSaveInstanceState(outState, outPersistentState);
-
     }
 
 }

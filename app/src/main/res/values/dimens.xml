@@ -3,7 +3,6 @@
     <integer name="list_item_column_count">2</integer>
 
     <!--google play services-->
-    <integer name="google_play_services_version">10298000</integer>
     <!-- buttons -->
     <dimen name="btn_elevation">2dp</dimen>
 

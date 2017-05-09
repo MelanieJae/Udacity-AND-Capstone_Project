@@ -7,7 +7,7 @@
         android:width="100dp"
         android:height="100dp"/>
     <solid
-        android:color="@color/primary_light" />
+        android:color="@color/primary" />
     <corners
         android:bottomRightRadius="16dp"
         android:bottomLeftRadius="16dp"

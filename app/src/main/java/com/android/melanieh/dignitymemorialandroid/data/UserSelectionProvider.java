@@ -51,7 +51,7 @@ public class UserSelectionProvider extends ContentProvider {
 
     @Override
     public boolean onCreate() {
-        mDbHelper = UserSelectionDBHelper.getInstance(getContext());
+        mDbHelper = new UserSelectionDBHelper(getContext());
         return true;
     }
 
@@ -69,7 +69,7 @@ public class UserSelectionProvider extends ContentProvider {
                         null, null, sortOrder);
                 break;
             case PLAN_ID:
-                selection = PlanEntry._ID + "=?";
+                selection = PlanEntry.COLUMN_ID + "=?";
                 selectionArgs = new String[] {String.valueOf(ContentUris.parseId(uri))};
                 // Cursor containing that row of the table.
                 cursor = db.query(PlanEntry.TABLE_NAME, projection, selection, selectionArgs,
@@ -102,8 +102,7 @@ public class UserSelectionProvider extends ContentProvider {
             case PLANS:
                 return updatePlan(uri, contentValues, selection, selectionArgs);
             case PLAN_ID:
-                String id = "" + ContentUris.parseId(uri);
-                selection = "_id=" + id;
+                selection = PlanEntry.COLUMN_ID + " = " + uri.getLastPathSegment();
                 selectionArgs = null;
                 return updatePlan(uri, contentValues, selection, selectionArgs);
             default:
@@ -130,6 +129,7 @@ public class UserSelectionProvider extends ContentProvider {
             default:
                 throw new IllegalArgumentException("Deletion is not supported for " + uri);
         }
+
     }
 
     private void deleteAllPlans() {
@@ -171,17 +171,8 @@ public class UserSelectionProvider extends ContentProvider {
             }
         }
 
-        // planType
-        if (values.containsKey(PlanEntry.COLUMN_PLAN_TYPE)) {
-            Integer type = values.getAsInteger(PlanEntry.COLUMN_PLAN_TYPE);
-            if (type == null || !PlanEntry.isValidPlanType(type)) {
-                throw new IllegalArgumentException("Plan requires valid plan type");
-            }
-        }
-
         // contact e-mail
         if (values.containsKey(PlanEntry.COLUMN_CONTACT_EMAIL)) {
-            // Check that the weight is greater than or equal to 0 kg
             String contactEmail = values.getAsString(PlanEntry.COLUMN_CONTACT_EMAIL);
             if (contactEmail == null) {
                 throw new IllegalArgumentException("Plan requires a contact e-mail");
@@ -190,7 +181,6 @@ public class UserSelectionProvider extends ContentProvider {
 
         // ceremony selection
         if (values.containsKey(PlanEntry.COLUMN_CEREMONY_SELECTION)) {
-            // Check that the weight is greater than or equal to 0 kg
             String ceremony = values.getAsString(PlanEntry.COLUMN_CEREMONY_SELECTION);
             if (ceremony == null) {
                 throw new IllegalArgumentException("Plan requires a contact e-mail");
@@ -199,7 +189,6 @@ public class UserSelectionProvider extends ContentProvider {
 
         // reception selection
         if (values.containsKey(PlanEntry.COLUMN_RECEPTION_SELECTION)) {
-            // Check that the weight is greater than or equal to 0 kg
             String reception = values.getAsString(PlanEntry.COLUMN_RECEPTION_SELECTION);
             if (reception == null) {
                 throw new IllegalArgumentException("Plan requires a contact e-mail");
@@ -208,7 +197,6 @@ public class UserSelectionProvider extends ContentProvider {
 
         // visitation selection
         if (values.containsKey(PlanEntry.COLUMN_VISITATION_SELECTION)) {
-            // Check that the weight is greater than or equal to 0 kg
             String visitation = values.getAsString(PlanEntry.COLUMN_VISITATION_SELECTION);
             if (visitation == null) {
                 throw new IllegalArgumentException("Plan requires a contact e-mail");
@@ -239,9 +227,7 @@ public class UserSelectionProvider extends ContentProvider {
             }
         }
 
-        // No need to check the breed, any value is valid (including null).
-
-        // If there are no values to update, then don't try to update the database
+        // If there are no values to update, then return without querying
         if (values.size() == 0) {
             return 0;
         }

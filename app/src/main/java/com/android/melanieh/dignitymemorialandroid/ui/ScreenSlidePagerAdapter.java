@@ -19,7 +19,7 @@ public class ScreenSlidePagerAdapter extends FragmentPagerAdapter {
 
     Context context;
     String planUriString;
-    private static final int NUM_PAGES = 6;
+    private static final int NUM_PAGES = 5;
 
     public ScreenSlidePagerAdapter(Context context, FragmentManager fm, String planUriString) {
         super(fm);
@@ -76,11 +76,6 @@ public class ScreenSlidePagerAdapter extends FragmentPagerAdapter {
             case 4:
                 staticContent = context.getString(R.string.containerHtmlString);
                 loaderId = 50;
-                break;
-            case 5:
-                // left blank and appended after all selections are made and plan summary is to be displayed;
-                staticContent = "";
-                loaderId = 60;
                 break;
 
         }

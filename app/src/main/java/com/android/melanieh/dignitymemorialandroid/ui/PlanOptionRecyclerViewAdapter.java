@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
@@ -25,7 +26,8 @@ import android.widget.Toast;
 import com.android.melanieh.dignitymemorialandroid.BuildConfig;
 import com.android.melanieh.dignitymemorialandroid.PlanOption;
 import com.android.melanieh.dignitymemorialandroid.R;
-import com.android.melanieh.dignitymemorialandroid.data.UserSelectionContract;
+import com.android.melanieh.dignitymemorialandroid.data.UserSelectionContract.PlanEntry;
+import com.android.melanieh.dignitymemorialandroid.data.UserSelectionDBHelper;
 
 import java.util.ArrayList;
 
@@ -133,19 +135,19 @@ public class PlanOptionRecyclerViewAdapter
 
         switch (optionsTitle) {
             case "ceremony":
-                cvKey = UserSelectionContract.PlanEntry.COLUMN_CEREMONY_SELECTION;
+                cvKey = PlanEntry.COLUMN_CEREMONY_SELECTION;
                 break;
             case "reception":
-                cvKey = UserSelectionContract.PlanEntry.COLUMN_RECEPTION_SELECTION;
+                cvKey = PlanEntry.COLUMN_RECEPTION_SELECTION;
                 break;
             case "visitation":
-                cvKey = UserSelectionContract.PlanEntry.COLUMN_VISITATION_SELECTION;
+                cvKey = PlanEntry.COLUMN_VISITATION_SELECTION;
                 break;
             case "site":
-                cvKey = UserSelectionContract.PlanEntry.COLUMN_SITE_SELECTION;
+                cvKey = PlanEntry.COLUMN_SITE_SELECTION;
                 break;
             case "container":
-                cvKey = UserSelectionContract.PlanEntry.COLUMN_CONTAINER_SELECTION;
+                cvKey = PlanEntry.COLUMN_CONTAINER_SELECTION;
                 break;
             default:
                 Timber.e("Invalid Fragment tag");
@@ -153,7 +155,9 @@ public class PlanOptionRecyclerViewAdapter
         values.put(cvKey, optionSelection);
         Uri planUri = Uri.parse(planUriString);
         Timber.d("planUri: " + planUri.toString());
-        int numRowsUpdated = context.getContentResolver().update(planUri, values, null, null);
+        int numRowsUpdated = context.getContentResolver().update(planUri, values,
+                null,
+                null);
         if (numRowsUpdated == 0) {
             Toast.makeText(context, "Error updating plan with selection", Toast.LENGTH_LONG).show();
         } else {

@@ -54,7 +54,6 @@ public class UserSelectionContract {
         /*** table column names */
         public static final String COLUMN_ID = BaseColumns._ID;
         public static final String COLUMN_PLAN_NAME = "Plan_Name";
-        public static final String COLUMN_PLAN_TYPE = "Plan_Type"; // burial, cremation or undecided
         public static final String COLUMN_CONTACT_EMAIL = "POC_Email";
         // chosen from sharedprefs
         public static final String COLUMN_PROVIDER = "Provider_Pref";

@@ -38,7 +38,7 @@
             android:id="@+id/start_obit_search_btn"
             android:layout_width="match_parent"
             android:layout_height="80dp"
-            android:text="@string/start_search_btn"
+            android:text="@string/start_obits_search_btn"
             android:textSize="@dimen/large_text_size"
             android:textColor="@android:color/black"
             android:background="@drawable/start_search_btn"
@@ -55,8 +55,8 @@
         android:layout_marginStart="@dimen/horiz_margin"
         android:layout_marginEnd="@dimen/horiz_margin">
 
-        <EditText
-            android:id="@+id/search_form_zip_codes_et"
+        <AutoCompleteTextView
+            android:id="@+id/search_form_zip_codes_act"
             android:hint="@string/search_form_zipcode_field_label"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />

@@ -2,8 +2,6 @@
 <resources>
     <integer name="list_item_column_count">2</integer>
 
-    <!--google play services-->
-    <integer name="google_play_services_version">10298000</integer>
     <!-- buttons -->
     <dimen name="start_plan_btn_elevation">2dp</dimen>
     <dimen name="start_search_btn_elevation">2dp</dimen>

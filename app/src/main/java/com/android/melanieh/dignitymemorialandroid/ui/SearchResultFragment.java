@@ -57,8 +57,8 @@ public class SearchResultFragment extends Fragment implements
     LinearLayout obitsFormLayout;
     LinearLayout providerFormLayout;
     TextView locSvcsView;
-    Double locationLat;
-    Double locationLong;
+    String locationLat;
+    String locationLong;
     private static final String OBITS_QUERY_BASE_URL = BuildConfig.OBITS_QUERY_BASE_URL;
     private static final String PROVIDER_SITE_QUERY_BASE_URL = BuildConfig.PROVIDER_QUERY_BASE_URL;
     private TextView txtOutput;
@@ -69,6 +69,7 @@ public class SearchResultFragment extends Fragment implements
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
 
 
     /* Location services Api client for current location and Maps */
@@ -98,14 +99,13 @@ public class SearchResultFragment extends Fragment implements
             provider = sharedPrefs.getString("provider", "");
         }
 
-        queryType="obituaries";
-//        queryType = getActivity().getIntent().getStringExtra("query type");
         zipCode = getActivity().getIntent().getStringExtra("zipCode");
         firstName = getActivity().getIntent().getStringExtra("first name");
         lastName = getActivity().getIntent().getStringExtra("last name");
 
-        locationLat = getActivity().getIntent().getDoubleExtra("current location lat", 0);
-        locationLong = getActivity().getIntent().getDoubleExtra("current location long", 0);
+        String[] currentLocation = getActivity().getIntent().getStringArrayExtra("current location");
+//        locationLat = currentLocation[0];
+//        locationLong = currentLocation[1];
         Timber.d("queryType: " + queryType);
         Timber.d("firstName= " + firstName);
         Timber.d("lastName= " + lastName);
@@ -115,7 +115,6 @@ public class SearchResultFragment extends Fragment implements
         Timber.d("locationLong= " + locationLong);
 
         executeSearch(queryType);
-
         return rootView;
     }
 
@@ -215,15 +214,22 @@ public class SearchResultFragment extends Fragment implements
 
         } else {
             queryBuilder = new StringBuilder(PROVIDER_SITE_QUERY_BASE_URL);
-            queryBuilder.append("&latitude=" + locationLat);
-            queryBuilder.append("&longitude=" + locationLong);
+            if (locationLat != null) {
+                queryBuilder.append("latitude=" + locationLat);
+            } else {
+                queryBuilder.append("latitude=undefined");
+            }
+            if (locationLong != null) {
+                queryBuilder.append("&longitude=" + locationLong);
+            } else {
+                queryBuilder.append("&longitude=undefined");
+            }
             if (zipCode != null) {
                 queryBuilder.append("&zipCode=" + zipCode);
             } else {
                 queryBuilder.append("&zipCode=undefined");
             }
             querySuffix = getString(R.string.provider_search_query_suffix);
-            // TODO: add path for "get location" input for lat & long from Google Play Location
         }
 
         // append appropriate query suffix
