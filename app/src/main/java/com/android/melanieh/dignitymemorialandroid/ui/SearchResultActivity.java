@@ -108,10 +108,10 @@ public class SearchResultActivity extends AppCompatActivity {
                 destClass = SettingsActivity.class;
                 launchMenuIntent(destClass, null);
                 break;
-//            case R.id.action_view_plan_selections:
-//                destClass = PlanSummaryActivity.class;
-//                launchMenuIntent(destClass, null);
-//                break;
+            case R.id.action_view_plan_selections:
+                destClass = PlanSummaryActivity.class;
+                launchMenuIntent(destClass, null);
+                break;
             case R.id.action_share:
                 startActivity(Intent.createChooser(launchShareIntent(), getString(R.string.share_app_chooser_dialog_title)));
         }

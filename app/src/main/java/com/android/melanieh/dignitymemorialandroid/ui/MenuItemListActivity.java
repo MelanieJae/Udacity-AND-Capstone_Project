@@ -54,8 +54,6 @@ public class MenuItemListActivity extends AppCompatActivity
     Class destClass;
     String extraContent;
 
-    public static final String ARG_ITEM_ID = "item_id";
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Timber.d("onCreate");
@@ -147,7 +145,7 @@ public class MenuItemListActivity extends AppCompatActivity
                     } else {
                         if (buttonLabel.contains("Search") || buttonLabel.contains("Find")
                                 || (buttonLabel.contains("Plan")) ) {
-                            destClass = CompleteFormActivity.class;
+                            destClass = PlanViewPagerActivity.class;
                             extraContent = holder.mItem.details;
                             Timber.d("extraContent: " + extraContent);
 

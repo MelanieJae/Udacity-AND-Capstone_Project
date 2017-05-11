@@ -91,6 +91,7 @@ public class PlanPageLoader extends AsyncTaskLoader{
             while (headingsIterator.hasNext()) {
                 heading = headingsIterator.next().text();
                 tempHeadingArray.add(heading);
+                Timber.d("tempHeadingArray: " + tempHeadingArray);
             }
 
             Elements imageUrlElements = doc.select("img[src]");
@@ -120,7 +121,7 @@ public class PlanPageLoader extends AsyncTaskLoader{
                 optionsList.add(option);
                 Timber.d("optionsList: " + optionsList);
             }
-            } else {
+        } else {
             Timber.e("Error: query string is null");
         }
         return optionsList;

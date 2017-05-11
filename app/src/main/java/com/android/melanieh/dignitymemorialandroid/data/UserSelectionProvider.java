@@ -97,6 +97,7 @@ public class UserSelectionProvider extends ContentProvider {
     public int update(Uri uri, ContentValues contentValues, String selection,
                       String[] selectionArgs) {
 
+        Timber.d("contentProvider update:");
         final int match = sUriMatcher.match(uri);
         switch (match) {
             case PLANS:
@@ -161,6 +162,11 @@ public class UserSelectionProvider extends ContentProvider {
      * Return the number of rows that were successfully updated.
      */
     private int updatePlan(Uri uri, ContentValues values, String selection, String[] selectionArgs) {
+        Timber.d("updatePlan:");
+        Timber.d("Uri:" + uri.toString());
+        Timber.d("contentValues:" + values.toString());
+        Timber.d("selection:" + selection);
+        Timber.d("selectionArgs: " + selectionArgs);
 
         // validation of content values
         // plan name
@@ -233,6 +239,12 @@ public class UserSelectionProvider extends ContentProvider {
         }
 
         db = mDbHelper.getWritableDatabase();
+
+        Timber.d("Uri:" + uri.toString());
+        Timber.d("table name: " + PlanEntry.TABLE_NAME);
+        Timber.d("contentValues:" + values.toString());
+        Timber.d("selection:" + selection);
+        Timber.d("selectionArgs: " + selectionArgs);
 
         // Perform the update on the database and get the number of rows affected
         int rowsUpdated = db.update(PlanEntry.TABLE_NAME, values, selection, selectionArgs);

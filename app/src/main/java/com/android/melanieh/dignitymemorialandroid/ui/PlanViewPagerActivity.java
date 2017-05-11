@@ -44,7 +44,8 @@ public class PlanViewPagerActivity extends FragmentActivity {
         Timber.d("onCreate:");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_plan_viewpager);
-        planUri = getIntent().getData();
+        planUri = Uri.parse("content://com.android.melanieh.dignitymemorialandroid/plans/6");
+//        planUri = getIntent().getData();
         Timber.d("planUri: " + planUri.toString());
 
         // Instantiate a ViewPager and a PagerAdapter.
@@ -61,7 +62,6 @@ public class PlanViewPagerActivity extends FragmentActivity {
             // activity should be in two-pane mode.
             mTwoPane = true;
         }
-
     }
 
     @Override
@@ -72,7 +72,6 @@ public class PlanViewPagerActivity extends FragmentActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        Context context = this;
         switch (item.getItemId()) {
             case android.R.id.home:
                 // This ID represents the Home or Up button. In the case of this
@@ -86,12 +85,12 @@ public class PlanViewPagerActivity extends FragmentActivity {
             case R.id.action_access_preferences:
                 destClass = SettingsActivity.class;
                 break;
-//            case R.id.action_view_plan_selections:
-//                destClass = PlanSummaryActivity.class;
-//                break;
-//            case R.id.action_share:
-//                startActivity(Intent.createChooser(launchShareIntent(),
-//                        getString(R.string.share_app_chooser_dialog_title)));
+            case R.id.action_view_plan_selections:
+                destClass = PlanSummaryActivity.class;
+                break;
+            case R.id.action_share:
+                startActivity(Intent.createChooser(launchShareIntent(),
+                        getString(R.string.share_app_chooser_dialog_title)));
         }
 
         launchMenuIntent(destClass, null);

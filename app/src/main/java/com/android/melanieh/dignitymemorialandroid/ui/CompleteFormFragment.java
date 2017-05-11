@@ -90,6 +90,7 @@ public class CompleteFormFragment extends Fragment implements GoogleApiClient.Co
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Timber.d("savedInstanceState: " + savedInstanceState);
         setHasOptionsMenu(true);
 
         /* Location services Api client */
@@ -102,11 +103,12 @@ public class CompleteFormFragment extends Fragment implements GoogleApiClient.Co
         // initialize isUsingCurrentLocation to its default value of false
         isUsingCurrentLocation = false;
 
-        if (savedInstanceState != null) {
-            formType = savedInstanceState.getString("formType");
-        } else {
+//        if (savedInstanceState == null) {
             formType = getActivity().getIntent().getStringExtra("button_extra_content");
-        }
+//        } else {
+//            formType = savedInstanceState.getString("formType");
+//
+//        }
 
         // populate zip code autocomplete dropdown with saved zip code
         sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getContext());
@@ -139,7 +141,6 @@ public class CompleteFormFragment extends Fragment implements GoogleApiClient.Co
             }
         };
 
-        Timber.d("formType: " + formType);
         if (formType.equalsIgnoreCase("Search Obituaries and Providers")) {
             rootView = inflater.inflate(R.layout.search_form, container, false);
             // obits fields

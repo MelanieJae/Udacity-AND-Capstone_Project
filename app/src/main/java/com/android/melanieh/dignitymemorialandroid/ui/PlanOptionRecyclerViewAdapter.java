@@ -30,6 +30,8 @@ import com.android.melanieh.dignitymemorialandroid.data.UserSelectionContract.Pl
 import com.android.melanieh.dignitymemorialandroid.data.UserSelectionDBHelper;
 
 import java.util.ArrayList;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import timber.log.Timber;
 
@@ -133,31 +135,39 @@ public class PlanOptionRecyclerViewAdapter
         // query first for existing plan URI and add to existing plan if there;
         // otherwise insert new plan entry if not present
 
-        switch (optionsTitle) {
-            case "ceremony":
-                cvKey = PlanEntry.COLUMN_CEREMONY_SELECTION;
-                break;
-            case "reception":
-                cvKey = PlanEntry.COLUMN_RECEPTION_SELECTION;
-                break;
-            case "visitation":
-                cvKey = PlanEntry.COLUMN_VISITATION_SELECTION;
-                break;
-            case "site":
-                cvKey = PlanEntry.COLUMN_SITE_SELECTION;
-                break;
-            case "container":
-                cvKey = PlanEntry.COLUMN_CONTAINER_SELECTION;
-                break;
-            default:
-                Timber.e("Invalid Fragment tag");
+        boolean isCeremony = Pattern.compile(Pattern.quote("ceremony"), Pattern.CASE_INSENSITIVE).matcher(optionsTitle).find();
+        boolean isReception = Pattern.compile(Pattern.quote("reception"), Pattern.CASE_INSENSITIVE).matcher(optionsTitle).find();
+        boolean isVisitation = Pattern.compile(Pattern.quote("visitation"), Pattern.CASE_INSENSITIVE).matcher(optionsTitle).find();
+        boolean isSite = Pattern.compile(Pattern.quote("resting place"), Pattern.CASE_INSENSITIVE).matcher(optionsTitle).find();
+        boolean isContainer = Pattern.compile(Pattern.quote("casket"), Pattern.CASE_INSENSITIVE).matcher(optionsTitle).find();
+
+        if (isCeremony) {
+            cvKey = PlanEntry.COLUMN_CEREMONY_SELECTION;
+        } else if (isReception) {
+            cvKey = PlanEntry.COLUMN_RECEPTION_SELECTION;
+        } else if (isVisitation) {
+            cvKey = PlanEntry.COLUMN_VISITATION_SELECTION;
+        } else if (isSite) {
+            cvKey = PlanEntry.COLUMN_SITE_SELECTION;
+        } else if (isContainer) {
+            cvKey = PlanEntry.COLUMN_CONTAINER_SELECTION;
+        } else {
+            Timber.e("Invalid option selection");
         }
+
         values.put(cvKey, optionSelection);
-        Uri planUri = Uri.parse(planUriString);
-        Timber.d("planUri: " + planUri.toString());
-        int numRowsUpdated = context.getContentResolver().update(planUri, values,
+        Timber.d("cvKey: " + cvKey);
+        Timber.d("planUri: " + planUriString);
+        Timber.d("context: " + context);
+        Timber.d("values: " + values.toString());
+        // selection/where clause will always indicate the row to be updated and that is in the content provider
+        // so null is passed here for the selection/whereClause argument
+
+        int numRowsUpdated = context.getContentResolver().update(Uri.parse(planUriString), values,
                 null,
                 null);
+
+        Timber.d("numRowsUpdated: " + numRowsUpdated);
         if (numRowsUpdated == 0) {
             Toast.makeText(context, "Error updating plan with selection", Toast.LENGTH_LONG).show();
         } else {
@@ -165,6 +175,5 @@ public class PlanOptionRecyclerViewAdapter
         }
 
     }
-
 
 }

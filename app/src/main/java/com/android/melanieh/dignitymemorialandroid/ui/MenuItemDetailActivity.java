@@ -33,26 +33,13 @@ public class MenuItemDetailActivity extends AppCompatActivity implements MenuOpt
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Timber.d("onCreate");
         setContentView(R.layout.activity_menuitem_detail);
 
         // Show the Up button in the action bar.
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
-        }
-
-        if (savedInstanceState == null) {
-
-            fragment = new MenuItemDetailFragment();
-            fragmentManager = getSupportFragmentManager();
-            fragmentTransaction = fragmentManager
-                    .beginTransaction()
-                    .replace(R.id.detailFragment, fragment);
-            fragmentTransaction.commit();
-            getSupportFragmentManager().beginTransaction();
-        } else {
-            fragment = (MenuItemDetailFragment) getSupportFragmentManager()
-                    .findFragmentByTag("detailFragment");
         }
     }
 
@@ -80,7 +67,7 @@ public class MenuItemDetailActivity extends AppCompatActivity implements MenuOpt
                 launchMenuIntent(destClass, null);
                 break;
             case R.id.action_view_plan_selections:
-                destClass = SettingsActivity.class;
+                destClass = PlanSummaryActivity.class;
                 launchMenuIntent(destClass, null);
                 break;
             case R.id.action_share:
@@ -120,8 +107,6 @@ public class MenuItemDetailActivity extends AppCompatActivity implements MenuOpt
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
 
-        //Save the fragment's instance
-        getSupportFragmentManager().putFragment(outState, "detailFragment", fragment);
     }
 
 }

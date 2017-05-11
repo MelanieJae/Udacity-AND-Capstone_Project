@@ -79,6 +79,10 @@ public class ScreenSlidePagerAdapter extends FragmentPagerAdapter {
                 break;
 
         }
+        Timber.d("loaderid: " + loaderId);
+        Timber.d("static content: " + staticContent);
+        Timber.d("planUriString: " + planUriString);
+
         fragment = PlanViewPagerFragment.newInstance(staticContent, loaderId, planUriString);
         return fragment;
     }

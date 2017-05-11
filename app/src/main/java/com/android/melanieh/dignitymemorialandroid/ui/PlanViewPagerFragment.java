@@ -47,7 +47,7 @@ public class PlanViewPagerFragment extends Fragment implements LoaderManager.Loa
     RecyclerView.LayoutManager layoutManager;
     Uri planUri;
     static TextView staticContentView;
-    String STATIC_CONTENT;
+    String OPTIONS_STATIC_CONTENT;
     String planUriString;
 
     private int loaderId;
@@ -58,10 +58,12 @@ public class PlanViewPagerFragment extends Fragment implements LoaderManager.Loa
 
     public static PlanViewPagerFragment newInstance(String content, int loaderId
             , String planUriString) {
+        Timber.d("plan page fragment new instance:");
         PlanViewPagerFragment fragment = new PlanViewPagerFragment();
         Bundle args = new Bundle();
         args.putString("static content", content);
-        args.putInt("loaderId", loaderId);
+        args.putInt("loaderId:", loaderId);
+        Timber.d("loaderId" + loaderId);
         args.putString("planUriString", planUriString);
         Timber.d("planUriString: " + planUriString);
         fragment.setArguments(args);
@@ -72,11 +74,13 @@ public class PlanViewPagerFragment extends Fragment implements LoaderManager.Loa
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Timber.d("onCreate: ");
         setHasOptionsMenu(true);
-        STATIC_CONTENT = getArguments().getString("static content");
+        OPTIONS_STATIC_CONTENT = getArguments().getString("static content");
         loaderId = getArguments().getInt("loaderId");
+        Timber.d("loaderId", loaderId);
         planUriString = getArguments().getString("planUriString");
-
+        Timber.d("planUriString at OnCreate: " + planUriString);
     }
 
     @Nullable
@@ -92,6 +96,8 @@ public class PlanViewPagerFragment extends Fragment implements LoaderManager.Loa
 //        estCostView = (TextView) rootView.findViewById(R.id.toolbar_est_cost_tv);
         planningStepTitleView = (TextView) rootView.findViewById(R.id.toolbar_step_title);
         recyclerView = (RecyclerView) rootView.findViewById(R.id.plan_option_rv);
+        Timber.d("planUriString at OnCreateView before loader call: " + planUriString);
+
         getLoaderManager().initLoader(loaderId, null, this).forceLoad();
 //        // ensures the planning step title stays visible when the toolbar is collapsed
 //
@@ -104,19 +110,22 @@ public class PlanViewPagerFragment extends Fragment implements LoaderManager.Loa
     @Override
     public Loader<ArrayList<PlanOption>> onCreateLoader(int id, Bundle args) {
         Timber.d("onCreateLoader:");
-        return new PlanPageLoader(getContext(), STATIC_CONTENT);
+        Timber.d("planUriString at OnCreateLoader: " + planUriString);
+
+        return new PlanPageLoader(getContext(), OPTIONS_STATIC_CONTENT);
     }
 
     @Override
     public void onLoadFinished(Loader<ArrayList<PlanOption>> loader, ArrayList<PlanOption> data) {
         Timber.d("onLoadFinished:");
         Timber.d("data= " + data.toString());
-        Timber.d("planUri= " + planUri);
+        Timber.d("planUri= " + planUriString);
         planningStepTitleView.setText(data.get(0).getTitle());
 
-        if (data != null && !data.isEmpty()) {
+        if (data != null) {
             rvAdapter = new PlanOptionRecyclerViewAdapter(getContext(), data, planUriString);
-            layoutManager = getLayoutManager();
+            layoutManager = new LinearLayoutManager(getContext());
+//            layoutManager = getLayoutManager();
             recyclerView.setLayoutManager(layoutManager);
             recyclerView.setAdapter(rvAdapter);
         } else {
