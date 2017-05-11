@@ -1,6 +1,4 @@
-package com.android.melanieh.dignitymemorialandroid.content;
-
-import android.content.res.Resources;
+package com.android.melanieh.dignitymemorialandroid.menucontent;
 
 import com.android.melanieh.dignitymemorialandroid.BuildConfig;
 
@@ -8,7 +6,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import com.android.melanieh.dignitymemorialandroid.R;
 
 /** Populates menu **/
 public class MenuContent {

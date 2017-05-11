@@ -561,13 +561,12 @@
     <string name="FAQsHtmlString">
         <![CDATA[<div class="faq-item">
 
-                <a role="button" data-toggle="collapse" data-parent="#faq-accordion-w3"
-                href="#faq-widget-accordion-item-w3-574" aria-expanded="true" aria-controls="faq-widget-accordion-item-w3-574">
-                    <i class="fa fa-caret-right"></i>
-                    Aren\'t funeral service providers all the same?</a>
+            <div class="faq-header" role="tab" id="faq-widget-accordion-tab-w3-576">
+
+                    Aren\'t funeral service providers all the same?</div>
 
 
-            <div id="faq-widget-accordion-item-w3-574" class="collapse faq-body" role="tabpanel" aria-labelledby="faq-widget-accordion-tab-w3-574">
+            <div id="faq-widget-accordion-item-w3-574" class="faq-body" role="tabpanel" aria-labelledby="faq-widget-accordion-tab-w3-574">
 
                     Service, quality and value can vary widely among funeral providers.
                     Pre-planning a funeral allows you to research different providers in advance
@@ -580,13 +579,11 @@
         <div class="faq-item">
 
             <div class="faq-header" role="tab" id="faq-widget-accordion-tab-w3-576">
-                <a role="button" data-toggle="collapse" data-parent="#faq-accordion-w3"
-                href="#faq-widget-accordion-item-w3-576" aria-expanded="true" aria-controls="faq-widget-accordion-item-w3-576">
-                    <i class="fa fa-caret-right"></i>
-                    Can a funeral be personalized?</a>
+
+                    Can a funeral be personalized?
             </div>
 
-            <div id="faq-widget-accordion-item-w3-576" class="collapse faq-body" role="tabpanel" aria-labelledby="faq-widget-accordion-tab-w3-576">
+            <div id="faq-widget-accordion-item-w3-574" class="faq-body" role="tabpanel" aria-labelledby="faq-widget-accordion-tab-w3-574">
 
                     Yes. Whether the ceremony is elaborate or simple, today\'s funerals are often
                     individualized to reflect the life lived.  You can personalize a funeral service
@@ -600,12 +597,11 @@
         <div class="faq-item">
 
             <div class="faq-header" role="tab" id="faq-widget-accordion-tab-w3-584">
-                <a role="button" data-toggle="collapse" data-parent="#faq-accordion-w3" href="#faq-widget-accordion-item-w3-584" aria-expanded="true" aria-controls="faq-widget-accordion-item-w3-584">
-                    <i class="fa fa-caret-right"></i>
-                    Can cremated remains be divided?                </a>
+
+                    Can cremated remains be divided?
             </div>
 
-            <div id="faq-widget-accordion-item-w3-584" class="collapse faq-body" role="tabpanel" aria-labelledby="faq-widget-accordion-tab-w3-584">
+            <div id="faq-widget-accordion-item-w3-574" class="faq-body" role="tabpanel" aria-labelledby="faq-widget-accordion-tab-w3-574">
 
                     Yes. You may choose to have cremated remains divided, scattering some and burying the rest.
                     Or you may choose to bury or scatter some of the remains and divide the rest among
@@ -618,12 +614,11 @@
         <div class="faq-item">
 
             <div class="faq-header" role="tab" id="faq-widget-accordion-tab-w3-582">
-                <a role="button" data-toggle="collapse" data-parent="#faq-accordion-w3" href="#faq-widget-accordion-item-w3-582" aria-expanded="true" aria-controls="faq-widget-accordion-item-w3-582">
-                    <i class="fa fa-caret-right"></i>
-                    Can cremated remains share the same grave space with a casketed burial?                </a>
+
+                    Can cremated remains share the same grave space with a casketed burial?
             </div>
 
-            <div id="faq-widget-accordion-item-w3-582" class="collapse faq-body" role="tabpanel" aria-labelledby="faq-widget-accordion-tab-w3-582">
+            <div id="faq-widget-accordion-item-w3-574" class="faq-body" role="tabpanel" aria-labelledby="faq-widget-accordion-tab-w3-574">
 
                     It really depends on the specific cemetery\'s policy and applicable state law.
                     You may be able to have your cremated remains buried on top of the casket of your spouse,
@@ -637,12 +632,10 @@
         <div class="faq-item">
 
             <div class="faq-header" role="tab" id="faq-widget-accordion-tab-w3-577">
-                <a role="button" data-toggle="collapse" data-parent="#faq-accordion-w3" href="#faq-widget-accordion-item-w3-577" aria-expanded="true" aria-controls="faq-widget-accordion-item-w3-577">
-                    <i class="fa fa-caret-right"></i>
-                    Can we still have a funeral service if cremation is chosen?                </a>
+               Can we still have a funeral service if cremation is chosen?
             </div>
 
-            <div id="faq-widget-accordion-item-w3-577" class="collapse faq-body" role="tabpanel" aria-labelledby="faq-widget-accordion-tab-w3-577">
+            <div id="faq-widget-accordion-item-w3-574" class="faq-body" role="tabpanel" aria-labelledby="faq-widget-accordion-tab-w3-574">
 
                     Absolutely.  Regardless of whether you choose burial or cremation, a
                     funeral or memorial service is a celebration of the life that has been lived.
@@ -658,12 +651,11 @@
         <div class="faq-item">
 
             <div class="faq-header" role="tab" id="faq-widget-accordion-tab-w3-585">
-                <a role="button" data-toggle="collapse" data-parent="#faq-accordion-w3" href="#faq-widget-accordion-item-w3-585" aria-expanded="true" aria-controls="faq-widget-accordion-item-w3-585">
-                    <i class="fa fa-caret-right"></i>
-                    Do I have to prepay for my preplanned funeral?                </a>
+
+                    Do I have to prepay for my preplanned funeral?
             </div>
 
-            <div id="faq-widget-accordion-item-w3-585" class="collapse faq-body" role="tabpanel" aria-labelledby="faq-widget-accordion-tab-w3-585">
+            <div id="faq-widget-accordion-item-w3-574" class="faq-body" role="tabpanel" aria-labelledby="faq-widget-accordion-tab-w3-574">
 
                     No. There is great benefit in pre-planning your funeral, even if you do not
                     pay for it in advance, which is called "pre-funding." When you pre-plan,
@@ -677,11 +669,6 @@
 
 
     </string>
-
-
-
-
-
 
     <!-- web browser detail fragment screen -->
     <string name="webview_error_desc">The page did not load properly.</string>

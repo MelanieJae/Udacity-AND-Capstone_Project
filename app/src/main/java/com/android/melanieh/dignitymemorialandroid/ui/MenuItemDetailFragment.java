@@ -1,35 +1,25 @@
 package com.android.melanieh.dignitymemorialandroid.ui;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebChromeClient;
 import android.webkit.WebView;
-import android.webkit.WebViewClient;
-import android.widget.ArrayAdapter;
-import android.widget.AutoCompleteTextView;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.android.melanieh.dignitymemorialandroid.FAQ;
 import com.android.melanieh.dignitymemorialandroid.R;
-import com.android.melanieh.dignitymemorialandroid.content.MenuContent;
+import com.android.melanieh.dignitymemorialandroid.menucontent.MenuContent;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.regex.Pattern;
 
 import timber.log.Timber;
@@ -40,8 +30,8 @@ import timber.log.Timber;
  * in two-pane mode (on tablets) or a {@link MenuItemDetailActivity}
  * on handsets.
  */
-public class MenuItemDetailFragment extends Fragment {
-//        implements MenuOptionsInterface, LoaderManager.LoaderCallbacks<ArrayList<FAQ>>{
+public class MenuItemDetailFragment extends Fragment
+        implements MenuOptionsInterface, LoaderManager.LoaderCallbacks<ArrayList<FAQ>>{
     /**
      * The fragment argument representing the item ID that this fragment
      * represents.
@@ -52,7 +42,7 @@ public class MenuItemDetailFragment extends Fragment {
     WebView webView;
     String detailContent;
     RecyclerView faqsRV;
-    RecyclerView.LayoutManager layoutManager;
+    LinearLayoutManager layoutManager;
 
     /**
      * The dummy content this fragment is presenting.
@@ -88,16 +78,17 @@ public class MenuItemDetailFragment extends Fragment {
 //        detailContent = getArguments().getString("menuButtonExtra");
 
         Timber.d("detailContent: " + detailContent);
-
+        // picks up content linked to menu button that was pressed and detects whether it is
+        // supposed to be a browser fragment or the FAQ pg.
         boolean isWebContent = Pattern.compile(Pattern.quote("http"),
                 Pattern.CASE_INSENSITIVE).matcher(detailContent).find();
 
         if (isWebContent) {
             rootView = inflater.inflate(R.layout.fragment_browser, container, false);
             webView = (WebView) rootView.findViewById(R.id.webview);
-            webView = new WebView(getContext());
+            webView = new WebView(getActivity());
             webView.getSettings().setJavaScriptEnabled(true);
-            webView.setInitialScale(1);
+//            webView.setInitialScale(1);
             webView.getSettings().setLoadWithOverviewMode(true);
             webView.getSettings().setUseWideViewPort(true);
 
@@ -110,47 +101,41 @@ public class MenuItemDetailFragment extends Fragment {
             });
 
             webView.loadUrl(detailContent);
-
+            getActivity().setContentView(webView);
 
         } else {
             rootView = inflater.inflate(R.layout.fragment_faqs_list, container, false);
-//            getLoaderManager().initLoader(200, null, this).forceLoad();
+            faqsRV = (RecyclerView) rootView.findViewById(R.id.faqs_rv);
+            getLoaderManager().initLoader(200, null, this).forceLoad();
         }
 
         return rootView;
 
     }
 
-    private RecyclerView.LayoutManager getLayoutManager() {
-        if (getResources().getConfiguration().screenWidthDp > 600) {
-            GridLayoutManager glm = new GridLayoutManager(getContext(), 2);
-            return glm;
-        } else {
-            RecyclerView.LayoutManager lm = new LinearLayoutManager(getContext());
-            return lm;
-        }
+    @Override
+    public Loader<ArrayList<FAQ>> onCreateLoader(int id, Bundle args) {
+        Timber.d("onCreateLoader");
+        return new FAQLoader(getContext(), getString(R.string.FAQsHtmlString));
     }
-//
-//    @Override
-//    public Loader<ArrayList<FAQ>> onCreateLoader(int id, Bundle args) {
-//        return new FAQLoader(getContext(), detailContent);
-//    }
-//
-//    @Override
-//    public void onLoadFinished(Loader<ArrayList<FAQ>> loader, ArrayList<FAQ> data) {
-//        if (data != null && !data.isEmpty()) {
-//            SimpleItemRecyclerViewAdapter faqAdapter = new SimpleItemRecyclerViewAdapter(data);
-//            layoutManager = getLayoutManager();
-//            faqsRV.setLayoutManager(layoutManager);
-//            faqsRV.setAdapter(faqAdapter);
-//        }
-//
-//    }
-//
-//    @Override
-//    public void onLoaderReset(Loader<ArrayList<FAQ>> loader) {
-//
-//    }
+
+    @Override
+    public void onLoadFinished(Loader<ArrayList<FAQ>> loader, ArrayList<FAQ> data) {
+        Timber.d("onLoadFinished");
+        if (data != null && !data.isEmpty()) {
+            Timber.d("data:" + data);
+            FAQRecyclerViewAdapter faqAdapter = new FAQRecyclerViewAdapter(data);
+            layoutManager = new LinearLayoutManager(getContext());
+            faqsRV.setLayoutManager(layoutManager);
+            faqsRV.setAdapter(faqAdapter);
+        }
+
+    }
+
+    @Override
+    public void onLoaderReset(Loader<ArrayList<FAQ>> loader) {
+        Timber.d("onLoaderReset");
+    }
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
@@ -167,7 +152,8 @@ public class MenuItemDetailFragment extends Fragment {
         startActivity(intent);
     }
 
-    public Intent launchShareIntent() {Intent shareIntent = new Intent(android.content.Intent.ACTION_SEND);
+    public Intent launchShareIntent() {
+        Intent shareIntent = new Intent(android.content.Intent.ACTION_SEND);
         shareIntent.setType("text/plain");
         String shareBodyText = getString(R.string.share_msg_body_text);
         shareIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Subject/Title");
@@ -175,61 +161,67 @@ public class MenuItemDetailFragment extends Fragment {
         return shareIntent;
     }
 
-//    /** FAQ recyclerview adapter **/
-//    public class SimpleItemRecyclerViewAdapter
-//            extends RecyclerView.Adapter<MenuItemListActivity.SimpleItemRecyclerViewAdapter.ViewHolder> {
-//
-//        private ArrayList<FAQ> mFAQSList = new ArrayList<>();
-//
-//
-//        public SimpleItemRecyclerViewAdapter(ArrayList<FAQ> faqsList) {
-//            mFAQSList = faqsList;
-//        }
-//
-//        @Override
-////        public SimpleItemRecyclerViewAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-////            Timber.d("onCreateViewHolder");
-////            View view = LayoutInflater.from(parent.getContext())
-////                    .inflate(R.layout.menuitem_list_content, parent, false);
-////            ViewHolder viewHolder =
-////                    new SimpleItemRecyclerViewAdapter.ViewHolder(view);
-////            return viewHolder;
-//        }
-//
-//        @Override
-//        public void onBindViewHolder(final MenuItemListActivity.SimpleItemRecyclerViewAdapter.ViewHolder
-//                                                     holder, int position) {
-//            Timber.d("onBindViewHolder");
-//
-////            holder.faqItem = mFAQSList.get(position);
-////
-////            // destination class for intent; varies according to which button is selected
-////            final String buttonLabel = holder.mItem.content;
-////            holder.questionView.setContentDescription(buttonLabel);
-////            holder.answerView.setContentDescription(buttonLabel);
-////            holder.questionView.setText(mFAQSList.get(position).getQuestion());
-////            holder.answerView.setText(mFAQSList.get(position).getAnswer());
-//
-//        }
-//
-//        @Override
-//        public int getItemCount() {
-//            Timber.d("getItemCount");
-//            return mFAQSList.size();
-//        }
-//
-//        public class ViewHolder extends RecyclerView.ViewHolder {
-//            TextView questionView;
-//            TextView answerView;
-//
-//            public ViewHolder(View view) {
-//                super(view);
-//                questionView = (TextView) view.findViewById(R.id.question);
-//                answerView = (TextView) view.findViewById(R.id.answer);
-//            }
-//
-//        }
+    /**
+     * FAQ recyclerview adapter
+     **/
+    public class FAQRecyclerViewAdapter
+            extends RecyclerView.Adapter<FAQRecyclerViewAdapter.FAQViewHolder> {
+
+        private ArrayList<FAQ> mFAQSList = new ArrayList<>();
+
+
+
+        public FAQRecyclerViewAdapter(ArrayList<FAQ> faqsList) {
+            mFAQSList = faqsList;
+            Timber.d("mFAQSList:" + mFAQSList);
+        }
+
+        @Override
+        public FAQViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+            Timber.d("onCreateViewHolder");
+            View view = LayoutInflater.from(parent.getContext())
+                    .inflate(R.layout.faqs_list_item, parent, false);
+            FAQViewHolder viewHolder =
+                    new FAQViewHolder(view);
+            return viewHolder;
+        }
+
+        @Override
+        public void onBindViewHolder(FAQViewHolder holder, int position) {
+            Timber.d("onBindViewHolder");
+
+            holder.faqItem = mFAQSList.get(position);
+
+            // destination class for intent; varies according to which button is selected
+            final String question = holder.faqItem.getQuestion();
+            final String answer = holder.faqItem.getAnswer();
+//            holder.questionView.setContentDescription(question);
+//            holder.answerView.setContentDescription(answer);
+            holder.questionView.setText(question);
+            holder.answerView.setText(answer);
+
+        }
+
+        @Override
+        public int getItemCount() {
+            Timber.d("getItemCount");
+            return mFAQSList.size();
+        }
+
+        public class FAQViewHolder extends RecyclerView.ViewHolder {
+            TextView questionView;
+            TextView answerView;
+            FAQ faqItem;
+
+            public FAQViewHolder(View view) {
+                super(view);
+                questionView = (TextView) view.findViewById(R.id.question);
+                answerView = (TextView) view.findViewById(R.id.answer);
+            }
+
+        }
     }
+}
 
 
 

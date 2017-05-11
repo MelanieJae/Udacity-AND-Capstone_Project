@@ -1,16 +1,13 @@
 package com.android.melanieh.dignitymemorialandroid.ui;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.PersistableBundle;
 import android.support.annotation.NonNull;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -21,11 +18,12 @@ import android.widget.ImageView;
 
 import com.android.melanieh.dignitymemorialandroid.BuildConfig;
 import com.android.melanieh.dignitymemorialandroid.DMApplication;
-import com.android.melanieh.dignitymemorialandroid.content.MenuContent;
+import com.android.melanieh.dignitymemorialandroid.menucontent.MenuContent;
 import com.android.melanieh.dignitymemorialandroid.R;
 import com.github.florent37.picassopalette.PicassoPalette;
 
 import java.util.List;
+import java.util.regex.Pattern;
 
 import timber.log.Timber;
 
@@ -128,6 +126,7 @@ public class MenuItemListActivity extends AppCompatActivity
 
             // destination class for intent; varies according to which button is selected
             final String buttonLabel = holder.mItem.content;
+            final String buttonDetails = holder.mItem.details;
             holder.mBtnView.setContentDescription(buttonLabel);
             holder.mBtnView.setText(mValues.get(position).content);
             holder.mBtnView.setOnClickListener(new View.OnClickListener() {
@@ -143,14 +142,21 @@ public class MenuItemListActivity extends AppCompatActivity
                                 .commit();
 
                     } else {
-                        if (buttonLabel.contains("Search") || buttonLabel.contains("Find")
-                                || (buttonLabel.contains("Plan")) ) {
-                            destClass = PlanViewPagerActivity.class;
+                        // picks up content linked to menu button that was pressed and detects whether it is
+                        // supposed to be a browser fragment or the FAQ pg.
+                        boolean isSearchForm = Pattern.compile(Pattern.quote("search"),
+                                Pattern.CASE_INSENSITIVE).matcher(buttonDetails).find();
+                        boolean isWebScreen = Pattern.compile(Pattern.quote("http"),
+                                Pattern.CASE_INSENSITIVE).matcher(buttonDetails).find();
+                        boolean isFAQScreen = Pattern.compile(Pattern.quote("faqs"),
+                                Pattern.CASE_INSENSITIVE).matcher(buttonDetails).find();
+
+                        if (isSearchForm) {
+                            destClass = CompleteFormActivity.class;
                             extraContent = holder.mItem.details;
                             Timber.d("extraContent: " + extraContent);
 
-                        } else if (buttonLabel.contains("Checklist") || buttonLabel.contains("Pay")
-                                || buttonLabel.contains("FAQ")) {
+                        } else if (isWebScreen || isFAQScreen) {
                             destClass = MenuItemDetailActivity.class;
                             extraContent = holder.mItem.details;
                         }

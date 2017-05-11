@@ -5,10 +5,22 @@
 
     <TextView
         android:id="@+id/question"
+        android:textSize="@dimen/large_text_size"
+        android:textColor="@color/primary_dark"
+        android:layout_marginTop="@dimen/vert_margin"
+        android:layout_marginBottom="@dimen/vert_margin"
+        android:layout_marginLeft="@dimen/horiz_margin"
+        android:layout_marginRight="@dimen/horiz_margin"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
     <TextView
         android:id="@+id/answer"
+        android:textSize="@dimen/medium_text_size"
+        android:textColor="@color/primary_text"
+        android:layout_marginTop="@dimen/vert_margin"
+        android:layout_marginBottom="@dimen/vert_margin"
+        android:layout_marginLeft="@dimen/horiz_margin"
+        android:layout_marginRight="@dimen/horiz_margin"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 

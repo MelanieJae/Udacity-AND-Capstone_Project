@@ -50,13 +50,10 @@ public class FAQLoader extends AsyncTaskLoader {
         Timber.d("extractFAQsListFromHTML: ");
         Timber.d("contentString:" + contentString);
 
-        String optionTitle = "";
-        String heading = "";
-        String imageUrlString = "";
-        String detailText = "";
-        String estCostString = "";
+        String question = "";
+        String answer = "";
         Document doc;
-        PlanOption option;
+        FAQ faq;
         ArrayList<FAQ> faqsList = new ArrayList<>();
         ArrayList<String> tempQuestionArray = new ArrayList<>();
         ArrayList<String> tempAnswerArray = new ArrayList<>();
@@ -64,30 +61,27 @@ public class FAQLoader extends AsyncTaskLoader {
         if (contentString != null) {
             doc = Jsoup.parse(contentString);
 
-            // Jsoup library handles validation/null checks of node values
-            Elements optionTitleElements = doc.select("span[class=menu-text]");
-            optionTitle = optionTitleElements.first().
-                    text();
-
-            Elements headingElements = doc.select("div[class=col-md-6]>h3");
-            Iterator<Element> headingsIterator = headingElements.iterator();
-            while (headingsIterator.hasNext()) {
-                heading = headingsIterator.next().text();
-//                tempHeadingArray.add(heading);
+            Elements questionElements = doc.getElementsByClass("faq-header");
+            Iterator<Element> questionIterator = questionElements.iterator();
+            while (questionIterator.hasNext()) {
+                question = questionIterator.next().text();
+                tempQuestionArray.add(question);
+                Timber.d("tempQuestionArray:" + tempQuestionArray);
             }
 
-            Elements imageUrlElements = doc.select("img[src]");
-            Iterator<Element> imageStringIterator = imageUrlElements.iterator();
-            while (imageStringIterator.hasNext()) {
-                imageUrlString = imageStringIterator.next().attr("src");
-//                tempImageUrlArray.add(imageUrlString);
+            Elements answerElements = doc.getElementsByClass("faq-body");
+            Iterator<Element> answerIterator = answerElements.iterator();
+            while (answerIterator.hasNext()) {
+                answer = answerIterator.next().text();
+                tempAnswerArray.add(answer);
+                Timber.d("tempAnswerArray:" + tempAnswerArray);
+
             }
 
-            for (int i = 0; i < headingElements.size(); i++) {
-//                option = new PlanOption(optionTitle, tempHeadingArray.get(i), tempDetailArray.get(i),
-//                        tempImageUrlArray.get(i), tempCostArray.get(i));
-//                optionsList.add(option);
-//                Timber.d("optionsList: " + optionsList);
+            for (int i = 0; i < tempQuestionArray.size(); i++) {
+                faq = new FAQ(tempQuestionArray.get(i), tempAnswerArray.get(i));
+                faqsList.add(faq);
+                Timber.d("faqsList: " + faqsList);
             }
         } else {
             Timber.e("Error: query string is null");
