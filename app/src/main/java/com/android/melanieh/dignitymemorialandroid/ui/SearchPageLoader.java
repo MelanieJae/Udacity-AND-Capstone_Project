@@ -3,9 +3,12 @@ package com.android.melanieh.dignitymemorialandroid.ui;
 import android.content.Context;
 import android.support.v4.content.AsyncTaskLoader;
 
+import com.android.melanieh.dignitymemorialandroid.BuildConfig;
 import com.android.melanieh.dignitymemorialandroid.Obituary;
 import com.android.melanieh.dignitymemorialandroid.PlanOption;
 import com.android.melanieh.dignitymemorialandroid.Provider;
+
+import com.android.melanieh.dignitymemorialandroid.R;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -24,6 +27,7 @@ import java.net.URL;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.regex.Pattern;
 
 import timber.log.Timber;
 
@@ -69,8 +73,18 @@ public class SearchPageLoader extends AsyncTaskLoader {
 ////            e.printStackTrace();
 ////        }
 
+        boolean isObitQuery = Pattern.compile(Pattern.quote(BuildConfig.OBITS_QUERY_BASE_URL),
+                Pattern.CASE_INSENSITIVE).matcher(urlString).find();
+        boolean isProviderQuery = Pattern.compile(Pattern.quote(BuildConfig.PROVIDER_QUERY_BASE_URL),
+                Pattern.CASE_INSENSITIVE).matcher(urlString).find();
         String htmlResponse = "";
-        resultsList = extractObituaryData(htmlResponse);
+        String jsonResponse = "";
+
+        if (isObitQuery) {
+            resultsList = extractObituaryData(htmlResponse);
+        } else {
+            resultsList = extractProviderData(jsonResponse);
+        }
 
         // Return a list of {@link Object} events. The object will be either:
         // 1. an Obituary object or 2. a Provider object
@@ -210,7 +224,7 @@ public class SearchPageLoader extends AsyncTaskLoader {
 
     }
 
-    private ArrayList<Provider> extractProviderDataFromJSON(String jsonResponse) {
+    private ArrayList<Provider> extractProviderData(String jsonResponse) {
         /** fields needed for Provider:
          * 1. "LocationName"
          * 2. "LocationAddress1"

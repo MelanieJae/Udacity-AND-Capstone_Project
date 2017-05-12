@@ -1,10 +1,12 @@
 package com.android.melanieh.dignitymemorialandroid.ui;
 
+import android.Manifest;
 import android.annotation.TargetApi;
 import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.location.Location;
 import android.net.Uri;
 import android.os.Build;
@@ -13,9 +15,11 @@ import android.preference.PreferenceManager;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.AppCompatSpinner;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -69,7 +73,7 @@ public class CompleteFormFragment extends Fragment implements GoogleApiClient.Co
     boolean isUsingCurrentLocation;
     boolean validEntriesArePresent;
     GoogleApiClient googleApiClient;
-    Location currentLocation;
+    Location location;
     LocationRequest locationRequest;
     AppCompatSpinner planTypeSpinner;
     int planType;
@@ -87,6 +91,7 @@ public class CompleteFormFragment extends Fragment implements GoogleApiClient.Co
 
     /** zip code autocomplete option(s) */
     private ArrayList<String> ZIP_CODE_AUTOCOMPLETE_OPTIONS = new ArrayList<>();
+    private int REQUEST_LOCATION = 100;
 
     @Override
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
@@ -101,6 +106,20 @@ public class CompleteFormFragment extends Fragment implements GoogleApiClient.Co
                 .addConnectionCallbacks(this)
                 .addOnConnectionFailedListener(this)
                 .build();
+
+        // permissions request prior to connecting to api
+        if (ActivityCompat.checkSelfPermission(getActivity(),
+                Manifest.permission.ACCESS_COARSE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED) {
+            // Check Permissions Now
+            ActivityCompat.requestPermissions(getActivity(),
+                    new String[]{Manifest.permission.ACCESS_COARSE_LOCATION},
+                    REQUEST_LOCATION);
+        } else {
+            // permission has been granted, continue as usual
+            googleApiClient.connect();
+        }
+
 
         // initialize isUsingCurrentLocation to its default value of false
         isUsingCurrentLocation = false;
@@ -125,26 +144,23 @@ public class CompleteFormFragment extends Fragment implements GoogleApiClient.Co
 
         View rootView;
         TextView formHeadingView;
-        View.OnClickListener clickListener = new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                switch (v.getId()) {
-                    case R.id.location_svcs_readout:
-                        isUsingCurrentLocation = true;
-                        googleApiClient.connect();
-                        googleApiAvailability.getInstance().isGooglePlayServicesAvailable(getActivity());
-                        break;
-                    case R.id.start_obit_search_btn:
-                        startSearch(v);
-                    case R.id.start_planning_btn:
-                        startPlanning();
-                        break;
-                }
-            }
-        };
 
         if (formType.equalsIgnoreCase("Search Obituaries and Providers")) {
             rootView = inflater.inflate(R.layout.search_form, container, false);
+
+            View.OnClickListener searchFormClickListener = new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    switch (v.getId()) {
+                        case R.id.use_current_location:
+                            isUsingCurrentLocation = true;
+                            googleApiAvailability.getInstance().isGooglePlayServicesAvailable(getActivity());
+                            break;
+                        case R.id.start_obit_search_btn:
+                            startSearch(v);
+                    }
+                }
+            };
             // obits fields
             firstNameET = (EditText) rootView.findViewById(R.id.search_form_first_name_et);
             lastNameET = (EditText) rootView.findViewById(R.id.search_form_last_name_et);
@@ -159,12 +175,12 @@ public class CompleteFormFragment extends Fragment implements GoogleApiClient.Co
                     android.R.layout.simple_dropdown_item_1line, ZIP_CODE_AUTOCOMPLETE_OPTIONS);
             zipCodeACT = (AutoCompleteTextView) rootView.findViewById(R.id.search_form_zip_codes_act);
             zipCodeACT.setAdapter(zipCodeACTAdapter);
-            useCurrentLocationTV = (TextView) rootView.findViewById(R.id.location_svcs_readout);
+            useCurrentLocationTV = (TextView) rootView.findViewById(R.id.use_current_location);
 
             startObitSearchBtn = (Button) rootView.findViewById(R.id.start_obit_search_btn);
             startProviderSearchBtn = (Button) rootView.findViewById(R.id.start_provider_search_btn);
 
-            startObitSearchBtn.setOnClickListener(clickListener);
+            startObitSearchBtn.setOnClickListener(searchFormClickListener);
 
             // A different listener is used here because:
             // 1. the provider search requires validation that the obit button does not; and
@@ -174,20 +190,18 @@ public class CompleteFormFragment extends Fragment implements GoogleApiClient.Co
             startProviderSearchBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (TextUtils.isEmpty(zipCodeACT.getText())
-                            && !isUsingCurrentLocation) {
+                    if (TextUtils.isEmpty(zipCodeACT.getText()) && !isUsingCurrentLocation) {
                         showInvalidEntriesDialog();
-                    } else {
-                        if (prefZipCode == null || prefZipCode == "") {
-                            showSaveZipCodeEntryDialog(v);
-                        } else {
-                            startSearch(v);
-                        }
                     }
+
+                    if (prefZipCode != null && !isUsingCurrentLocation) {
+                        showSaveZipCodeEntryDialog(v);
+                    }
+                    startSearch(v);
                 }
             });
 
-            useCurrentLocationTV.setOnClickListener(clickListener);
+            useCurrentLocationTV.setOnClickListener(searchFormClickListener);
 
         } else {
             rootView = inflater.inflate(R.layout.plan_form, container, false);
@@ -214,6 +228,22 @@ public class CompleteFormFragment extends Fragment implements GoogleApiClient.Co
 
     }
 
+    /** runtime permissions for ACCESS_FINE_LOCATION/ACCESS_COARSE_LOCATION **/
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
+                                           @NonNull int[] grantResults) {
+        if (requestCode == REQUEST_LOCATION) {
+            if(grantResults.length == 1
+                    && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                googleApiClient.connect();
+            } else {
+                // Permission was denied or request was cancelled
+                Timber.e("User did not grant permission to access current location");
+            }
+        }
+    }
+
     @Override
     public void onStop() {
         googleApiClient.disconnect();
@@ -222,9 +252,6 @@ public class CompleteFormFragment extends Fragment implements GoogleApiClient.Co
 
     private void startSearch(View view) {
         Timber.d("startSearch:");
-
-        String queryLocationLatExtra;
-        String queryLocationLongExtra;
 
         Intent getSearchResults = new Intent(getActivity(), SearchResultActivity.class);
 
@@ -240,29 +267,19 @@ public class CompleteFormFragment extends Fragment implements GoogleApiClient.Co
             queryType = "providers";
             // hitting the obit button with blank fields yields all
             // obits published in the last two weeks so blank entries are okay.
-            if (isUsingCurrentLocation && currentLocation != null) {
+            if (isUsingCurrentLocation && location != null) {
                 getSearchResults.putExtra("current location", new String[]
-                                {String.valueOf(currentLocation.getLatitude()),
-                                        String.valueOf(currentLocation.getLongitude())});
-                } else {
+                                {String.valueOf(location.getLatitude()),
+                                        String.valueOf(location.getLongitude())});
+                Timber.d("locationLat: " + String.valueOf(location.getLatitude()));
+                Timber.d("locationLong: " + String.valueOf(location.getLongitude()));
+
+            } else {
                     getSearchResults.putExtra("zipCode", zipCodeACT.getText().toString());
                 }
             }
 
-
         Timber.d("completesearch: queryType: " + queryType);
-//        if (currentLocation != null && isUsingCurrentLocation) {
-//
-//            queryLocationLatExtra = String.valueOf(currentLocation.getLatitude());
-//            queryLocationLongExtra = String.valueOf(currentLocation.getLongitude());
-//            getSearchResults.putExtra("current location lat", queryLocationLatExtra);
-//            getSearchResults.putExtra("current location long", queryLocationLongExtra);
-//        } else if (!isUsingCurrentLocation && !TextUtils.isEmpty(zipCodeACT.getText())) {
-//            getSearchResults.putExtra("zipCode", zipCodeACT.getText().toString());
-//        } else {
-//            Timber.d("first name", firstNameET.getText().toString());
-//
-//        }
         getSearchResults.putExtra("query type", queryType);
         startActivity(getSearchResults);
     }
@@ -328,7 +345,6 @@ public class CompleteFormFragment extends Fragment implements GoogleApiClient.Co
         AlertDialog.Builder deleteConfADBuilder = new AlertDialog.Builder(getContext());
 //        ButterKnife.bind(this);
         deleteConfADBuilder.setMessage(getString(R.string.no_valid_entries_present_error_msg));
-
         deleteConfADBuilder.create();
         deleteConfADBuilder.show();
     }
@@ -347,7 +363,17 @@ public class CompleteFormFragment extends Fragment implements GoogleApiClient.Co
 
     @Override
     public void onConnected(@Nullable Bundle bundle) {
-        Timber.d("Location Services API client connected");
+        Timber.d("onConnected");
+        locationRequest = LocationRequest.create();
+        locationRequest.setPriority(LocationRequest.PRIORITY_LOW_POWER);
+        locationRequest.setInterval(5000); // millisecs, ideally greater than 1000
+        if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION)
+                == PackageManager.PERMISSION_GRANTED) {
+            LocationServices.FusedLocationApi.requestLocationUpdates(googleApiClient,
+                    locationRequest, this);
+        } else {
+            Timber.e("User did not grant permission to access current location");
+        }
     }
 
     @Override
@@ -363,7 +389,10 @@ public class CompleteFormFragment extends Fragment implements GoogleApiClient.Co
     @Override
     public void onLocationChanged(Location location) {
         Timber.d("onLocationChanged");
-        useCurrentLocationTV.setText(location.toString());
+        Timber.d("location string: " + location.toString());
+        this.location = location;
+//        useCurrentLocationTV.setText(location.toString());
+
     }
 
     @Override

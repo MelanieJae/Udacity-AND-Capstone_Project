@@ -1,18 +1,23 @@
 package com.android.melanieh.dignitymemorialandroid.ui;
 
+import android.Manifest;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.annotation.RequiresPermission;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,8 +35,11 @@ import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
 
 import java.util.ArrayList;
+import java.util.regex.Pattern;
 
 import timber.log.Timber;
+
+import static com.android.melanieh.dignitymemorialandroid.R.id.textView;
 
 /**
  * Created by melanieh on 5/1/17.
@@ -50,6 +58,7 @@ public class SearchResultFragment extends Fragment implements
     SearchResultRecyclerAdapter adapter;
     RecyclerView resultsRecyclerView;
     String queryType;
+    String[] locationArray;
     String zipCode;
     String provider;
     String firstName;
@@ -79,8 +88,6 @@ public class SearchResultFragment extends Fragment implements
 //                .addOnConnectionFailedListener(this)
 //                .build();
 
-        queryType = getActivity().getIntent().getStringExtra("query type");
-
     }
 
     @Nullable
@@ -90,15 +97,10 @@ public class SearchResultFragment extends Fragment implements
         View rootView = inflater.inflate(R.layout.fragment_search_results, container, false);
         resultsRecyclerView = (RecyclerView)rootView.findViewById(R.id.results_rv);
 
-        // grab incoming data from menu item button selection and any sharedprefs info
-        // grab any saved zip codes
-        sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getContext());
-
-        if (sharedPrefs.contains("zipCode") || sharedPrefs.contains("provider")) {
-            zipCode = sharedPrefs.getString("zipCode", "");
-            provider = sharedPrefs.getString("provider", "");
-        }
-
+        queryType = getActivity().getIntent().getStringExtra("query type");
+        locationArray = getActivity().getIntent().getStringArrayExtra("current location");
+        locationLat = locationArray[0];
+        locationLong = locationArray[1];
         zipCode = getActivity().getIntent().getStringExtra("zipCode");
         firstName = getActivity().getIntent().getStringExtra("first name");
         lastName = getActivity().getIntent().getStringExtra("last name");
@@ -169,21 +171,22 @@ public class SearchResultFragment extends Fragment implements
     // or lat/long that is being used and accuracy within 100 m is not necessary
     // if doing the navigation to plot, this would need HIGH_ACCURACY and FINE_LOCATION settings
 
+    @RequiresPermission(Manifest.permission.ACCESS_COARSE_LOCATION)
     @Override
     public void onConnected(@Nullable Bundle bundle) {
-        Timber.d("Google API Client is connected");
+        Timber.d("onConnected");
         locationRequest = LocationRequest.create();
         locationRequest.setPriority(LocationRequest.PRIORITY_LOW_POWER);
-        locationRequest.setInterval(1000); // millisecs
-        try {
-            PendingResult<Status> statusPendingResult =
-                    LocationServices.FusedLocationApi.requestLocationUpdates(googleApiClient,
-                            locationRequest, this);
-            //TODO check permission; requires runtime permission grants that can be rejected by user and denial must be handled here
-        } catch (SecurityException e) {
-            Timber.wtf(e, "Security Exception: user has not granted all necessary permissions");
+        locationRequest.setInterval(5000); // millisecs, ideally greater than 1000
+        if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION)
+                == PackageManager.PERMISSION_GRANTED) {
+            LocationServices.FusedLocationApi.requestLocationUpdates(googleApiClient,
+                    locationRequest, this);
+        } else {
+            Timber.e("User did not grant permission to access current location");
         }
     }
+
 
     @Override
     public void onConnectionSuspended(int i) {
@@ -197,8 +200,7 @@ public class SearchResultFragment extends Fragment implements
 
     @Override
     public void onLocationChanged(Location location) {
-        Timber.d("location string: " + location.toString());
-
+        Timber.d("onLocationChanged");
     }
 
     private void executeSearch(String queryType) {
@@ -206,7 +208,11 @@ public class SearchResultFragment extends Fragment implements
         // build query string on base URL with search form input
         StringBuilder queryBuilder;
         String querySuffix;
-        if (queryType.contains("obituaries")) {
+
+        boolean isObitQuery = Pattern.compile(Pattern.quote("obituaries"),
+                Pattern.CASE_INSENSITIVE).matcher(queryType).find();
+
+        if (isObitQuery) {
             queryBuilder = new StringBuilder(OBITS_QUERY_BASE_URL);
             queryBuilder.append("&firstname=" + firstName);
             queryBuilder.append("&lastname=" + lastName);
@@ -236,7 +242,6 @@ public class SearchResultFragment extends Fragment implements
         queryBuilder.append(querySuffix);
         queryString = queryBuilder.toString();
         Timber.d("final query string: " + queryString);
-
 
         getActivity().getSupportLoaderManager().initLoader(SEARCH_LOADER_ID, null, this).forceLoad();
     }

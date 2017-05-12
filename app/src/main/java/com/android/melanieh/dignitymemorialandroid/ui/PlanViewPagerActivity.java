@@ -35,7 +35,6 @@ public class PlanViewPagerActivity extends FragmentActivity {
     ImageView itemImage;
     Class destClass;
     Uri planUri;
-    /** The pager adapter, which provides the pages to the view pager widget. */
     private PagerAdapter mPagerAdapter;
 
     @Override

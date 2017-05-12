@@ -2,7 +2,6 @@
 <resources>
     <integer name="list_item_column_count">2</integer>
 
-    <!--google play services-->
     <!-- buttons -->
     <dimen name="btn_elevation">2dp</dimen>
 
