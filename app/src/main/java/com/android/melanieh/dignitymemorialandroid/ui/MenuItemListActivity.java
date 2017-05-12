@@ -148,6 +148,8 @@ public class MenuItemListActivity extends AppCompatActivity
                                 Pattern.CASE_INSENSITIVE).matcher(buttonDetails).find();
                         boolean isWebScreen = Pattern.compile(Pattern.quote("http"),
                                 Pattern.CASE_INSENSITIVE).matcher(buttonDetails).find();
+                        boolean isPlanForm = Pattern.compile(Pattern.quote("plan"),
+                                Pattern.CASE_INSENSITIVE).matcher(buttonDetails).find();
                         boolean isFAQScreen = Pattern.compile(Pattern.quote("faqs"),
                                 Pattern.CASE_INSENSITIVE).matcher(buttonDetails).find();
 
@@ -158,6 +160,10 @@ public class MenuItemListActivity extends AppCompatActivity
 
                         } else if (isWebScreen || isFAQScreen) {
                             destClass = MenuItemDetailActivity.class;
+                            extraContent = holder.mItem.details;
+                        } else {
+                            // TEMP-MOVE BACK WITH SEARCH WHEN DONE
+                            destClass = PlanViewPagerActivity.class;
                             extraContent = holder.mItem.details;
                         }
                         launchMenuIntent(destClass, extraContent);

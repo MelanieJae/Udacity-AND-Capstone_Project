@@ -31,15 +31,6 @@
             android:textAppearance="?android:textAppearanceLarge"
             android:textColor="@color/secondary_text"/>
 
-        <TextView
-            android:id="@+id/widget_event_details"
-            android:text="Event Details here"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:fontFamily="sans-serif"
-            android:textAppearance="?android:textAppearanceSmall"
-            android:textColor="@color/secondary_text" />
     </LinearLayout>
 
     <LinearLayout

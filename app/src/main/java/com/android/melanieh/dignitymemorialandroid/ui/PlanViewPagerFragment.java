@@ -1,12 +1,22 @@
 package com.android.melanieh.dignitymemorialandroid.ui;
 
 import android.annotation.TargetApi;
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.appwidget.AppWidgetManager;
+import android.content.ComponentName;
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v4.app.Fragment;
@@ -25,6 +35,7 @@ import com.android.melanieh.dignitymemorialandroid.PlanOption;
 import com.android.melanieh.dignitymemorialandroid.R;
 import com.android.melanieh.dignitymemorialandroid.Utility;
 import com.android.melanieh.dignitymemorialandroid.data.UserSelectionContract.PlanEntry;
+import com.android.melanieh.dignitymemorialandroid.widget.DMWidgetProvider;
 
 import java.util.ArrayList;
 
@@ -34,7 +45,8 @@ import timber.log.Timber;
  * Created by melanieh on 4/11/17.
  */
 
-public class PlanViewPagerFragment extends Fragment implements LoaderManager.LoaderCallbacks<ArrayList<PlanOption>> {
+public class PlanViewPagerFragment extends Fragment
+        implements LoaderManager.LoaderCallbacks<ArrayList<PlanOption>> {
 
     CollapsingToolbarLayout toolbar;
     RecyclerView recyclerView;
@@ -81,6 +93,7 @@ public class PlanViewPagerFragment extends Fragment implements LoaderManager.Loa
         Timber.d("loaderId", loaderId);
         planUriString = getArguments().getString("planUriString");
         Timber.d("planUriString at OnCreate: " + planUriString);
+
     }
 
     @Nullable
@@ -93,6 +106,7 @@ public class PlanViewPagerFragment extends Fragment implements LoaderManager.Loa
         rootView = inflater.inflate(R.layout.plan_viewpager_fragment, container, false);
         staticContentView = (TextView) rootView.findViewById(R.id.static_content);
         toolbar = (CollapsingToolbarLayout) rootView.findViewById(R.id.collapsing_toolbar);
+        toolbar.setTitleEnabled(false);
 //        estCostView = (TextView) rootView.findViewById(R.id.toolbar_est_cost_tv);
         planningStepTitleView = (TextView) rootView.findViewById(R.id.toolbar_step_title);
         recyclerView = (RecyclerView) rootView.findViewById(R.id.plan_option_rv);
@@ -132,6 +146,11 @@ public class PlanViewPagerFragment extends Fragment implements LoaderManager.Loa
             updateEmptyView();
         }
 
+        if (loaderId == 50) {
+            updateWidgetWithPlan();
+            sendNewPlanNotification();
+        }
+
     }
 
     @Override
@@ -157,6 +176,26 @@ public class PlanViewPagerFragment extends Fragment implements LoaderManager.Loa
         }
     }
 
+    private void updateWidgetWithPlan() {
+        //TODO: finish
+        AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(getActivity());
+        ComponentName thisWidget = new ComponentName(getActivity(), DMWidgetProvider.class);
+        int[] appWidgetIds = appWidgetManager.getAppWidgetIds(thisWidget);
+        appWidgetManager.notifyAppWidgetViewDataChanged(appWidgetIds, R.id.widget_plan_details);
+    }
+
+    private void sendNewPlanNotification() {
+
+        Bitmap largeIcon = BitmapFactory.decodeResource(getResources(), R.drawable.ic_add_black_48dp);
+        getResources().getDrawable(R.drawable.ic_add_black_48dp);
+        // <string name="dm_notifications_body_tap_text">Tap to add event to calendar</string>
+        Notification notification = new Notification.Builder(getContext())
+                .setContentTitle(getString(R.string.dm_notifications_title))
+                .setContentText(getString(R.string.dm_notifications_body_text))
+                .setSmallIcon(R.drawable.ic_add_black_48dp)
+                .setLargeIcon(largeIcon)
+                .build();
+    }
 }
 
 

@@ -20,7 +20,7 @@
             android:id="@+id/collapsing_toolbar"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:layout_scrollFlags="scroll|exitUntilCollapsed"
+            app:layout_scrollFlags="scroll|enterAlways|snap"
             app:contentScrim="@color/primary"
             android:fitsSystemWindows="true">
 
@@ -30,12 +30,14 @@
                 android:textSize="22sp"
                 android:layout_gravity="bottom"
                 android:layout_marginTop="20dp"
+                android:layout_marginBottom="10dp"
                 android:layout_marginLeft="8dp"
                 android:textColor="@android:color/white"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fitsSystemWindows="true"
-                app:layout_collapseMode="parallax"/>
+                app:layout_collapseMode="parallax"
+                app:layout_collapseParallaxMultiplier="0.05"/>
 
             <android.widget.Toolbar
                 android:id="@+id/toolbar"

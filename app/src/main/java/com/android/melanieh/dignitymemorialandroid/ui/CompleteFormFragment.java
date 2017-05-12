@@ -24,10 +24,12 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.text.TextUtils;
 
+import com.android.melanieh.dignitymemorialandroid.BuildConfig;
 import com.android.melanieh.dignitymemorialandroid.R;
 
 import com.android.melanieh.dignitymemorialandroid.Utility;
@@ -147,6 +149,11 @@ public class CompleteFormFragment extends Fragment implements GoogleApiClient.Co
             firstNameET = (EditText) rootView.findViewById(R.id.search_form_first_name_et);
             lastNameET = (EditText) rootView.findViewById(R.id.search_form_last_name_et);
 
+            // form divider
+            ImageView scrollDividerView = (ImageView) rootView.findViewById(R.id.form_divider);
+            ImageHandler.getSharedInstance(getContext()).load(BuildConfig.SCROLL_DIVIDER_URL).
+                    fit().centerInside().into(scrollDividerView);
+
             // provider fields
             ArrayAdapter<String> zipCodeACTAdapter = new ArrayAdapter<String>(getContext(),
                     android.R.layout.simple_dropdown_item_1line, ZIP_CODE_AUTOCOMPLETE_OPTIONS);
@@ -188,7 +195,12 @@ public class CompleteFormFragment extends Fragment implements GoogleApiClient.Co
             contactEmailET = (EditText) rootView.findViewById(R.id.plan_form_contact_email_et);
             startPlanningBtn = (Button) rootView.findViewById(R.id.start_planning_btn);
 
-            startPlanningBtn.setOnClickListener(clickListener);
+            startPlanningBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    startPlanning();
+                }
+            });
 
         }
 
@@ -198,7 +210,6 @@ public class CompleteFormFragment extends Fragment implements GoogleApiClient.Co
 //        } else {
 //            formHeadingView.setText(getResources().getString(R.string.plan_form_heading));
 //        }
-
         return rootView;
 
     }

@@ -13,7 +13,8 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/horiz_margin"
         android:layout_marginEnd="@dimen/horiz_margin"
-        android:layout_marginTop="@dimen/vert_margin" />
+        android:layout_marginTop="@dimen/vert_margin"
+        android:layout_marginBottom="@dimen/vert_margin" />
 
     <LinearLayout
         android:id="@+id/obits_search_form_layout"
@@ -21,17 +22,22 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/vert_margin"
+        android:layout_marginBottom="@dimen/vert_margin"
         android:layout_marginStart="@dimen/horiz_margin"
         android:layout_marginEnd="@dimen/horiz_margin">
 
         <EditText
             android:id="@+id/search_form_first_name_et"
             android:hint="@string/search_form_first_name_label"
+            android:layout_marginTop="@dimen/vert_margin"
+            android:layout_marginBottom="@dimen/vert_margin"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
         <EditText
             android:id="@+id/search_form_last_name_et"
             android:hint="@string/search_form_last_name_label"
+            android:layout_marginTop="@dimen/vert_margin"
+            android:layout_marginBottom="@dimen/vert_margin"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
         <Button
@@ -43,8 +49,16 @@
             android:textColor="@android:color/black"
             android:background="@drawable/start_search_btn"
             android:layout_marginStart="@dimen/horiz_margin"
-            android:layout_marginEnd="@dimen/horiz_margin"/>
+            android:layout_marginEnd="@dimen/horiz_margin"
+            android:layout_marginTop="@dimen/vert_margin"
+            android:layout_marginBottom="@dimen/vert_margin"/>
     </LinearLayout>
+
+    <ImageView
+        android:id="@+id/form_divider"
+        android:layout_width="match_parent"
+        android:layout_height="20dp"
+        android:background="@android:color/transparent"/>
 
     <LinearLayout
         android:id="@+id/provider_search_form_layout"
@@ -52,18 +66,24 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/vert_margin"
+        android:layout_marginBottom="@dimen/vert_margin"
         android:layout_marginStart="@dimen/horiz_margin"
         android:layout_marginEnd="@dimen/horiz_margin">
 
         <AutoCompleteTextView
             android:id="@+id/search_form_zip_codes_act"
             android:hint="@string/search_form_zipcode_field_label"
+            android:layout_marginTop="@dimen/vert_margin"
+            android:layout_marginBottom="@dimen/vert_margin"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
         <TextView
             android:id="@+id/use_current_location"
+            android:text="@string/use_current_location"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/vert_margin"
+            android:layout_marginBottom="@dimen/vert_margin"
             android:clickable="true"
             android:onClick="onClick"/>
         <Button
@@ -75,8 +95,9 @@
             android:textColor="@android:color/black"
             android:background="@drawable/start_search_btn"
             android:layout_marginStart="@dimen/horiz_margin"
-            android:layout_marginEnd="@dimen/horiz_margin"/>
-
+            android:layout_marginEnd="@dimen/horiz_margin"
+            android:layout_marginTop="@dimen/vert_margin"
+            android:layout_marginBottom="@dimen/vert_margin"/>
     </LinearLayout>
 
 
@@ -90,8 +111,6 @@
         android:gravity="center_horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
-
-
 
 </LinearLayout>
 

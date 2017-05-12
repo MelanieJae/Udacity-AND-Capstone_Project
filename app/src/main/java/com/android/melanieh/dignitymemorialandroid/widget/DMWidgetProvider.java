@@ -29,7 +29,6 @@ public class DMWidgetProvider extends AppWidgetProvider {
             // to the button
             RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.widget);
             views.setTextViewText(R.id.widget_plan_details, "test plan details");
-            views.setTextViewText(R.id.widget_event_details, "test event details");
             views.setOnClickPendingIntent(R.id.tappable_widget_layout, pendingIntent);
 
             // Tell the AppWidgetManager to perform an update on the current app widget

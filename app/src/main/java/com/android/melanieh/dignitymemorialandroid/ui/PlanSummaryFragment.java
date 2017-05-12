@@ -1,5 +1,7 @@
 package com.android.melanieh.dignitymemorialandroid.ui;
 
+import android.appwidget.AppWidgetManager;
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.provider.BaseColumns;
@@ -18,6 +20,7 @@ import android.widget.TextView;
 import com.android.melanieh.dignitymemorialandroid.R;
 import com.android.melanieh.dignitymemorialandroid.data.UserSelectionContract;
 import com.android.melanieh.dignitymemorialandroid.data.UserSelectionContract.PlanEntry;
+import com.android.melanieh.dignitymemorialandroid.widget.DMWidgetProvider;
 
 import timber.log.Timber;
 
@@ -57,6 +60,8 @@ public class PlanSummaryFragment extends Fragment implements LoaderManager.Loade
         super.onCreate(savedInstanceState);
         Timber.d("fragment: onCreate");
         setHasOptionsMenu(true);
+
+
     }
 
     @Nullable
