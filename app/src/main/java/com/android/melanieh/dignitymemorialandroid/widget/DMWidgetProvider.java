@@ -3,12 +3,19 @@ package com.android.melanieh.dignitymemorialandroid.widget;
 import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
+import android.net.Uri;
 import android.widget.RemoteViews;
 
+import com.android.melanieh.dignitymemorialandroid.data.UserSelectionContract;
 import com.android.melanieh.dignitymemorialandroid.ui.MenuItemListActivity;
 import com.android.melanieh.dignitymemorialandroid.R;
+import com.android.melanieh.dignitymemorialandroid.ui.PlanSummaryFragment;
+
+import timber.log.Timber;
 
 /*** Created by melanieh on 4/20/17. */
 
@@ -28,12 +35,49 @@ public class DMWidgetProvider extends AppWidgetProvider {
             // Get the layout for the App Widget and attach an on-click listener
             // to the button
             RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.widget);
-            views.setTextViewText(R.id.widget_plan_details, "test plan details");
-            views.setOnClickPendingIntent(R.id.tappable_widget_layout, pendingIntent);
+            Uri tempUri = Uri.parse("content://com.android.melanieh.dignitymemorialandroid/plans/1");
+
+            Cursor cursor = context.getContentResolver().
+                    query(tempUri, PlanSummaryFragment.SELECTION_COLUMNS, null, null, null);
+            if (cursor == null) {
+                views.setTextViewText(R.id.widget_text,
+                        context.getResources().getString(R.string.widget_emptyview_text));
+            } else {
+                views.setTextViewText(R.id.widget_text, readTextFromCursor(context, cursor));
+            }
+                views.setOnClickPendingIntent(R.id.tappable_widget_layout, pendingIntent);
 
             // Tell the AppWidgetManager to perform an update on the current app widget
             appWidgetManager.updateAppWidget(appWidgetId, views);
         }
+    }
+
+    private String readTextFromCursor(Context context, Cursor cursor) {
+        Timber.d("Cursor: " + cursor);
+        String planText = "";
+        while (cursor.moveToNext()) {
+            String planEntryId = cursor.getString(PlanSummaryFragment.INDEX_COLUMN_ID);
+            String planName = cursor.getString(PlanSummaryFragment.INDEX_COLUMN_PLAN_NAME);
+            String contactEmail = cursor.getString(PlanSummaryFragment.INDEX_COLUMN_CONTACT_EMAIL);
+            String providerName = cursor.getString(PlanSummaryFragment.INDEX_COLUMN_PROVIDER);
+            String ceremonySelection = cursor.getString(PlanSummaryFragment.INDEX_COLUMN_CEREMONY_SELECTION);
+            String visitationSelection = cursor.getString(PlanSummaryFragment.INDEX_COLUMN_VISITATION_SELECTION);
+            String receptionSelection = cursor.getString(PlanSummaryFragment.INDEX_COLUMN_RECEPTION_SELECTION);
+            String siteSelection = cursor.getString(PlanSummaryFragment.INDEX_COLUMN_SITE_SELECTION);
+            String containerSelection = cursor.getString(PlanSummaryFragment.INDEX_COLUMN_CONTAINER_SELECTION);
+            String estCost = cursor.getString(PlanSummaryFragment.INDEX_COLUMN_EST_COST);
+
+
+            planText = String.format(context.getString(R.string.plan_summary_intro), planName) +
+                    "\n" + String.format(context.getString(R.string.ceremony_selection), ceremonySelection) +
+                    "\n" + String.format(context.getString(R.string.visitation_selection), visitationSelection) +
+                    "\n" + String.format(context.getString(R.string.reception_selection), receptionSelection) +
+                    "\n" + String.format(context.getString(R.string.site_selection), siteSelection) +
+                    "\n" + String.format(context.getString(R.string.container_selection), containerSelection) +
+                    "\n" + String.format(context.getString(R.string.est_cost), estCost);
+        }
+
+        return planText;
     }
 
 }

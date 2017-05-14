@@ -23,14 +23,12 @@
     </style>
 
     <style name="MenuItemButton">
-        <item name="android:height">100dp</item>
-        <item name="android:width">100dp</item>
-        <item name="android:layout_marginTop">16dp</item>
-        <item name="android:layout_marginBottom">6dp</item>
-        <item name="android:layout_marginLeft">6dp</item>
-        <item name="android:layout_marginStart">6dp</item>
-        <item name="android:layout_marginRight">6dp</item>
-        <item name="android:layout_marginEnd">6dp</item>
+        <item name="android:layout_marginTop">@dimen/vert_margin</item>
+        <item name="android:layout_marginBottom">@dimen/vert_margin</item>
+        <item name="android:layout_marginLeft">@dimen/horiz_margin</item>
+        <item name="android:layout_marginStart">@dimen/horiz_margin</item>
+        <item name="android:layout_marginRight">@dimen/horiz_margin</item>
+        <item name="android:layout_marginEnd">@dimen/horiz_margin</item>
         <item name="android:textColor">@color/secondary_text</item>
         <item name="android:background">@drawable/menu_item_button</item>
         <item name="android:elevation">4dp</item>

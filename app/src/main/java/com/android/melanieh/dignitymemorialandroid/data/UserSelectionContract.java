@@ -33,7 +33,6 @@ public class UserSelectionContract {
     public static final int CREMATION = 1;
     public static final int UNDECIDED = 2;
 
-
     public static class PlanEntry implements BaseColumns {
 
         public static final String TABLE_NAME = "plans";

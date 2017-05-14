@@ -2,6 +2,7 @@ package com.android.melanieh.dignitymemorialandroid.ui;
 
 import android.content.Context;
 import android.support.v4.content.AsyncTaskLoader;
+import android.util.Log;
 
 import com.android.melanieh.dignitymemorialandroid.BuildConfig;
 import com.android.melanieh.dignitymemorialandroid.Obituary;
@@ -23,6 +24,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
@@ -75,14 +77,25 @@ public class SearchPageLoader extends AsyncTaskLoader {
 
         boolean isObitQuery = Pattern.compile(Pattern.quote(BuildConfig.OBITS_QUERY_BASE_URL),
                 Pattern.CASE_INSENSITIVE).matcher(urlString).find();
-        boolean isProviderQuery = Pattern.compile(Pattern.quote(BuildConfig.PROVIDER_QUERY_BASE_URL),
-                Pattern.CASE_INSENSITIVE).matcher(urlString).find();
+
         String htmlResponse = "";
         String jsonResponse = "";
 
         if (isObitQuery) {
             resultsList = extractObituaryData(htmlResponse);
         } else {
+            // initialize JSON Response and url variables
+            URL url = createURL(requestUrlString);
+            Timber.d("requestURLString= " + requestUrlString);
+            // now that the id has been extracted the second query string (idQuery) to receive details,
+            // video and review data can be constructed
+
+            try {
+                jsonResponse = makeHttpRequest(url);
+            } catch (IOException e) {
+                Timber.wtf(e, "");
+            }
+
             resultsList = extractProviderData(jsonResponse);
         }
 
@@ -90,6 +103,18 @@ public class SearchPageLoader extends AsyncTaskLoader {
         // 1. an Obituary object or 2. a Provider object
         return resultsList;
 
+    }
+
+    private URL createURL(String urlString) {
+        URL url = null;
+
+        try {
+            url = new URL(urlString);
+        } catch (MalformedURLException e) {
+            Timber.wtf(e, "");
+        }
+
+        return url;
     }
 
     /**
@@ -237,18 +262,14 @@ public class SearchPageLoader extends AsyncTaskLoader {
          */
         Timber.d("jsonResponse: " + jsonResponse);
         String locationName = "";
-        String locationAddress1 = "";
-        String locationAddress2 = "";
-        String locationCity = "";
-        String locationState = "";
-        String locationPostalCode = "";
+        String locationAddress = "";
         String locationURL = "";
         String locationPhone = "";
 
         try {
             // Extracts the JSONObject mapped by "items" from the base response.
             JSONArray baseJsonArray = new JSONArray(jsonResponse);
-
+            Timber.d("baseJsonArray" + baseJsonArray);
             for (int i = 0; i < baseJsonArray.length(); i++) {
                 JSONObject descriptionObject = baseJsonArray.getJSONObject(i);
                 JSONObject sciLocationObject = descriptionObject.getJSONObject("SCILocation");
@@ -260,51 +281,26 @@ public class SearchPageLoader extends AsyncTaskLoader {
                     locationName = sciLocationObject.getString("LocationName");
                 }
 
-                if (sciLocationObject.has("LocationAddress1") == false) {
-                    Timber.i("LocationAddress1 is null");
+                if (sciLocationObject.has("FormatAddress") == false) {
+                    Timber.d("FormatAddress");
                 } else {
-                    locationAddress1 = sciLocationObject.getString("LocationAddress1");
-                }
-
-                if (sciLocationObject.has("LocationAddress2") == false) {
-                    Timber.i("LocationAddress2 is null");
-                } else {
-                    locationAddress2 = sciLocationObject.getString("LocationAddress2");
-                }
-
-                if (sciLocationObject.has("LocationCity") == false) {
-                    Timber.i("LocationCity is null");
-                } else {
-                    locationCity = sciLocationObject.getString("LocationCity");
-                }
-
-                if (sciLocationObject.has("LocationState") == false) {
-                    Timber.i("LocationState is null");
-                } else {
-                    locationState = sciLocationObject.getString("LocationState");
-                }
-
-                if (sciLocationObject.has("LocationPostalCode") == false) {
-                    Timber.i("LocationPostalCode is null");
-                } else {
-                    locationPostalCode = sciLocationObject.getString("LocationPostalCode");
+                    locationAddress = sciLocationObject.getString("FormatAddress");
                 }
 
                 if (sciLocationObject.has("LocationPhone") == false) {
-                    Timber.i("LocationPhone is null");
+                    Timber.d("LocationPhone is null");
                 } else {
                     locationPhone = sciLocationObject.getString("LocationPhone");
                 }
 
                 if (sciLocationObject.has("LocationURL") == false) {
-                    Timber.i("LocationURL is null");
+                    Timber.d("LocationURL is null");
                 } else {
                     locationURL = sciLocationObject.getString("LocationURL");
                 }
 
                 providersList = new ArrayList<>();
-                Provider currentProvider = new Provider(locationName, locationAddress1, locationAddress2,
-                        locationCity + locationState + "," + locationPostalCode, locationPhone, locationURL);
+                Provider currentProvider = new Provider(locationName, locationAddress, locationPhone, locationURL);
                 providersList.add(currentProvider);
             }
 

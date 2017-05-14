@@ -177,11 +177,10 @@ public class PlanViewPagerFragment extends Fragment
     }
 
     private void updateWidgetWithPlan() {
-        //TODO: finish
         AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(getActivity());
         ComponentName thisWidget = new ComponentName(getActivity(), DMWidgetProvider.class);
         int[] appWidgetIds = appWidgetManager.getAppWidgetIds(thisWidget);
-        appWidgetManager.notifyAppWidgetViewDataChanged(appWidgetIds, R.id.widget_plan_details);
+        appWidgetManager.notifyAppWidgetViewDataChanged(appWidgetIds, R.id.widget_text);
     }
 
     private void sendNewPlanNotification() {

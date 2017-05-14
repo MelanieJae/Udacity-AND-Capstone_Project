@@ -78,6 +78,7 @@
             android:name=".ui.PlanViewPagerActivity"
             android:parentActivityName=".ui.MenuItemListActivity"
             android:theme="@style/AppTheme.NoActionBar" />
+
         <activity android:name=".ui.PlanDetailsDialogActivity" />
         <activity
             android:name=".ui.SearchResultActivity"

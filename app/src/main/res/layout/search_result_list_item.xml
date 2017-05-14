@@ -46,55 +46,55 @@
             android:textStyle="italic"/>
     </LinearLayout>
 
-    <!--<LinearLayout-->
-        <!--android:id="@+id/provider_object_layout"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="match_parent"-->
-        <!--android:orientation="vertical"-->
-        <!--android:contentDescription="@string/provider_view_cd">-->
-        <!--&lt;!&ndash; Provider object fields &ndash;&gt;-->
-        <!--<TextView-->
-            <!--android:id="@+id/provider_name"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:textSize="18sp" />-->
-        <!--<TextView-->
-            <!--android:id="@+id/address_1"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:textSize="18sp" />-->
-        <!--<TextView-->
-            <!--android:id="@+id/address_2"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:textSize="18sp" />-->
-        <!--<TextView-->
-            <!--android:id="@+id/city_state_zip"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:textSize="18sp" />-->
-        <!--<TextView-->
-            <!--android:id="@+id/phone_num"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:textSize="28sp" />-->
-    <!--</LinearLayout>-->
+    <LinearLayout
+        android:id="@+id/provider_object_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:contentDescription="@string/provider_view_cd">
+        <!-- Provider object fields -->
+        <TextView
+            android:id="@+id/provider_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="18sp" />
+        <TextView
+            android:id="@+id/address"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="18sp" />
+        <TextView
+            android:id="@+id/phone_num"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="18sp" />
+        <TextView
+            android:id="@+id/url"
+            android:clickable="true"
+            android:textSize="@dimen/medium_text_size"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:autoLink="all"
+            android:linksClickable="true"
+            android:textColor="@color/primary_dark"
+            android:textStyle="italic"/>
+    </LinearLayout>
 
-    <!--<TextView-->
-        <!--android:id="@+id/provider_get_directions"-->
-        <!--android:text="@string/get_directions"-->
-        <!--android:focusable="false"-->
-        <!--android:textSize="18sp"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content" />-->
+    <TextView
+        android:id="@+id/provider_get_directions"
+        android:text="@string/get_directions"
+        android:focusable="false"
+        android:textSize="18sp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 
-    <!--<TextView-->
-        <!--android:id="@+id/save_provider"-->
-        <!--android:text="@string/save_provider"-->
-        <!--android:clickable="true"-->
-        <!--android:textSize="18sp"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_gravity="bottom" />-->
+    <TextView
+        android:id="@+id/save_provider"
+        android:text="@string/save_provider"
+        android:clickable="true"
+        android:textSize="18sp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom" />
 
 </android.support.v7.widget.CardView>

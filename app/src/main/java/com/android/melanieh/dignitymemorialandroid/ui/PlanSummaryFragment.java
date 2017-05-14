@@ -30,7 +30,7 @@ import timber.log.Timber;
 
 public class PlanSummaryFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor>{
 
-    String[] SELECTION_COLUMNS = {
+    public static String[] SELECTION_COLUMNS = {
             PlanEntry.COLUMN_ID,
             PlanEntry.COLUMN_PLAN_NAME,
         PlanEntry.COLUMN_CONTACT_EMAIL,
@@ -41,6 +41,20 @@ public class PlanSummaryFragment extends Fragment implements LoaderManager.Loade
         PlanEntry.COLUMN_SITE_SELECTION,
         PlanEntry.COLUMN_CONTAINER_SELECTION,
             PlanEntry.COLUMN_EST_COST};
+
+    // these are not used here but provide a central access point for these values and projection
+    // from other classes as needed
+
+    public static int INDEX_COLUMN_ID = 0;
+    public static int INDEX_COLUMN_PLAN_NAME = 1;
+    public static int INDEX_COLUMN_CONTACT_EMAIL = 2;
+    public static int INDEX_COLUMN_PROVIDER = 3;
+    public static int INDEX_COLUMN_CEREMONY_SELECTION = 4;
+    public static int INDEX_COLUMN_VISITATION_SELECTION = 5;
+    public static int INDEX_COLUMN_RECEPTION_SELECTION = 6;
+    public static int INDEX_COLUMN_SITE_SELECTION = 7;
+    public static int INDEX_COLUMN_CONTAINER_SELECTION = 8;
+    public static int INDEX_COLUMN_EST_COST = 9;
 
     int[] BIND_VIEWS = {R.id.plan_name,
             R.id.contact_email,

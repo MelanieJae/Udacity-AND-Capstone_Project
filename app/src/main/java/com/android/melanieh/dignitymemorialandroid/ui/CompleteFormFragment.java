@@ -120,7 +120,6 @@ public class CompleteFormFragment extends Fragment implements GoogleApiClient.Co
             googleApiClient.connect();
         }
 
-
         // initialize isUsingCurrentLocation to its default value of false
         isUsingCurrentLocation = false;
 
@@ -192,12 +191,11 @@ public class CompleteFormFragment extends Fragment implements GoogleApiClient.Co
                 public void onClick(View v) {
                     if (TextUtils.isEmpty(zipCodeACT.getText()) && !isUsingCurrentLocation) {
                         showInvalidEntriesDialog();
-                    }
-
-                    if (prefZipCode != null && !isUsingCurrentLocation) {
+                    } else if (prefZipCode != null && !isUsingCurrentLocation) {
                         showSaveZipCodeEntryDialog(v);
+                    } else {
+                        startSearch(v);
                     }
-                    startSearch(v);
                 }
             });
 
@@ -267,7 +265,7 @@ public class CompleteFormFragment extends Fragment implements GoogleApiClient.Co
             queryType = "providers";
             // hitting the obit button with blank fields yields all
             // obits published in the last two weeks so blank entries are okay.
-            if (isUsingCurrentLocation && location != null) {
+            if (location != null) {
                 getSearchResults.putExtra("current location", new String[]
                                 {String.valueOf(location.getLatitude()),
                                         String.valueOf(location.getLongitude())});
@@ -280,6 +278,7 @@ public class CompleteFormFragment extends Fragment implements GoogleApiClient.Co
             }
 
         Timber.d("completesearch: queryType: " + queryType);
+        Timber.d("isUsingCurrentLocation: " + isUsingCurrentLocation);
         getSearchResults.putExtra("query type", queryType);
         startActivity(getSearchResults);
     }

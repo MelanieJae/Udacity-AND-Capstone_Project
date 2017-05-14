@@ -42,10 +42,9 @@ public class SearchResultRecyclerAdapter
 
     // provider UI fields
     TextView providerNameTV;
-    TextView address1TV;
-    TextView address2TV;
-    TextView cityStateZipTV;
+    TextView addressTV;
     TextView phoneNumTV;
+    TextView urlTV;
     Context context;
     ArrayList<? extends Object> objectsList;
     TextView getSiteDirectionsLinkTV;
@@ -55,6 +54,7 @@ public class SearchResultRecyclerAdapter
 
     public SearchResultRecyclerAdapter(Context context, ArrayList<? extends Object> objectsList) {
         Timber.d("adapter constructor");
+        Timber.d("objectsList: " + objectsList);
         this.context = context;
         this.objectsList = objectsList;
     }
@@ -66,17 +66,16 @@ public class SearchResultRecyclerAdapter
         public ResultViewHolder(View itemView) {
             super(itemView);
             obitViewLL = (LinearLayout)itemView.findViewById(R.id.obit_object_layout);
-//            providerViewLL = (LinearLayout)itemView.findViewById(R.id.provider_object_layout);
+            providerViewLL = (LinearLayout)itemView.findViewById(R.id.provider_object_layout);
             personNameTV = (TextView)itemView.findViewById(R.id.person_name);
             obitPreviewTextTV = (TextView)itemView.findViewById(R.id.obit_preview_text);
             obitFullTextLinkTV = (TextView)itemView.findViewById(R.id.obit_full_text_link);
 
-//            providerNameTV = (TextView) itemView.findViewById(R.id.provider_name);
-//            address1TV = (TextView) itemView.findViewById(R.id.address_1);
-//            address2TV = (TextView) itemView.findViewById(R.id.address_2);
-//            cityStateZipTV = (TextView) itemView.findViewById(R.id.city_state_zip);
-//            phoneNumTV = (TextView) itemView.findViewById(R.id.phone_num);
-//            getProviderDirectionsLinkTV = (TextView) itemView.findViewById(R.id.provider_get_directions);
+            providerNameTV = (TextView) itemView.findViewById(R.id.provider_name);
+            addressTV = (TextView) itemView.findViewById(R.id.address);
+            phoneNumTV = (TextView) itemView.findViewById(R.id.phone_num);
+            urlTV = (TextView) itemView.findViewById(R.id.url);
+            getProviderDirectionsLinkTV = (TextView) itemView.findViewById(R.id.provider_get_directions);
 
         }
     }
@@ -93,28 +92,28 @@ public class SearchResultRecyclerAdapter
         Timber.d("onBindViewHolder: ");
 
         final Object currentObject = objectsList.get(position);
-        Timber.d("personNameTV: " + ((Obituary) currentObject).getPersonName());
-        Timber.d("obitPreviewTextTV: " + ((Obituary) currentObject).getObitPreviewText());
-        Timber.d("obitFullTextLinkTV: " + ((Obituary) currentObject).getObitFullTextLink());
 
         if (currentObject instanceof Obituary) {
-//            providerViewLL.setVisibility(View.GONE);
+            Timber.d("personNameTV: " + ((Obituary) currentObject).getPersonName());
+            Timber.d("obitPreviewTextTV: " + ((Obituary) currentObject).getObitPreviewText());
+            Timber.d("obitFullTextLinkTV: " + ((Obituary) currentObject).getObitFullTextLink());
+            providerViewLL.setVisibility(View.GONE);
             personNameTV.setText(((Obituary) currentObject).getPersonName());
             obitPreviewTextTV.setText(((Obituary) currentObject).getObitPreviewText());
             obitFullTextLinkTV.setText(((Obituary) currentObject).getObitFullTextLink());
 
+
+
         } else {
-//            obitViewLL.setVisibility(View.GONE);
-            providerNameTV.setText(((Provider) currentObject).getProviderName());
-            address1TV.setText(((Provider) currentObject).getAddress1());
-            address2TV.setText(((Provider) currentObject).getAddress2());
-            cityStateZipTV.setText(((Provider) currentObject).getCityStateZip());
-            phoneNumTV.setText(((Provider) currentObject).getPhoneNum());
             Timber.d("providerNameTV: " + ((Provider) currentObject).getProviderName());
-            Timber.d("address1TV: " + ((Provider) currentObject).getAddress1());
-            Timber.d("address2TV: " + ((Provider) currentObject).getAddress2());
-            Timber.d("cityStateZipTV: " + ((Provider) currentObject).getCityStateZip());
+            Timber.d("addressTV: " + ((Provider) currentObject).getAddress());
             Timber.d("phoneNumTV: " + ((Provider) currentObject).getPhoneNum());
+            Timber.d("urlTV: " + ((Provider) currentObject).getProviderURL());
+            obitViewLL.setVisibility(View.GONE);
+            providerNameTV.setText(((Provider) currentObject).getProviderName());
+            addressTV.setText(((Provider) currentObject).getAddress());
+            phoneNumTV.setText(((Provider) currentObject).getPhoneNum());
+            urlTV.setText(((Provider) currentObject).getProviderURL());
         }
 
 //        obitViewLL.setContentDescription(String.format(context.getString(R.string.obituary_view_cd),

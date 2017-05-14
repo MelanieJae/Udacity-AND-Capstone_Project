@@ -48,6 +48,7 @@ public class MenuItemListActivity extends AppCompatActivity
     private String appBarLogoUrl;
     private ImageView toolBarIV;
     private ImageView appBarLogo;
+    private ImageView menuFooterImage;
     NestedScrollView scrollView;
     Class destClass;
     String extraContent;
@@ -80,20 +81,30 @@ public class MenuItemListActivity extends AppCompatActivity
         appBarLogoUrl = BuildConfig.APP_BAR_LOGO_URL;
 
         // toolbar image
-        ImageHandler.getSharedInstance(this).load(appBarImageUrl.toString()).
+        ImageHandler.getSharedInstance(this).load(appBarImageUrl).
                 fit().centerCrop().into(toolBarIV);
         // company logo
-        ImageHandler.getSharedInstance(this).load(appBarLogoUrl.toString())
+        ImageHandler.getSharedInstance(this).load(appBarLogoUrl)
                 .fit().centerInside().into(appBarLogo);
 
         // start Google Analytics tracking
         Timber.d("start Analytics tracking...");
         ((DMApplication)getApplication()).startTracking();
 
-        PicassoPalette.with(appBarImageUrl.toString(), toolBarIV)
+        PicassoPalette.with(appBarImageUrl, toolBarIV)
                 .use(PicassoPalette.Profile.VIBRANT_LIGHT)
                 .intoBackground(scrollView);
 
+//        if (getResources().getConfiguration().screenHeightDp >= 800) {
+//            // menu divider
+//            ImageView scrollDividerView = (ImageView) findViewById(R.id.menu_divider);
+//            ImageHandler.getSharedInstance(this).load(BuildConfig.SCROLL_DIVIDER_URL).
+//                    fit().centerInside().into(scrollDividerView);
+//
+//            ImageHandler.getSharedInstance(this).load(appBarImageUrl).
+//                    fit().centerCrop().into(menuFooterImage);
+//        }
+//
     }
 
     private void setupRecyclerView(@NonNull RecyclerView recyclerView) {
@@ -163,7 +174,7 @@ public class MenuItemListActivity extends AppCompatActivity
                             extraContent = holder.mItem.details;
                         } else {
                             // TEMP-MOVE BACK WITH SEARCH WHEN DONE
-                            destClass = PlanViewPagerActivity.class;
+                            destClass = CompleteFormActivity.class;
                             extraContent = holder.mItem.details;
                         }
                         launchMenuIntent(destClass, extraContent);

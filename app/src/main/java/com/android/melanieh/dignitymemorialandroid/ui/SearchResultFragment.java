@@ -105,9 +105,6 @@ public class SearchResultFragment extends Fragment implements
         firstName = getActivity().getIntent().getStringExtra("first name");
         lastName = getActivity().getIntent().getStringExtra("last name");
 
-        String[] currentLocation = getActivity().getIntent().getStringArrayExtra("current location");
-//        locationLat = currentLocation[0];
-//        locationLong = currentLocation[1];
         Timber.d("queryType: " + queryType);
         Timber.d("firstName= " + firstName);
         Timber.d("lastName= " + lastName);
@@ -157,8 +154,9 @@ public class SearchResultFragment extends Fragment implements
     @Override
     public void onLoadFinished(Loader<ArrayList<? extends Object>> loader, ArrayList<? extends Object> data) {
         Timber.d("onLoadFinished:");
+        Timber.d("data:" + data);
         adapter = new SearchResultRecyclerAdapter(getContext(), data);
-        resultsRecyclerView.setLayoutManager(getLayoutManager());
+        resultsRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         resultsRecyclerView.setAdapter(adapter);
     }
 
