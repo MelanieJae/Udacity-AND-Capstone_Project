@@ -43,7 +43,7 @@ public class PlanViewPagerActivity extends FragmentActivity {
         Timber.d("onCreate:");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_plan_viewpager);
-        planUri = Uri.parse("content://com.android.melanieh.dignitymemorialandroid/plans/1");
+        planUri = Uri.parse("content://com.android.melanieh.dignitymemorialandroid/plans/2");
 //        planUri = getIntent().getData();
         Timber.d("planUri: " + planUri.toString());
 

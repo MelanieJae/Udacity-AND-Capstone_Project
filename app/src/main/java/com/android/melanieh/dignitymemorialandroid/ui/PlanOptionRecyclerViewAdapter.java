@@ -1,11 +1,15 @@
 package com.android.melanieh.dignitymemorialandroid.ui;
 
 import android.app.Activity;
+import android.app.Notification;
+import android.app.NotificationManager;
 import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.ActivityOptionsCompat;
@@ -51,6 +55,7 @@ public class PlanOptionRecyclerViewAdapter
 
     public static String DETAIL_TEXT_ARG_KEY = "Option item detail text";
     public static String IMAGE_STRING_ARG_KEY = "ImageURL string";
+    private int NOTIFICATION_ID = 900;
 
     public PlanOptionRecyclerViewAdapter(Context context, ArrayList<PlanOption> options,
                                          String planUriString) {
@@ -174,6 +179,57 @@ public class PlanOptionRecyclerViewAdapter
             Toast.makeText(context, "Plan update with selection successful", Toast.LENGTH_LONG).show();
         }
 
+        // if this is the container selection screen, i.e. the last screen, once the selection is
+        // saved to the databse, send the user a notification that a new plan has been created.
+        if (isContainer) {
+            sendNewPlanNotification();
+        }
+    }
+
+    private void sendNewPlanNotification() {
+
+        Bitmap largeIcon = BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_add_black_48dp);
+        context.getResources().getDrawable(R.drawable.ic_add_black_48dp);
+        String notifBodyText = configureNotificationText();
+        Notification notification = new Notification.Builder(context)
+                .setContentTitle(context.getString(R.string.dm_notifications_title))
+                .setContentText(context.getString(R.string.dm_notifications_body_text))
+                .setSmallIcon(R.drawable.ic_add_black_48dp)
+                .setLargeIcon(largeIcon)
+                .build();
+
+        NotificationManager mNotificationManager =
+                (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+        mNotificationManager.notify(NOTIFICATION_ID, notification);
+    }
+
+    private String configureNotificationText() {
+        String notifText = "";
+
+        Cursor cursor = context.getContentResolver().
+                query(PlanEntry.CONTENT_URI, PlanSummaryFragment.SELECTION_COLUMNS, null, null, null);
+        // widget displays last (i.e. most recent) plan created
+        cursor.moveToLast();
+        String planEntryId = cursor.getString(PlanSummaryFragment.INDEX_COLUMN_ID);
+        String planName = cursor.getString(PlanSummaryFragment.INDEX_COLUMN_PLAN_NAME);
+        String contactEmail = cursor.getString(PlanSummaryFragment.INDEX_COLUMN_CONTACT_EMAIL);
+        String providerName = cursor.getString(PlanSummaryFragment.INDEX_COLUMN_PROVIDER);
+        String ceremonySelection = cursor.getString(PlanSummaryFragment.INDEX_COLUMN_CEREMONY_SELECTION);
+        String visitationSelection = cursor.getString(PlanSummaryFragment.INDEX_COLUMN_VISITATION_SELECTION);
+        String receptionSelection = cursor.getString(PlanSummaryFragment.INDEX_COLUMN_RECEPTION_SELECTION);
+        String siteSelection = cursor.getString(PlanSummaryFragment.INDEX_COLUMN_SITE_SELECTION);
+        String containerSelection = cursor.getString(PlanSummaryFragment.INDEX_COLUMN_CONTAINER_SELECTION);
+        String estCost = cursor.getString(PlanSummaryFragment.INDEX_COLUMN_EST_COST);
+
+        notifText = String.format(context.getString(R.string.plan_summary_intro), planName) +
+                "\n" + String.format(context.getString(R.string.ceremony_selection), ceremonySelection) +
+                "\n" + String.format(context.getString(R.string.visitation_selection), visitationSelection) +
+                "\n" + String.format(context.getString(R.string.reception_selection), receptionSelection) +
+                "\n" + String.format(context.getString(R.string.site_selection), siteSelection) +
+                "\n" + String.format(context.getString(R.string.container_selection), containerSelection) +
+                "\n" + String.format(context.getString(R.string.est_cost), estCost);
+
+        return notifText;
     }
 
 }

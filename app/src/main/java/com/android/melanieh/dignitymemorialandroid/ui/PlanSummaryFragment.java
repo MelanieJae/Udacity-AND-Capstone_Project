@@ -1,8 +1,11 @@
 package com.android.melanieh.dignitymemorialandroid.ui;
 
 import android.appwidget.AppWidgetManager;
+import android.content.ComponentName;
+import android.content.ContentUris;
 import android.content.Intent;
 import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
 import android.provider.BaseColumns;
 import android.support.annotation.Nullable;
@@ -69,6 +72,8 @@ public class PlanSummaryFragment extends Fragment implements LoaderManager.Loade
     ListView savedPlansListView;
     SimpleCursorAdapter adapter;
 
+    private int PLAN_CURSOR_LOADER_ID = 100;
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -91,7 +96,7 @@ public class PlanSummaryFragment extends Fragment implements LoaderManager.Loade
 
         savedPlansListView.setAdapter(adapter);
 
-        getLoaderManager().initLoader(100, null, this);
+        getLoaderManager().initLoader(PLAN_CURSOR_LOADER_ID, null, this);
         return rootView;
     }
 
@@ -105,10 +110,19 @@ public class PlanSummaryFragment extends Fragment implements LoaderManager.Loade
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
         Timber.d("onLoadFinished");
         adapter.swapCursor(data);
+        updateWidgetWithPlan();
     }
 
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
         adapter.swapCursor(null);
     }
+
+    private void updateWidgetWithPlan() {
+        AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(getActivity());
+        ComponentName thisWidget = new ComponentName(getActivity(), DMWidgetProvider.class);
+        int[] appWidgetIds = appWidgetManager.getAppWidgetIds(thisWidget);
+        appWidgetManager.notifyAppWidgetViewDataChanged(appWidgetIds, R.id.widget_text);
+    }
+
 }

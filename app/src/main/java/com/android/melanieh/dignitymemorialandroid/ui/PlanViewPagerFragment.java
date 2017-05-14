@@ -138,17 +138,11 @@ public class PlanViewPagerFragment extends Fragment
 
         if (data != null) {
             rvAdapter = new PlanOptionRecyclerViewAdapter(getContext(), data, planUriString);
-            layoutManager = new LinearLayoutManager(getContext());
-//            layoutManager = getLayoutManager();
+            layoutManager = getLayoutManager();
             recyclerView.setLayoutManager(layoutManager);
             recyclerView.setAdapter(rvAdapter);
         } else {
             updateEmptyView();
-        }
-
-        if (loaderId == 50) {
-            updateWidgetWithPlan();
-            sendNewPlanNotification();
         }
 
     }
@@ -176,25 +170,6 @@ public class PlanViewPagerFragment extends Fragment
         }
     }
 
-    private void updateWidgetWithPlan() {
-        AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(getActivity());
-        ComponentName thisWidget = new ComponentName(getActivity(), DMWidgetProvider.class);
-        int[] appWidgetIds = appWidgetManager.getAppWidgetIds(thisWidget);
-        appWidgetManager.notifyAppWidgetViewDataChanged(appWidgetIds, R.id.widget_text);
-    }
-
-    private void sendNewPlanNotification() {
-
-        Bitmap largeIcon = BitmapFactory.decodeResource(getResources(), R.drawable.ic_add_black_48dp);
-        getResources().getDrawable(R.drawable.ic_add_black_48dp);
-        // <string name="dm_notifications_body_tap_text">Tap to add event to calendar</string>
-        Notification notification = new Notification.Builder(getContext())
-                .setContentTitle(getString(R.string.dm_notifications_title))
-                .setContentText(getString(R.string.dm_notifications_body_text))
-                .setSmallIcon(R.drawable.ic_add_black_48dp)
-                .setLargeIcon(largeIcon)
-                .build();
-    }
 }
 
 

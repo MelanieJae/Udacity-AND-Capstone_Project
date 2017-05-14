@@ -174,7 +174,7 @@ public class MenuItemListActivity extends AppCompatActivity
                             extraContent = holder.mItem.details;
                         } else {
                             // TEMP-MOVE BACK WITH SEARCH WHEN DONE
-                            destClass = CompleteFormActivity.class;
+                            destClass = PlanViewPagerActivity.class;
                             extraContent = holder.mItem.details;
                         }
                         launchMenuIntent(destClass, extraContent);
