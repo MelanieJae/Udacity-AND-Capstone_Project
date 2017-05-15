@@ -113,7 +113,7 @@ public class SearchResultRecyclerAdapter
 
         final Object currentObject = objectsList.get(position);
 
-        switch(getItemViewType(position)) {
+        switch (getItemViewType(position)) {
             case VIEW_OBITUARY:
                 Timber.d("personNameTV: " + ((Obituary) currentObject).getPersonName());
                 Timber.d("obitPreviewTextTV: " + ((Obituary) currentObject).getObitPreviewText());
@@ -134,30 +134,34 @@ public class SearchResultRecyclerAdapter
                 addressTV.setText(((Provider) currentObject).getAddress());
                 phoneNumTV.setText(((Provider) currentObject).getPhoneNum());
                 urlTV.setText(((Provider) currentObject).getProviderURL());
+                holder.itemView.setContentDescription(String.format
+                        (context.getString(R.string.provider_view_cd), providerNameTV.getText()));
                 break;
         }
 
-                providerViewLL.setContentDescription(String.format
-                (context.getString(R.string.provider_view_cd), providerNameTV.getText()));
+//        //click listeners
+//        if (providerNameTV != null) {
+//            providerNameTV.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    if (currentObject instanceof Provider) {
+//                        saveProviderEntry((Provider) currentObject);
+//                    }
+//                }
+//            });
+//        }
 
-        //click listeners
-        providerNameTV.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (currentObject instanceof Provider) {
-                    saveProviderEntry((Provider)currentObject);
-                }
-            }
-        });
-        getProviderDirectionsLinkTV.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (currentObject instanceof Provider) {
-                    String address = ((Provider)currentObject).getAddress();
-                    getSiteDirections(address);
-                }
-            }
-        });
+//        if (getProviderDirectionsLinkTV != null) {
+//            getProviderDirectionsLinkTV.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    if (currentObject instanceof Provider) {
+//                        String address = ((Provider) currentObject).getAddress();
+//                        getSiteDirections(address);
+//                    }
+//                }
+//            });
+//        }
     }
 
     @Override
