@@ -18,7 +18,6 @@
         <ImageView
             android:id="@+id/imageview"
             android:layout_width="match_parent"
-            tools:src="@drawable/map_sample"
             android:scaleType="centerCrop"
             android:layout_height="200dp" />
         <ImageButton

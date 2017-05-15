@@ -265,7 +265,7 @@ public class MenuItemListActivity extends AppCompatActivity
 
     public Intent launchShareIntent() {Intent shareIntent = new Intent(android.content.Intent.ACTION_SEND);
         shareIntent.setType("text/plain");
-        String shareBodyText = getString(R.string.share_msg_body_text);
+        String shareBodyText = String.format(getString(R.string.share_msg_body_text), "");
         shareIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Subject/Title");
         shareIntent.putExtra(android.content.Intent.EXTRA_TEXT, shareBodyText);
         return shareIntent;

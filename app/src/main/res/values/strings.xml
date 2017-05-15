@@ -47,7 +47,7 @@
     <!-- notifications -->
     <string name="dm_notifications_title">Dignity Memorial</string>
     <string name="dm_notifications_body_text">You have an upcoming consultation with Dignity Memorial.</string>
-    <string name="dm_notifications_body_tap_text">Tap to add event to calendar</string>
+    <string name="dm_notifications_body_tap_text">Tap to send plan to Dignity memorial to schedule a consultation.</string>
 
     <!-- plan form screen -->
     <string name="plan_entry_creation_successful">New plan creation successful</string>

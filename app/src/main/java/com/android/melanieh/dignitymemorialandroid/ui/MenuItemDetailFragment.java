@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebChromeClient;
 import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.TextView;
 
 import com.android.melanieh.dignitymemorialandroid.FAQ;
@@ -58,10 +59,9 @@ public class MenuItemDetailFragment extends Fragment
         setHasOptionsMenu(true);
         detailContent = getActivity().getIntent().getStringExtra("button_extra_content");
 
-//        if (savedInstanceState != null) {
-//            detailContent = savedInstanceState.getString("detailContent");
-//        } else {
-//        }
+        if (savedInstanceState != null) {
+            detailContent = savedInstanceState.getString("detailContent");
+        }
     }
 
     @Override
@@ -83,11 +83,11 @@ public class MenuItemDetailFragment extends Fragment
             rootView = inflater.inflate(R.layout.fragment_browser, container, false);
             webView = (WebView) rootView.findViewById(R.id.webview);
             webView = new WebView(getActivity());
-            webView.getSettings().setJavaScriptEnabled(true);
+            // pages loading without javascript-enabled option so that is left out here due to potential
+            // security vulnerabilities
 //            webView.setInitialScale(1);
-            webView.getSettings().setLoadWithOverviewMode(true);
-            webView.getSettings().setUseWideViewPort(true);
-
+//            webView.getSettings().setLoadWithOverviewMode(true);
+//            webView.getSettings().setUseWideViewPort(true);
             webView.setWebChromeClient(new WebChromeClient() {
                 public void onProgressChanged(WebView view, int progress) {
                     // Activities and WebViews measure progress with different scales.
@@ -97,7 +97,7 @@ public class MenuItemDetailFragment extends Fragment
             });
 
             webView.loadUrl(detailContent);
-            getActivity().setContentView(webView);
+//            getActivity().setContentView(webView);
 
         } else {
             rootView = inflater.inflate(R.layout.fragment_faqs_list, container, false);
@@ -164,8 +164,6 @@ public class MenuItemDetailFragment extends Fragment
             extends RecyclerView.Adapter<FAQRecyclerViewAdapter.FAQViewHolder> {
 
         private ArrayList<FAQ> mFAQSList = new ArrayList<>();
-
-
 
         public FAQRecyclerViewAdapter(ArrayList<FAQ> faqsList) {
             mFAQSList = faqsList;

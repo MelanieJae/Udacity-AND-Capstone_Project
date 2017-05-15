@@ -52,6 +52,9 @@ public class PlanOptionRecyclerViewAdapter
     String optionSelection;
     Context context;
     String planUriString;
+    String currentEstCostString;
+    String estCostSelectionString;
+    String updatedEstCostString;
 
     public static String DETAIL_TEXT_ARG_KEY = "Option item detail text";
     public static String IMAGE_STRING_ARG_KEY = "ImageURL string";
@@ -82,9 +85,29 @@ public class PlanOptionRecyclerViewAdapter
         detailText = currentOption.getDetailText();
         itemImageURL = currentOption.getImageUrlString();
         optionSelection = currentOption.getHeading();
-        final String[] dialogArgs = new String[]{detailText, itemImageURL};
+
+        estCostSelectionString = currentOption.getEstimatedCost();
+        // estimated cost will be displayed and tracked so it needs to also
+        // be formatted as a number for calculation
+        Pattern regex = Pattern.compile("\\d[\\d,\\.]+");
+        Matcher finder = regex.matcher(estCostSelectionString);
+        if (finder.find()) { // or while() if you want to process each
+            try {
+                int lowEndValue = Integer.parseInt(finder.group(0).replaceAll(",", ""));
+                int highEndValue = Integer.parseInt(finder.group(1).replaceAll(",", ""));
+
+                int totalValueRangeLowEnd = Integer.parseInt(currentEstCostString) + lowEndValue;
+                int totalValueRangeHighEnd = Integer.parseInt(currentEstCostString) + highEndValue;
+                updatedEstCostString = "$" + totalValueRangeLowEnd + "-" + totalValueRangeHighEnd;
+
+            } catch (NumberFormatException e) {
+                Timber.wtf(e, "");
+            }
+        }
+        final String[] dialogArgs = new String[]{detailText, itemImageURL, estCostSelectionString};
         Timber.d("itemImageUrl: " + itemImageURL);
         Timber.d("detailText: " + detailText);
+        Timber.d("estCost: " + estCostSelectionString);
 
         ImageHandler.getSharedInstance(context).load(itemImageURL).
                 fit().centerCrop().into(holder.itemImage);
@@ -99,7 +122,7 @@ public class PlanOptionRecyclerViewAdapter
         holder.addBtnView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                addOptionToPlan(currentOption.getTitle(), optionSelection);
+                addOptionToPlan(currentOption.getTitle(), optionSelection, updatedEstCostString);
             }
         });
 
@@ -137,33 +160,34 @@ public class PlanOptionRecyclerViewAdapter
     }
 
 
-    private void addOptionToPlan(String optionsTitle, String optionSelection) {
+    private void addOptionToPlan(String optionsTitle, String optionSelection, String updatedEstCostString) {
         ContentValues values = new ContentValues();
         String cvKey = "";
         // query first for existing plan URI and add to existing plan if there;
         // otherwise insert new plan entry if not present
 
-        boolean isCeremony = Pattern.compile(Pattern.quote("ceremony"), Pattern.CASE_INSENSITIVE).matcher(optionsTitle).find();
-        boolean isReception = Pattern.compile(Pattern.quote("reception"), Pattern.CASE_INSENSITIVE).matcher(optionsTitle).find();
-        boolean isVisitation = Pattern.compile(Pattern.quote("visitation"), Pattern.CASE_INSENSITIVE).matcher(optionsTitle).find();
-        boolean isSite = Pattern.compile(Pattern.quote("resting place"), Pattern.CASE_INSENSITIVE).matcher(optionsTitle).find();
-        boolean isContainer = Pattern.compile(Pattern.quote("casket"), Pattern.CASE_INSENSITIVE).matcher(optionsTitle).find();
+        boolean isCeremonyScreen = Pattern.compile(Pattern.quote("ceremony"), Pattern.CASE_INSENSITIVE).matcher(optionsTitle).find();
+        boolean isReceptionScreen = Pattern.compile(Pattern.quote("reception"), Pattern.CASE_INSENSITIVE).matcher(optionsTitle).find();
+        boolean isVisitationScreen = Pattern.compile(Pattern.quote("visitation"), Pattern.CASE_INSENSITIVE).matcher(optionsTitle).find();
+        boolean isSiteScreen = Pattern.compile(Pattern.quote("resting place"), Pattern.CASE_INSENSITIVE).matcher(optionsTitle).find();
+        boolean isContainerScreen = Pattern.compile(Pattern.quote("casket"), Pattern.CASE_INSENSITIVE).matcher(optionsTitle).find();
 
-        if (isCeremony) {
+        if (isCeremonyScreen) {
             cvKey = PlanEntry.COLUMN_CEREMONY_SELECTION;
-        } else if (isReception) {
+        } else if (isReceptionScreen) {
             cvKey = PlanEntry.COLUMN_RECEPTION_SELECTION;
-        } else if (isVisitation) {
+        } else if (isVisitationScreen) {
             cvKey = PlanEntry.COLUMN_VISITATION_SELECTION;
-        } else if (isSite) {
+        } else if (isSiteScreen) {
             cvKey = PlanEntry.COLUMN_SITE_SELECTION;
-        } else if (isContainer) {
+        } else if (isContainerScreen) {
             cvKey = PlanEntry.COLUMN_CONTAINER_SELECTION;
         } else {
             Timber.e("Invalid option selection");
         }
 
         values.put(cvKey, optionSelection);
+        values.put(PlanEntry.COLUMN_EST_COST, updatedEstCostString);
         Timber.d("cvKey: " + cvKey);
         Timber.d("planUri: " + planUriString);
         Timber.d("context: " + context);
@@ -182,21 +206,21 @@ public class PlanOptionRecyclerViewAdapter
             Toast.makeText(context, "Plan update with selection successful", Toast.LENGTH_LONG).show();
         }
 
+
         // if this is the container selection screen, i.e. the last screen, once the selection is
         // saved to the databse, send the user a notification that a new plan has been created.
-        if (isContainer) {
+        if (isContainerScreen) {
             sendNewPlanNotification();
         }
     }
 
     private void sendNewPlanNotification() {
-
         Bitmap largeIcon = BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_add_black_48dp);
         context.getResources().getDrawable(R.drawable.ic_add_black_48dp);
         String notifBodyText = configureNotificationText();
         Notification notification = new Notification.Builder(context)
                 .setContentTitle(context.getString(R.string.dm_notifications_title))
-                .setContentText(context.getString(R.string.dm_notifications_body_text))
+                .setContentText(context.getString(R.string.dm_notifications_body_tap_text))
                 .setSmallIcon(R.drawable.ic_add_black_48dp)
                 .setLargeIcon(largeIcon)
                 .build();
@@ -208,11 +232,9 @@ public class PlanOptionRecyclerViewAdapter
 
     private String configureNotificationText() {
         String notifText = "";
-
-        Cursor cursor = context.getContentResolver().
-                query(PlanEntry.CONTENT_URI, PlanSummaryFragment.SELECTION_COLUMNS, null, null, null);
-        // widget displays last (i.e. most recent) plan created
+        Cursor cursor = queryPlanEntry(planUriString);
         cursor.moveToLast();
+
         String planEntryId = cursor.getString(PlanSummaryFragment.INDEX_COLUMN_ID);
         String planName = cursor.getString(PlanSummaryFragment.INDEX_COLUMN_PLAN_NAME);
         String contactEmail = cursor.getString(PlanSummaryFragment.INDEX_COLUMN_CONTACT_EMAIL);
@@ -233,6 +255,14 @@ public class PlanOptionRecyclerViewAdapter
                 "\n" + String.format(context.getString(R.string.est_cost), estCost);
 
         return notifText;
+    }
+
+    private Cursor queryPlanEntry(String planUriString) {
+        Uri planUri = Uri.parse(planUriString);
+        Cursor cursor = context.getContentResolver().
+                query(planUri, PlanSummaryFragment.SELECTION_COLUMNS, null, null, null);
+        // widget displays last (i.e. most recent) plan created
+        return cursor;
     }
 
 }

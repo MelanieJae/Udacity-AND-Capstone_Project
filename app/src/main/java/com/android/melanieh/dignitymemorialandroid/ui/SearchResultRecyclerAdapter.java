@@ -99,7 +99,6 @@ public class SearchResultRecyclerAdapter
                 }
             }
             View view = LayoutInflater.from(parent.getContext()).inflate(layoutId, parent, false);
-            view.setFocusable(true);
             return new ResultViewHolder(view);
         } else {
             throw new RuntimeException("Not bound to RecyclerView");
@@ -139,7 +138,7 @@ public class SearchResultRecyclerAdapter
                 break;
         }
 
-//        //click listeners
+        //click listeners
 //        if (providerNameTV != null) {
 //            providerNameTV.setOnClickListener(new View.OnClickListener() {
 //                @Override
@@ -150,7 +149,7 @@ public class SearchResultRecyclerAdapter
 //                }
 //            });
 //        }
-
+//
 //        if (getProviderDirectionsLinkTV != null) {
 //            getProviderDirectionsLinkTV.setOnClickListener(new View.OnClickListener() {
 //                @Override

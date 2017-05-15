@@ -19,6 +19,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
@@ -131,6 +132,7 @@ public class PlanViewPagerFragment extends Fragment
 
     @Override
     public void onLoadFinished(Loader<ArrayList<PlanOption>> loader, ArrayList<PlanOption> data) {
+        String snackbarText = "";
         Timber.d("onLoadFinished:");
         Timber.d("data= " + data.toString());
         Timber.d("planUri= " + planUriString);
@@ -141,6 +143,18 @@ public class PlanViewPagerFragment extends Fragment
             layoutManager = getLayoutManager();
             recyclerView.setLayoutManager(layoutManager);
             recyclerView.setAdapter(rvAdapter);
+
+            // update snackbar with est cost string
+            // snackbar showing total estimated cost range after selection is made
+            String[] SNACKBAR_COLUMNS = {PlanEntry.COLUMN_ID,
+                    PlanEntry.COLUMN_EST_COST};
+            Cursor cursor = getContext().getContentResolver().query(Uri.parse(planUriString), SNACKBAR_COLUMNS,
+                    null, null, null);
+            while (cursor.moveToNext()) {
+                snackbarText = cursor.getString(cursor.getColumnIndex(PlanEntry.COLUMN_EST_COST));
+            }
+            Snackbar.make(rootView, snackbarText, Snackbar.LENGTH_INDEFINITE).show();
+
         } else {
             updateEmptyView();
         }
@@ -169,6 +183,7 @@ public class PlanViewPagerFragment extends Fragment
             return lm;
         }
     }
+
 
 }
 
