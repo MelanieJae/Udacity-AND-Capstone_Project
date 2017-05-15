@@ -52,6 +52,11 @@ public class SearchResultRecyclerAdapter
     LinearLayout obitViewLL;
     LinearLayout providerViewLL;
 
+    // view types:
+    private static final int VIEW_OBITUARY = 0;
+    private static final int VIEW_PROVIDER = 1;
+
+
     public SearchResultRecyclerAdapter(Context context, ArrayList<? extends Object> objectsList) {
         Timber.d("adapter constructor");
         Timber.d("objectsList: " + objectsList);
@@ -65,8 +70,6 @@ public class SearchResultRecyclerAdapter
 
         public ResultViewHolder(View itemView) {
             super(itemView);
-            obitViewLL = (LinearLayout)itemView.findViewById(R.id.obit_object_layout);
-            providerViewLL = (LinearLayout)itemView.findViewById(R.id.provider_object_layout);
             personNameTV = (TextView)itemView.findViewById(R.id.person_name);
             obitPreviewTextTV = (TextView)itemView.findViewById(R.id.obit_preview_text);
             obitFullTextLinkTV = (TextView)itemView.findViewById(R.id.obit_full_text_link);
@@ -83,8 +86,25 @@ public class SearchResultRecyclerAdapter
     @Override
     public ResultViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         Timber.d("onCreateViewHolder: ");
-        View inflatedview = LayoutInflater.from(context).inflate(R.layout.search_result_list_item, parent, false);
-        return new ResultViewHolder(inflatedview);
+        if ( parent instanceof RecyclerView ) {
+            int layoutId = -1;
+            switch (viewType) {
+                case VIEW_OBITUARY: {
+                    layoutId = R.layout.obit_search_list_item;
+                    break;
+                }
+                case VIEW_PROVIDER: {
+                    layoutId = R.layout.provider_search_list_item;
+                    break;
+                }
+            }
+            View view = LayoutInflater.from(parent.getContext()).inflate(layoutId, parent, false);
+            view.setFocusable(true);
+            return new ResultViewHolder(view);
+        } else {
+            throw new RuntimeException("Not bound to RecyclerView");
+        }
+
     }
 
     @Override
@@ -93,54 +113,51 @@ public class SearchResultRecyclerAdapter
 
         final Object currentObject = objectsList.get(position);
 
-        if (currentObject instanceof Obituary) {
-            Timber.d("personNameTV: " + ((Obituary) currentObject).getPersonName());
-            Timber.d("obitPreviewTextTV: " + ((Obituary) currentObject).getObitPreviewText());
-            Timber.d("obitFullTextLinkTV: " + ((Obituary) currentObject).getObitFullTextLink());
-            providerViewLL.setVisibility(View.GONE);
-            personNameTV.setText(((Obituary) currentObject).getPersonName());
-            obitPreviewTextTV.setText(((Obituary) currentObject).getObitPreviewText());
-            obitFullTextLinkTV.setText(((Obituary) currentObject).getObitFullTextLink());
+        switch(getItemViewType(position)) {
+            case VIEW_OBITUARY:
+                Timber.d("personNameTV: " + ((Obituary) currentObject).getPersonName());
+                Timber.d("obitPreviewTextTV: " + ((Obituary) currentObject).getObitPreviewText());
+                Timber.d("obitFullTextLinkTV: " + ((Obituary) currentObject).getObitFullTextLink());
+                personNameTV.setText(((Obituary) currentObject).getPersonName());
+                obitPreviewTextTV.setText(((Obituary) currentObject).getObitPreviewText());
+                obitFullTextLinkTV.setText(((Obituary) currentObject).getObitFullTextLink());
+                holder.itemView.setContentDescription(String.format(context.getString(R.string.obituary_view_cd),
+                        personNameTV.getText()));
 
-
-
-        } else {
-            Timber.d("providerNameTV: " + ((Provider) currentObject).getProviderName());
-            Timber.d("addressTV: " + ((Provider) currentObject).getAddress());
-            Timber.d("phoneNumTV: " + ((Provider) currentObject).getPhoneNum());
-            Timber.d("urlTV: " + ((Provider) currentObject).getProviderURL());
-            obitViewLL.setVisibility(View.GONE);
-            providerNameTV.setText(((Provider) currentObject).getProviderName());
-            addressTV.setText(((Provider) currentObject).getAddress());
-            phoneNumTV.setText(((Provider) currentObject).getPhoneNum());
-            urlTV.setText(((Provider) currentObject).getProviderURL());
+                break;
+            case VIEW_PROVIDER:
+                Timber.d("providerNameTV: " + ((Provider) currentObject).getProviderName());
+                Timber.d("addressTV: " + ((Provider) currentObject).getAddress());
+                Timber.d("phoneNumTV: " + ((Provider) currentObject).getPhoneNum());
+                Timber.d("urlTV: " + ((Provider) currentObject).getProviderURL());
+                providerNameTV.setText(((Provider) currentObject).getProviderName());
+                addressTV.setText(((Provider) currentObject).getAddress());
+                phoneNumTV.setText(((Provider) currentObject).getPhoneNum());
+                urlTV.setText(((Provider) currentObject).getProviderURL());
+                break;
         }
 
-//        obitViewLL.setContentDescription(String.format(context.getString(R.string.obituary_view_cd),
-//                personNameTV.getText()));
-//        providerViewLL.setContentDescription(String.format
-//                (context.getString(R.string.provider_view_cd), providerNameTV.getText()));
+                providerViewLL.setContentDescription(String.format
+                (context.getString(R.string.provider_view_cd), providerNameTV.getText()));
 
-        // click listeners
-//        providerNameTV.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                if (currentObject instanceof Provider) {
-//                    saveProviderEntry((Provider)currentObject);
-//                }
-//            }
-//        });
-//        getProviderDirectionsLinkTV.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                if (currentObject instanceof Provider) {
-//                    String address1 = ((Provider)currentObject).getAddress1();
-//                    String address2 = ((Provider)currentObject).getAddress2();
-//                    String cityStateZip = ((Provider) currentObject).getCityStateZip();
-//                    getSiteDirections(address1, cityStateZip);
-//                }
-//            }
-//        });
+        //click listeners
+        providerNameTV.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (currentObject instanceof Provider) {
+                    saveProviderEntry((Provider)currentObject);
+                }
+            }
+        });
+        getProviderDirectionsLinkTV.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (currentObject instanceof Provider) {
+                    String address = ((Provider)currentObject).getAddress();
+                    getSiteDirections(address);
+                }
+            }
+        });
     }
 
     @Override
@@ -153,6 +170,11 @@ public class SearchResultRecyclerAdapter
         }
     }
 
+    @Override
+    public int getItemViewType(int position) {
+        return (objectsList.get(position) instanceof Obituary) ? VIEW_OBITUARY : VIEW_PROVIDER;
+    }
+
     private void saveProviderEntry(Provider provider) {
         if (provider != null) {
             SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(context);
@@ -162,11 +184,15 @@ public class SearchResultRecyclerAdapter
         }
     }
 
-    private void getSiteDirections(String address1, String cityStateZip) {
-        String destAddress = address1 + ", " + cityStateZip;
+    // address from query is formatted as "street address, city, state zip"
+    // e.g. 100 Main St., MainStreetAmericaLand, MO 12345
+    // from the JSON response so incoming address argument strings must also be formatted this way.
+
+    private void getSiteDirections(String address) {
+        // provides driving, biking and walking directions
         String mode = "dbw";
         StringBuilder gmNavigationQueryBuilder = new StringBuilder(BuildConfig.GM_NAV_BASE_QUERY);
-        gmNavigationQueryBuilder.append(destAddress);
+        gmNavigationQueryBuilder.append(address);
         gmNavigationQueryBuilder.append("&mode=" + mode);
         Timber.d("gmNavQuery= " + gmNavigationQueryBuilder.toString());
         Uri gmNavIntentUri = Uri.parse(gmNavigationQueryBuilder.toString());

@@ -47,8 +47,8 @@
     <dimen name="details_button_text_size">18sp</dimen>
 
     <!-- option detail dialog window -->
-    <dimen name="detail_dialog_window_width">400dp</dimen>
-    <dimen name="detail_dialog_window_height">600dp</dimen>
+    <dimen name="detail_dialog_window_width">680dp</dimen>
+    <dimen name="detail_dialog_window_height">400dp</dimen>
 
     <dimen name="detail_dialog_image_height">200dp</dimen>
 

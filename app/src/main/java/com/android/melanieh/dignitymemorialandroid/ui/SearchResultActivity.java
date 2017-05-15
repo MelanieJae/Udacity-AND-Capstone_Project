@@ -54,24 +54,6 @@ import timber.log.Timber;
 
 public class SearchResultActivity extends AppCompatActivity {
 
-    private static final int SEARCH_LOADER_ID = 1;
-
-    String queryString;
-    RecyclerView.LayoutManager resultRVLayoutManager;
-    SearchResultRecyclerAdapter adapter;
-    RecyclerView resultsRecyclerView;
-    String queryType;
-    String zipCode;
-    String provider;
-    String firstName;
-    String lastName;
-    LinearLayout obitsFormLayout;
-    LinearLayout providerFormLayout;
-    TextView locSvcsView;
-    Double locationLat;
-    Double locationLong;
-    private static final String OBITS_QUERY_BASE_URL = BuildConfig.OBITS_QUERY_BASE_URL;
-    private static final String PROVIDER_SITE_QUERY_BASE_URL = BuildConfig.PROVIDER_QUERY_BASE_URL;
     private TextView txtOutput;
     private LocationRequest locationRequest;
     private GoogleApiClient googleApiClient;

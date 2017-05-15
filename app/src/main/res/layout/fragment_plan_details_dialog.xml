@@ -4,7 +4,6 @@
     android:id="@+id/edit_name"
     android:layout_width="@dimen/detail_dialog_window_width"
     android:layout_height="@dimen/detail_dialog_window_height"
-    android:layout_gravity="center"
     android:orientation="vertical"  >
 
     <ImageView
@@ -17,9 +16,8 @@
         android:layout_marginRight="6dp"
         android:layout_marginTop="16dp"
         android:layout_marginBottom="16dp"
-        android:textSize="20sp"
+        android:textSize="16sp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
-
 
 </LinearLayout>

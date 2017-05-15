@@ -78,12 +78,12 @@ public class SearchPageLoader extends AsyncTaskLoader {
         boolean isObitQuery = Pattern.compile(Pattern.quote(BuildConfig.OBITS_QUERY_BASE_URL),
                 Pattern.CASE_INSENSITIVE).matcher(urlString).find();
 
-        String htmlResponse = "";
+//        String htmlResponse = "";
         String jsonResponse = "";
 
-        if (isObitQuery) {
-            resultsList = extractObituaryData(htmlResponse);
-        } else {
+//        if (isObitQuery) {
+//            resultsList = extractObituaryData(jsonResponse);
+//        } else {
             // initialize JSON Response and url variables
             URL url = createURL(requestUrlString);
             Timber.d("requestURLString= " + requestUrlString);
@@ -95,7 +95,9 @@ public class SearchPageLoader extends AsyncTaskLoader {
             } catch (IOException e) {
                 Timber.wtf(e, "");
             }
-
+        if (isObitQuery) {
+            resultsList = extractObituaryData(jsonResponse);
+        } else {
             resultsList = extractProviderData(jsonResponse);
         }
 
@@ -185,69 +187,61 @@ public class SearchPageLoader extends AsyncTaskLoader {
      * 2. a Provider object
      */
 
-    private ArrayList<Obituary> extractObituaryData(String htmlResponse) {
-        /** tags needed for obituary:
-         * 1. "ObitName"
-         * 2. "ObitText"
+    private ArrayList<Obituary> extractObituaryData(String jsonResponse) {
+        /** fields needed for Provider:
+         * 1. "LocationName"
+         * 2. "LocationAddress1"
+         * 3. "LocationAddress2"
+         * 4. "LocationCity"
+         * 5. "LocationState"
+         * 6. "LocationPostalCode"
+         * 7. "LocationURL"
          *
          */
-        Timber.d("htmlResponse: " + htmlResponse);
+        Timber.d("jsonResponse: " + jsonResponse);
+        String obitText = "";
+        String obitURL = "";
         String obitName = "";
-        String obitPreviewText = "";
-
-        String obitFullTextLinkHeading = "";
-        String obitFullTextLink = "";
-        String detailText = "";
-        String estCostString = "";
-        Document doc;
-        Obituary obituary;
-        obituariesList = new ArrayList<>();
-        ArrayList<String> tempNameArray = new ArrayList<>();
-        ArrayList<String> tempObitPreviewTextArray = new ArrayList<>();
-        ArrayList<String> tempObitFullTextArray = new ArrayList<>();
 
         try {
-            if (urlString != null) {
-                doc = Jsoup.connect(urlString).get();
+            // Extracts the JSONObject mapped by "items" from the base response.
+            JSONObject baseJsonObject = new JSONObject(jsonResponse);
+            JSONArray resultsJsonArray = baseJsonObject.getJSONArray("Results");
+            Timber.d("resultsJsonArray" + resultsJsonArray);
+            for (int i = 0; i < resultsJsonArray.length(); i++) {
+                JSONObject obitJsonObject = resultsJsonArray.getJSONObject(i);
 
-                // Jsoup library handles validation/null checks of node values
-                Elements obitNameElements = doc.getElementsByClass("obitName");
-                Elements obitPreviewTextElements = doc.getElementsByClass("obitText");
-                Elements obitFullTextElements = doc.select("a.RightLink[href]");
-
-                Iterator<Element> namesIterator = obitNameElements.iterator();
-                while (namesIterator.hasNext()) {
-                    obitName = namesIterator.next().text();
-                    tempNameArray.add(obitName);
+                // validation/null checks
+                if (obitJsonObject.has("NoticeText") == false) {
+                    Timber.d("NoticeText is null");
+                } else {
+                    obitText = obitJsonObject.getString("NoticeText");
                 }
 
-                Iterator<Element> obitPreviewTextIterator = obitPreviewTextElements.iterator();
-                while (obitPreviewTextIterator.hasNext()) {
-                    obitPreviewText = obitPreviewTextIterator.next().text();
-                    tempObitPreviewTextArray.add(obitPreviewText);
+                if (obitJsonObject.has("ObituaryLink") == false) {
+                    Timber.d("ObituaryLink is null");
+                } else {
+                    obitURL = obitJsonObject.getString("ObituaryLink");
                 }
 
-                Iterator<Element> obitFullTextIterator = obitFullTextElements.iterator();
-                while (obitFullTextIterator.hasNext()) {
-                    obitFullTextLink = obitFullTextIterator.next().attr("abs:href");
-                    tempObitFullTextArray.add(obitFullTextLink);
+                if (obitJsonObject.has("SortName") == false) {
+                    Timber.d("SortName is null");
+                } else {
+                    obitName = obitJsonObject.getString("SortName");
                 }
 
-                for (int i = 0; i < obitNameElements.size(); i++) {
-                    obituary = new Obituary(tempNameArray.get(i), tempObitPreviewTextArray.get(i),
-                            tempObitFullTextArray.get(i));
-                    obituariesList.add(obituary);
-                    Timber.d("obituariesList: " + obituariesList);
-                }
-            } else {
-                Timber.e("Error: query string is null");
+                obituariesList = new ArrayList<>();
+                Obituary currentObituary = new Obituary(obitName, obitText, obitURL);
+                obituariesList.add(currentObituary);
             }
-        } catch (IOException e) {
-            Timber.wtf(e, "Error: IO Exception");
+
+        } catch (JSONException e) {
+            Timber.wtf(e, "extractObituary");
         }
         return obituariesList;
-
     }
+
+
 
     private ArrayList<Provider> extractProviderData(String jsonResponse) {
         /** fields needed for Provider:
@@ -300,7 +294,8 @@ public class SearchPageLoader extends AsyncTaskLoader {
                 }
 
                 providersList = new ArrayList<>();
-                Provider currentProvider = new Provider(locationName, locationAddress, locationPhone, locationURL);
+                Provider currentProvider = new Provider(locationName, locationAddress,
+                        locationPhone, locationURL);
                 providersList.add(currentProvider);
             }
 

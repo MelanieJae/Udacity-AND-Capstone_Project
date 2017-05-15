@@ -46,10 +46,10 @@ import static com.android.melanieh.dignitymemorialandroid.R.id.textView;
  */
 
 public class SearchResultFragment extends Fragment implements
-        LoaderManager.LoaderCallbacks<ArrayList<? extends Object>>,
-        GoogleApiClient.ConnectionCallbacks,
-        GoogleApiClient.OnConnectionFailedListener,
-        LocationListener {
+        LoaderManager.LoaderCallbacks<ArrayList<? extends Object>> {
+//        GoogleApiClient.ConnectionCallbacks,
+//        GoogleApiClient.OnConnectionFailedListener,
+//        LocationListener {
 
     private static final int SEARCH_LOADER_ID = 1;
 
@@ -80,14 +80,6 @@ public class SearchResultFragment extends Fragment implements
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
 
-
-    /* Location services Api client for current location and Maps */
-//        googleApiClient = new GoogleApiClient.Builder(getContext())
-//                .addApi(LocationServices.API)
-//                .addConnectionCallbacks(this)
-//                .addOnConnectionFailedListener(this)
-//                .build();
-
     }
 
     @Nullable
@@ -98,9 +90,6 @@ public class SearchResultFragment extends Fragment implements
         resultsRecyclerView = (RecyclerView)rootView.findViewById(R.id.results_rv);
 
         queryType = getActivity().getIntent().getStringExtra("query type");
-        locationArray = getActivity().getIntent().getStringArrayExtra("current location");
-        locationLat = locationArray[0];
-        locationLong = locationArray[1];
         zipCode = getActivity().getIntent().getStringExtra("zipCode");
         firstName = getActivity().getIntent().getStringExtra("first name");
         lastName = getActivity().getIntent().getStringExtra("last name");
@@ -169,37 +158,37 @@ public class SearchResultFragment extends Fragment implements
     // or lat/long that is being used and accuracy within 100 m is not necessary
     // if doing the navigation to plot, this would need HIGH_ACCURACY and FINE_LOCATION settings
 
-    @RequiresPermission(Manifest.permission.ACCESS_COARSE_LOCATION)
-    @Override
-    public void onConnected(@Nullable Bundle bundle) {
-        Timber.d("onConnected");
-        locationRequest = LocationRequest.create();
-        locationRequest.setPriority(LocationRequest.PRIORITY_LOW_POWER);
-        locationRequest.setInterval(5000); // millisecs, ideally greater than 1000
-        if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION)
-                == PackageManager.PERMISSION_GRANTED) {
-            LocationServices.FusedLocationApi.requestLocationUpdates(googleApiClient,
-                    locationRequest, this);
-        } else {
-            Timber.e("User did not grant permission to access current location");
-        }
-    }
-
-
-    @Override
-    public void onConnectionSuspended(int i) {
-        Timber.d("Google API Client connection has been suspended");
-    }
-
-    @Override
-    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-        Timber.d("Google API Client connection has failed");
-    }
-
-    @Override
-    public void onLocationChanged(Location location) {
-        Timber.d("onLocationChanged");
-    }
+//    @RequiresPermission(Manifest.permission.ACCESS_COARSE_LOCATION)
+//    @Override
+//    public void onConnected(@Nullable Bundle bundle) {
+//        Timber.d("onConnected");
+//        locationRequest = LocationRequest.create();
+//        locationRequest.setPriority(LocationRequest.PRIORITY_LOW_POWER);
+//        locationRequest.setInterval(5000); // millisecs, ideally greater than 1000
+//        if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION)
+//                == PackageManager.PERMISSION_GRANTED) {
+//            LocationServices.FusedLocationApi.requestLocationUpdates(googleApiClient,
+//                    locationRequest, this);
+//        } else {
+//            Timber.e("User did not grant permission to access current location");
+//        }
+//    }
+//
+//
+//    @Override
+//    public void onConnectionSuspended(int i) {
+//        Timber.d("Google API Client connection has been suspended");
+//    }
+//
+//    @Override
+//    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+//        Timber.d("Google API Client connection has failed");
+//    }
+//
+//    @Override
+//    public void onLocationChanged(Location location) {
+//        Timber.d("onLocationChanged");
+//    }
 
     private void executeSearch(String queryType) {
 
@@ -212,12 +201,36 @@ public class SearchResultFragment extends Fragment implements
 
         if (isObitQuery) {
             queryBuilder = new StringBuilder(OBITS_QUERY_BASE_URL);
-            queryBuilder.append("&firstname=" + firstName);
-            queryBuilder.append("&lastname=" + lastName);
+            if (firstName != null) {
+                queryBuilder.append("&fn=" + firstName);
+            } else {
+                // if you leave the firstName variable in here you will get obituary results for people
+                // with the last name "Null"; queries with no names to the web service yield the most
+                // recent obituaries from the last 14 days.
+                //
+                // are formatted as "&fn=&ln=&..."
+                queryBuilder.append("&fn=");
+            }
+            if (lastName != null) {
+                queryBuilder.append("&ln=" + lastName);
+            } else {
+                // if you leave the firstName variable in here you will get obituary results for people
+                // with the last name "Null"; queries with no names to the web service yield the most
+                // recent obituaries from the last 14 days.
+                //
+                // are formatted as "&firstname=&ln=&..."
+                queryBuilder.append("&ln=");
+            }
             querySuffix = getString(R.string.obits_search_query_suffix);
 
         } else {
             queryBuilder = new StringBuilder(PROVIDER_SITE_QUERY_BASE_URL);
+            locationArray = getActivity().getIntent().getStringArrayExtra("current location");
+            Timber.d("locationArray: " + locationArray);
+            locationLat = locationArray[0];
+            locationLong = locationArray[1];
+            Timber.d("locationLat: " + locationLat);
+            Timber.d("locationLong: " + locationLong);
             if (locationLat != null) {
                 queryBuilder.append("latitude=" + locationLat);
             } else {

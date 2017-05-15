@@ -43,11 +43,7 @@ public class MenuItemDetailFragment extends Fragment
     String detailContent;
     RecyclerView faqsRV;
     LinearLayoutManager layoutManager;
-
-    /**
-     * The dummy content this fragment is presenting.
-     */
-    private MenuContent.MenuItem mItem;
+    private static final int FAQ_LOADER_ID = 100;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -106,7 +102,7 @@ public class MenuItemDetailFragment extends Fragment
         } else {
             rootView = inflater.inflate(R.layout.fragment_faqs_list, container, false);
             faqsRV = (RecyclerView) rootView.findViewById(R.id.faqs_rv);
-            getLoaderManager().initLoader(200, null, this).forceLoad();
+            getLoaderManager().initLoader(FAQ_LOADER_ID, null, this).forceLoad();
         }
 
         return rootView;

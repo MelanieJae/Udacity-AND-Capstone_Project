@@ -82,13 +82,17 @@ public class PlanOptionRecyclerViewAdapter
         detailText = currentOption.getDetailText();
         itemImageURL = currentOption.getImageUrlString();
         optionSelection = currentOption.getHeading();
+        final String[] dialogArgs = new String[]{detailText, itemImageURL};
+        Timber.d("itemImageUrl: " + itemImageURL);
+        Timber.d("detailText: " + detailText);
+
         ImageHandler.getSharedInstance(context).load(itemImageURL).
                 fit().centerCrop().into(holder.itemImage);
 
         holder.detailsBtnView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showDetailDialog();
+                showDetailDialog(dialogArgs);
             }
         });
 
@@ -120,13 +124,12 @@ public class PlanOptionRecyclerViewAdapter
 
     }
 
-    private void showDetailDialog() {
+    private void showDetailDialog(String[] dialogArgs) {
         Timber.d("showDetailDialog:");
         if (context instanceof FragmentActivity) {
             // We can get the fragment manager
             FragmentActivity activity = (FragmentActivity) context;
-            String[] args = new String[]{detailText, itemImageURL};
-            PlanDetailsDialogFragment fragment = PlanDetailsDialogFragment.newInstance(args);
+            PlanDetailsDialogFragment fragment = PlanDetailsDialogFragment.newInstance(dialogArgs);
             FragmentManager fm = activity.getSupportFragmentManager();
             FragmentTransaction t = fm.beginTransaction();
             fragment.show(fm, "fragment_plan_detail_dialog");
