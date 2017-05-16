@@ -23,7 +23,6 @@ public class ScreenSlidePagerAdapter extends FragmentPagerAdapter {
 
     public ScreenSlidePagerAdapter(Context context, FragmentManager fm, String planUriString) {
         super(fm);
-        Timber.d("ScreenSlidePagerAdapter constructor:");
         this.context = context;
         this.planUriString = planUriString;
     }
@@ -34,25 +33,16 @@ public class ScreenSlidePagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public int getCount() {
-        Timber.d("getPagerAdapterCount:");
         return NUM_PAGES;
     }
 
     @Override
     public Fragment getItem(int position) {
-        Timber.d("getItem:");
         PlanViewPagerFragment fragment;
         // these are left blank here and appended in the fragments after actual selections are made
         // and fetched from the DB.
         String staticContent = "";
-        String planName="";
-        String ceremonySelection="";
-        String visitationSelection="";
-        String receptionSelection="";
-        String siteSelection="";
-        String containerSelection="";
-        String estCostString="";
-//
+
 //        // each fragment needs its own loaderId to ensure content appears in the correct fragment
 //        // since the PlanPage fragment is being recycled for all elements of the viewpager
         int loaderId = 0;
@@ -79,9 +69,6 @@ public class ScreenSlidePagerAdapter extends FragmentPagerAdapter {
                 break;
 
         }
-        Timber.d("loaderid: " + loaderId);
-        Timber.d("static content: " + staticContent);
-        Timber.d("planUriString: " + planUriString);
 
         fragment = PlanViewPagerFragment.newInstance(staticContent, loaderId, planUriString);
         return fragment;

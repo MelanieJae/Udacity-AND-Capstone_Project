@@ -33,14 +33,6 @@ public class PlanDetailsDialogFragment extends DialogFragment {
     TextView detailsTextView;
     ImageView detailsImageView;
 
-    // Extra name for the ID parameter
-//    public static final String EXTRA_PARAM_ID = "detail:_id";
-
-    private ImageView mHeaderImageView;
-    private TextView mHeaderTitle;
-
-    private PlanOption option;
-
     public PlanDetailsDialogFragment() {
         //
     }
@@ -83,11 +75,9 @@ public class PlanDetailsDialogFragment extends DialogFragment {
      * Load the item's full-size image into our {@link ImageView}.
      */
     private void loadImage() {
-        Picasso.with(getContext())
-                .load(imageURL)
-                .noFade()
-                .noPlaceholder().fit().centerCrop()
-                .into(detailsImageView);
+        // toolbar image
+        ImageHandler.getSharedInstance(getContext()).load(imageURL).
+                fit().centerCrop().into(detailsImageView);
     }
 
 }

@@ -32,7 +32,7 @@ import timber.log.Timber;
  * on handsets.
  */
 public class MenuItemDetailFragment extends Fragment
-        implements MenuOptionsInterface, LoaderManager.LoaderCallbacks<ArrayList<FAQ>>{
+        implements MenuOptionsInterface, LoaderManager.LoaderCallbacks<ArrayList<FAQ>> {
     /**
      * The fragment argument representing the item ID that this fragment
      * represents.
@@ -73,7 +73,6 @@ public class MenuItemDetailFragment extends Fragment
         // 2. FAQ page
 //        detailContent = getArguments().getString("menuButtonExtra");
 
-        Timber.d("detailContent: " + detailContent);
         // picks up content linked to menu button that was pressed and detects whether it is
         // supposed to be a browser fragment or the FAQ pg.
         boolean isWebContent = Pattern.compile(Pattern.quote("http"),
@@ -85,9 +84,9 @@ public class MenuItemDetailFragment extends Fragment
             webView = new WebView(getActivity());
             // pages loading without javascript-enabled option so that is left out here due to potential
             // security vulnerabilities
-//            webView.setInitialScale(1);
-//            webView.getSettings().setLoadWithOverviewMode(true);
-//            webView.getSettings().setUseWideViewPort(true);
+            webView.setInitialScale(1);
+            webView.getSettings().setLoadWithOverviewMode(true);
+            webView.getSettings().setUseWideViewPort(true);
             webView.setWebChromeClient(new WebChromeClient() {
                 public void onProgressChanged(WebView view, int progress) {
                     // Activities and WebViews measure progress with different scales.
@@ -97,7 +96,7 @@ public class MenuItemDetailFragment extends Fragment
             });
 
             webView.loadUrl(detailContent);
-//            getActivity().setContentView(webView);
+            getActivity().setContentView(webView);
 
         } else {
             rootView = inflater.inflate(R.layout.fragment_faqs_list, container, false);
@@ -117,9 +116,7 @@ public class MenuItemDetailFragment extends Fragment
 
     @Override
     public void onLoadFinished(Loader<ArrayList<FAQ>> loader, ArrayList<FAQ> data) {
-        Timber.d("onLoadFinished");
         if (data != null && !data.isEmpty()) {
-            Timber.d("data:" + data);
             FAQRecyclerViewAdapter faqAdapter = new FAQRecyclerViewAdapter(data);
             layoutManager = new LinearLayoutManager(getContext());
             faqsRV.setLayoutManager(layoutManager);
@@ -140,21 +137,9 @@ public class MenuItemDetailFragment extends Fragment
     }
 
     public void launchMenuIntent(Class destinationClass, String extraContent) {
-        Timber.d("launchMenuIntent:");
-        Timber.d("destinationClass=" + destinationClass.toString());
-        Timber.d("intentExtraContent: " + extraContent);
         Intent intent = new Intent(getContext(), destinationClass);
         intent.putExtra("button_extra_content", extraContent);
         startActivity(intent);
-    }
-
-    public Intent launchShareIntent() {
-        Intent shareIntent = new Intent(android.content.Intent.ACTION_SEND);
-        shareIntent.setType("text/plain");
-        String shareBodyText = getString(R.string.share_msg_body_text);
-        shareIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Subject/Title");
-        shareIntent.putExtra(android.content.Intent.EXTRA_TEXT, shareBodyText);
-        return shareIntent;
     }
 
     /**
@@ -167,12 +152,10 @@ public class MenuItemDetailFragment extends Fragment
 
         public FAQRecyclerViewAdapter(ArrayList<FAQ> faqsList) {
             mFAQSList = faqsList;
-            Timber.d("mFAQSList:" + mFAQSList);
         }
 
         @Override
         public FAQViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            Timber.d("onCreateViewHolder");
             View view = LayoutInflater.from(parent.getContext())
                     .inflate(R.layout.faqs_list_item, parent, false);
             FAQViewHolder viewHolder =
@@ -182,23 +165,17 @@ public class MenuItemDetailFragment extends Fragment
 
         @Override
         public void onBindViewHolder(FAQViewHolder holder, int position) {
-            Timber.d("onBindViewHolder");
-
             holder.faqItem = mFAQSList.get(position);
 
             // destination class for intent; varies according to which button is selected
             final String question = holder.faqItem.getQuestion();
             final String answer = holder.faqItem.getAnswer();
-//            holder.questionView.setContentDescription(question);
-//            holder.answerView.setContentDescription(answer);
             holder.questionView.setText(question);
             holder.answerView.setText(answer);
-
         }
 
         @Override
         public int getItemCount() {
-            Timber.d("getItemCount");
             return mFAQSList.size();
         }
 

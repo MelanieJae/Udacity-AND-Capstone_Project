@@ -63,26 +63,13 @@ public class UserSelectionContract {
         public static final String COLUMN_SITE_SELECTION = "Site_Selection";
         public static final String COLUMN_CONTAINER_SELECTION = "Container_Selection";
         public static final String COLUMN_EST_COST = "Estimated_Cost";
-
-
-        /**
-         * Returns whether or not the given plan type is {@link #UNDECIDED}, {@link #BURIAL},
-         * or {@link #CREMATION}.
-         */
-        public static boolean isValidPlanType(int planType) {
-            if (planType == UNDECIDED || planType == BURIAL || planType == CREMATION) {
-                return true;
-            }
-            return false;
-        }
-
     }
 
     @Override
     public String toString() {
         return "UserSelectionContract content URIs {" +
                 "BASE_URI" + BASE_URI.toString() +
-                "PRODUCTS_CONTENT_URI" + PlanEntry.CONTENT_URI.toString() + "}";
+                "PLANS_CONTENT_URI" + PlanEntry.CONTENT_URI.toString() + "}";
     }
 
 }

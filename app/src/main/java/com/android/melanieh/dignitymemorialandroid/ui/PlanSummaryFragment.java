@@ -17,8 +17,11 @@ import android.support.v4.widget.SimpleCursorAdapter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.melanieh.dignitymemorialandroid.R;
 import com.android.melanieh.dignitymemorialandroid.data.UserSelectionContract;
@@ -31,7 +34,8 @@ import timber.log.Timber;
  * Created by melanieh on 5/9/17.
  */
 
-public class PlanSummaryFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor>{
+public class PlanSummaryFragment extends Fragment
+        implements LoaderManager.LoaderCallbacks<Cursor> {
 
     public static String[] SELECTION_COLUMNS = {
             PlanEntry.COLUMN_ID,
@@ -71,15 +75,16 @@ public class PlanSummaryFragment extends Fragment implements LoaderManager.Loade
 
     ListView savedPlansListView;
     SimpleCursorAdapter adapter;
+    LinearLayout planLayout;
+    Button deletePlanBtn;
+
 
     private int PLAN_CURSOR_LOADER_ID = 100;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Timber.d("fragment: onCreate");
         setHasOptionsMenu(true);
-
 
     }
 
@@ -95,6 +100,7 @@ public class PlanSummaryFragment extends Fragment implements LoaderManager.Loade
                 SimpleCursorAdapter.FLAG_REGISTER_CONTENT_OBSERVER);
 
         savedPlansListView.setAdapter(adapter);
+        planLayout = (LinearLayout) rootView.findViewById(R.id.plan_layout);
 
         getLoaderManager().initLoader(PLAN_CURSOR_LOADER_ID, null, this);
         return rootView;
@@ -102,13 +108,12 @@ public class PlanSummaryFragment extends Fragment implements LoaderManager.Loade
 
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-        Timber.d("onCreateLoader");
-        return new CursorLoader(getActivity(), PlanEntry.CONTENT_URI, SELECTION_COLUMNS, null, null, null);
+        return new CursorLoader(getActivity(), PlanEntry.CONTENT_URI,
+                SELECTION_COLUMNS, null, null, null);
     }
 
     @Override
-    public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
-        Timber.d("onLoadFinished");
+    public void onLoadFinished(Loader<Cursor> loader, final Cursor data) {
         adapter.swapCursor(data);
         updateWidgetWithPlan();
     }

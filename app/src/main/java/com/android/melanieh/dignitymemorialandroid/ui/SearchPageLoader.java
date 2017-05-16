@@ -50,7 +50,6 @@ public class SearchPageLoader extends AsyncTaskLoader {
 
     @Override
     public ArrayList<? extends Object> loadInBackground() {
-        Timber.v("loadInBackground: ");
 
         // Perform the HTTP request for book listings data and process the response.
         ArrayList<? extends Object> resultsList = obtainSearchResults(urlString);
@@ -63,8 +62,7 @@ public class SearchPageLoader extends AsyncTaskLoader {
      * */
 
     public ArrayList<? extends Object> obtainSearchResults(String requestUrlString) {
-        Timber.d("obtainSearchResults: ");
-        Timber.d("requestUrlString: ");
+
         ArrayList<? extends Object> resultsList;
 //
 ////         uncomment for testing purposes only to simulate slow network
@@ -78,23 +76,20 @@ public class SearchPageLoader extends AsyncTaskLoader {
         boolean isObitQuery = Pattern.compile(Pattern.quote(BuildConfig.OBITS_QUERY_BASE_URL),
                 Pattern.CASE_INSENSITIVE).matcher(urlString).find();
 
-//        String htmlResponse = "";
         String jsonResponse = "";
 
-//        if (isObitQuery) {
-//            resultsList = extractObituaryData(jsonResponse);
-//        } else {
-            // initialize JSON Response and url variables
-            URL url = createURL(requestUrlString);
-            Timber.d("requestURLString= " + requestUrlString);
-            // now that the id has been extracted the second query string (idQuery) to receive details,
-            // video and review data can be constructed
+        // initialize JSON Response and url variables
+        URL url = createURL(requestUrlString);
+        Timber.d("requestURLString= " + requestUrlString);
+        // now that the id has been extracted the second query string (idQuery) to receive details,
+        // video and review data can be constructed
 
-            try {
-                jsonResponse = makeHttpRequest(url);
-            } catch (IOException e) {
-                Timber.wtf(e, "");
-            }
+        try {
+            jsonResponse = makeHttpRequest(url);
+        } catch (IOException e) {
+            Timber.wtf(e, "");
+        }
+
         if (isObitQuery) {
             resultsList = extractObituaryData(jsonResponse);
         } else {
@@ -188,17 +183,7 @@ public class SearchPageLoader extends AsyncTaskLoader {
      */
 
     private ArrayList<Obituary> extractObituaryData(String jsonResponse) {
-        /** fields needed for Provider:
-         * 1. "LocationName"
-         * 2. "LocationAddress1"
-         * 3. "LocationAddress2"
-         * 4. "LocationCity"
-         * 5. "LocationState"
-         * 6. "LocationPostalCode"
-         * 7. "LocationURL"
-         *
-         */
-        Timber.d("jsonResponse: " + jsonResponse);
+
         String obitText = "";
         String obitURL = "";
         String obitName = "";
@@ -207,7 +192,6 @@ public class SearchPageLoader extends AsyncTaskLoader {
             // Extracts the JSONObject mapped by "items" from the base response.
             JSONObject baseJsonObject = new JSONObject(jsonResponse);
             JSONArray resultsJsonArray = baseJsonObject.getJSONArray("Results");
-            Timber.d("resultsJsonArray" + resultsJsonArray);
             for (int i = 0; i < resultsJsonArray.length(); i++) {
                 JSONObject obitJsonObject = resultsJsonArray.getJSONObject(i);
 
@@ -244,17 +228,7 @@ public class SearchPageLoader extends AsyncTaskLoader {
 
 
     private ArrayList<Provider> extractProviderData(String jsonResponse) {
-        /** fields needed for Provider:
-         * 1. "LocationName"
-         * 2. "LocationAddress1"
-         * 3. "LocationAddress2"
-         * 4. "LocationCity"
-         * 5. "LocationState"
-         * 6. "LocationPostalCode"
-         * 7. "LocationURL"
-         *
-         */
-        Timber.d("jsonResponse: " + jsonResponse);
+
         String locationName = "";
         String locationAddress = "";
         String locationURL = "";
@@ -263,7 +237,7 @@ public class SearchPageLoader extends AsyncTaskLoader {
         try {
             // Extracts the JSONObject mapped by "items" from the base response.
             JSONArray baseJsonArray = new JSONArray(jsonResponse);
-            Timber.d("baseJsonArray" + baseJsonArray);
+
             for (int i = 0; i < baseJsonArray.length(); i++) {
                 JSONObject descriptionObject = baseJsonArray.getJSONObject(i);
                 JSONObject sciLocationObject = descriptionObject.getJSONObject("SCILocation");

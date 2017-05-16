@@ -30,13 +30,4 @@ public class DMApplication extends Application {
         }
     }
 
-    /** called by activities */
-    public Tracker getTracker() {
-        // Make sure the tracker exists
-        startTracking();
-
-        // Then return the tracker
-        return tracker;
-    }
-
 }

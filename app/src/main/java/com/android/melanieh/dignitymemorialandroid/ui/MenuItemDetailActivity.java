@@ -24,16 +24,11 @@ import timber.log.Timber;
  */
 public class MenuItemDetailActivity extends AppCompatActivity implements MenuOptionsInterface {
 
-    private FragmentManager fragmentManager;
-    MenuItemDetailFragment fragment;
-    FragmentTransaction fragmentTransaction;
     Class destClass;
-    String extraContent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Timber.d("onCreate");
         setContentView(R.layout.activity_menuitem_detail);
 
         // Show the Up button in the action bar.
@@ -70,9 +65,6 @@ public class MenuItemDetailActivity extends AppCompatActivity implements MenuOpt
                 destClass = PlanSummaryActivity.class;
                 launchMenuIntent(destClass, null);
                 break;
-            case R.id.action_share:
-                startActivity(Intent.createChooser(launchShareIntent(),
-                        getString(R.string.share_app_chooser_dialog_title)));
         }
         return super.onOptionsItemSelected(item);
     }
@@ -86,27 +78,12 @@ public class MenuItemDetailActivity extends AppCompatActivity implements MenuOpt
     }
 
     @Override
-    public Intent launchShareIntent() {
-        Intent shareIntent = new Intent(android.content.Intent.ACTION_SEND);
-        shareIntent.setType("text/plain");
-        String shareBodyText = getString(R.string.share_msg_body_text);
-        shareIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Subject/Title");
-        shareIntent.putExtra(android.content.Intent.EXTRA_TEXT, shareBodyText);
-        return shareIntent;
-    }
-    @Override
     public void onBackPressed() {
         if (getFragmentManager().getBackStackEntryCount() != 0) {
             getFragmentManager().popBackStack();
         } else {
             super.onBackPressed();
         }
-    }
-
-    @Override
-    protected void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-
     }
 
 }

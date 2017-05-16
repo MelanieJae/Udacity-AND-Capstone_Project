@@ -31,6 +31,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.melanieh.dignitymemorialandroid.PlanOption;
 import com.android.melanieh.dignitymemorialandroid.R;
@@ -132,10 +133,7 @@ public class PlanViewPagerFragment extends Fragment
 
     @Override
     public void onLoadFinished(Loader<ArrayList<PlanOption>> loader, ArrayList<PlanOption> data) {
-        String snackbarText = "";
-        Timber.d("onLoadFinished:");
-        Timber.d("data= " + data.toString());
-        Timber.d("planUri= " + planUriString);
+        String toastText = "";
         planningStepTitleView.setText(data.get(0).getTitle());
 
         if (data != null) {
@@ -146,14 +144,14 @@ public class PlanViewPagerFragment extends Fragment
 
             // update snackbar with est cost string
             // snackbar showing total estimated cost range after selection is made
-            String[] SNACKBAR_COLUMNS = {PlanEntry.COLUMN_ID,
+            String[] TOAST_COLUMNS = {PlanEntry.COLUMN_ID,
                     PlanEntry.COLUMN_EST_COST};
-            Cursor cursor = getContext().getContentResolver().query(Uri.parse(planUriString), SNACKBAR_COLUMNS,
+            Cursor cursor = getContext().getContentResolver().query(Uri.parse(planUriString), TOAST_COLUMNS,
                     null, null, null);
             while (cursor.moveToNext()) {
-                snackbarText = cursor.getString(cursor.getColumnIndex(PlanEntry.COLUMN_EST_COST));
+                toastText = cursor.getString(cursor.getColumnIndex(PlanEntry.COLUMN_EST_COST));
             }
-            Snackbar.make(rootView, snackbarText, Snackbar.LENGTH_INDEFINITE).show();
+            Toast.makeText(getContext(), toastText, Toast.LENGTH_LONG).show();
 
         } else {
             updateEmptyView();

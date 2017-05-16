@@ -47,10 +47,8 @@ public class SearchResultRecyclerAdapter
     TextView urlTV;
     Context context;
     ArrayList<? extends Object> objectsList;
-    TextView getSiteDirectionsLinkTV;
+    TextView saveProviderTV;
     TextView getProviderDirectionsLinkTV;
-    LinearLayout obitViewLL;
-    LinearLayout providerViewLL;
 
     // view types:
     private static final int VIEW_OBITUARY = 0;
@@ -78,6 +76,7 @@ public class SearchResultRecyclerAdapter
             addressTV = (TextView) itemView.findViewById(R.id.address);
             phoneNumTV = (TextView) itemView.findViewById(R.id.phone_num);
             urlTV = (TextView) itemView.findViewById(R.id.url);
+            saveProviderTV = (TextView) itemView.findViewById(R.id.save_provider);
             getProviderDirectionsLinkTV = (TextView) itemView.findViewById(R.id.provider_get_directions);
 
         }
@@ -87,7 +86,7 @@ public class SearchResultRecyclerAdapter
     public ResultViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         Timber.d("onCreateViewHolder: ");
         if ( parent instanceof RecyclerView ) {
-            int layoutId = -1;
+            int layoutId = 0;
             switch (viewType) {
                 case VIEW_OBITUARY: {
                     layoutId = R.layout.obit_search_list_item;
@@ -98,6 +97,7 @@ public class SearchResultRecyclerAdapter
                     break;
                 }
             }
+
             View view = LayoutInflater.from(parent.getContext()).inflate(layoutId, parent, false);
             return new ResultViewHolder(view);
         } else {
@@ -133,34 +133,23 @@ public class SearchResultRecyclerAdapter
                 addressTV.setText(((Provider) currentObject).getAddress());
                 phoneNumTV.setText(((Provider) currentObject).getPhoneNum());
                 urlTV.setText(((Provider) currentObject).getProviderURL());
+                saveProviderTV.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        saveProviderEntry((Provider) currentObject);
+                    }
+                });
+                getProviderDirectionsLinkTV.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        String address = ((Provider) currentObject).getAddress();
+                        getSiteDirections(address);
+                    }
+                });
                 holder.itemView.setContentDescription(String.format
                         (context.getString(R.string.provider_view_cd), providerNameTV.getText()));
-                break;
         }
 
-        //click listeners
-//        if (providerNameTV != null) {
-//            providerNameTV.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//                    if (currentObject instanceof Provider) {
-//                        saveProviderEntry((Provider) currentObject);
-//                    }
-//                }
-//            });
-//        }
-//
-//        if (getProviderDirectionsLinkTV != null) {
-//            getProviderDirectionsLinkTV.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//                    if (currentObject instanceof Provider) {
-//                        String address = ((Provider) currentObject).getAddress();
-//                        getSiteDirections(address);
-//                    }
-//                }
-//            });
-//        }
     }
 
     @Override
@@ -182,7 +171,7 @@ public class SearchResultRecyclerAdapter
         if (provider != null) {
             SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(context);
             SharedPreferences.Editor editor = sharedPref.edit();
-            editor.putString(context.getString(R.string.pref_provider_key), provider.toString());
+            editor.putString(context.getString(R.string.pref_provider_key), provider.toFormattedString());
             editor.commit();
         }
     }
@@ -192,8 +181,8 @@ public class SearchResultRecyclerAdapter
     // from the JSON response so incoming address argument strings must also be formatted this way.
 
     private void getSiteDirections(String address) {
-        // provides driving, biking and walking directions
-        String mode = "dbw";
+        // defaults to driving directions
+        String mode = "d";
         StringBuilder gmNavigationQueryBuilder = new StringBuilder(BuildConfig.GM_NAV_BASE_QUERY);
         gmNavigationQueryBuilder.append(address);
         gmNavigationQueryBuilder.append("&mode=" + mode);

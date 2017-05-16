@@ -36,4 +36,23 @@ public class Provider {
     public String getProviderURL() {
         return providerURL;
     }
+
+    @Override
+    public String toString() {
+        return "Provider{" +
+                "providerName='" + providerName + '\'' +
+                ", address='" + address + '\'' +
+                ", phoneNum='" + phoneNum + '\'' +
+                ", providerURL='" + providerURL + '\'' +
+                '}';
+    }
+
+    // used in user settings activity
+    public String toFormattedString() {
+        return "Provider Name: '" + providerName + '\'' +
+                "\nAddress: '" + address + '\'' +
+                "\nPhoneNum: '" + phoneNum + '\'' +
+                "\nProvider URL: '" + providerURL + '\'' +
+                '}';
+    }
 }

@@ -9,6 +9,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+
 import com.android.melanieh.dignitymemorialandroid.data.UserSelectionContract.PlanEntry;
 import com.android.melanieh.dignitymemorialandroid.R;
 
@@ -26,19 +27,19 @@ public class UserSelectionProvider extends ContentProvider {
 
     /** {@link UserSelectionProvider} */
 
-    /** URI matcher code for the plan table content URI */
+    /**
+     * URI matcher code for the plan table content URI
+     */
     private static final int PLANS = 100;
 
-    /** URI matcher code for a single plan table entry's content URI */
+    /**
+     * URI matcher code for a single plan table entry's content URI
+     */
     private static final int PLAN_ID = 101;
 
     private static final UriMatcher sUriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
 
-    // Static initializer. This is run the first time anything is called from this class.
     static {
-        // The calls to addURI() go here, for all of the content URI patterns that the provider
-        // should recognize. All paths added to the UriMatcher have a corresponding code to return
-        // when a match is found.
         sUriMatcher.addURI(UserSelectionContract.CONTENT_AUTHORITY,
                 UserSelectionContract.PATH_PLANS, PLANS);
 
@@ -58,10 +59,8 @@ public class UserSelectionProvider extends ContentProvider {
     @Override
     public Cursor query(Uri uri, String[] projection, String selection, String[] selectionArgs,
                         String sortOrder) {
-        // Get readable database
         db = mDbHelper.getReadableDatabase();
 
-        // Figure out if the URI matcher can match the URI to a specific code
         int match = sUriMatcher.match(uri);
         switch (match) {
             case PLANS:
@@ -70,7 +69,7 @@ public class UserSelectionProvider extends ContentProvider {
                 break;
             case PLAN_ID:
                 selection = PlanEntry.COLUMN_ID + "=?";
-                selectionArgs = new String[] {String.valueOf(ContentUris.parseId(uri))};
+                selectionArgs = new String[]{String.valueOf(ContentUris.parseId(uri))};
                 // Cursor containing that row of the table.
                 cursor = db.query(PlanEntry.TABLE_NAME, projection, selection, selectionArgs,
                         null, null, sortOrder);
@@ -89,7 +88,6 @@ public class UserSelectionProvider extends ContentProvider {
         db = mDbHelper.getWritableDatabase();
         long newRowId = db.insert(PlanEntry.TABLE_NAME, null, contentValues);
         getContext().getContentResolver().notifyChange(uri, null);
-        // Return the new URI with the ID (of the newly inserted row) appended at the end
         return ContentUris.withAppendedId(PlanEntry.CONTENT_URI, newRowId);
     }
 
@@ -114,7 +112,6 @@ public class UserSelectionProvider extends ContentProvider {
 
     @Override
     public int delete(Uri uri, String selection, String[] selectionArgs) {
-        // Get writeable database
         db = mDbHelper.getWritableDatabase();
 
         final int match = sUriMatcher.match(uri);
@@ -125,7 +122,7 @@ public class UserSelectionProvider extends ContentProvider {
             case PLAN_ID:
                 // Delete a single row given by the ID in the URI
                 selection = PlanEntry.COLUMN_ID + " =?";
-                selectionArgs = new String[] { String.valueOf(ContentUris.parseId(uri)) };
+                selectionArgs = new String[]{String.valueOf(ContentUris.parseId(uri))};
                 return db.delete(PlanEntry.TABLE_NAME, selection, selectionArgs);
             default:
                 throw new IllegalArgumentException("Deletion is not supported for " + uri);
@@ -157,10 +154,6 @@ public class UserSelectionProvider extends ContentProvider {
         }
     }
 
-    /**
-     * Update plan in the database with the given content values.
-     * Return the number of rows that were successfully updated.
-     */
     private int updatePlan(Uri uri, ContentValues values, String selection, String[] selectionArgs) {
         Timber.d("updatePlan:");
         Timber.d("Uri:" + uri.toString());
@@ -233,7 +226,7 @@ public class UserSelectionProvider extends ContentProvider {
             }
         }
 
-        // If there are no values to update, then return without querying
+        // return without querying if there are no content values
         if (values.size() == 0) {
             return 0;
         }
@@ -246,16 +239,12 @@ public class UserSelectionProvider extends ContentProvider {
         Timber.d("selection:" + selection);
         Timber.d("selectionArgs: " + selectionArgs);
 
-        // Perform the update on the database and get the number of rows affected
         int rowsUpdated = db.update(PlanEntry.TABLE_NAME, values, selection, selectionArgs);
 
-        // If 1 or more rows were updated, then notify all listeners that the data at the
-        // given URI has changed
         if (rowsUpdated != 0) {
             getContext().getContentResolver().notifyChange(uri, null);
         }
 
-        // Return the number of rows updated
         return rowsUpdated;
     }
 }

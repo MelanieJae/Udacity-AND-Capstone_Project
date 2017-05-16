@@ -9,8 +9,9 @@
 
     <ImageView
         android:id="@+id/widget_icon"
-        android:layout_width="@dimen/widget_today_min_resize_width"
+        android:layout_width="@dimen/widget_min_resize_width"
         android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
         android:scaleType="centerInside"
         android:background="@android:color/transparent"
         android:src="@drawable/dignity_planning_logo" />

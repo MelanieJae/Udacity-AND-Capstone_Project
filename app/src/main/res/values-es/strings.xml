@@ -2,7 +2,7 @@
     <string name="app_name" translatable="false">Dignity Memorial</string>
 
     <!-- universal strings -->
-    <string name="dialog_yes_btn">Yes</string>
+    <string name="dialog_yes_btn">Si</string>
     <string name="dialog_ok_btn">OK</string>
     <string name="dialog_no_btn">No</string>
 
@@ -12,7 +12,6 @@
         \nPlease check your connection</string>
 
     <!-- main screen menu buttons -->
-    <string name="obit_provider_search_menu_button"></string>
     <string name="search_obituaries">Search Obituaries</string>
     <string name="search_providers">Search Providers</string>
     <string name="checklist">\'Things to Remember\' Checklist</string>

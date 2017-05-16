@@ -73,12 +73,6 @@ public class PlanViewPagerActivity extends FragmentActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                // This ID represents the Home or Up button. In the case of this
-                // activity, the Up button is shown. For
-                // more details, see the Navigation pattern on Android Design:
-                //
-                // http://developer.android.com/design/patterns/navigation.html#up-vs-back
-                //
                 navigateUpTo(new Intent(this, MenuItemListActivity.class));
                 return true;
             case R.id.action_access_preferences:
@@ -87,9 +81,6 @@ public class PlanViewPagerActivity extends FragmentActivity {
             case R.id.action_view_plan_selections:
                 destClass = PlanSummaryActivity.class;
                 break;
-            case R.id.action_share:
-                startActivity(Intent.createChooser(launchShareIntent(),
-                        getString(R.string.share_app_chooser_dialog_title)));
         }
 
         launchMenuIntent(destClass, null);
@@ -100,15 +91,6 @@ public class PlanViewPagerActivity extends FragmentActivity {
         Intent intent = new Intent(this, destinationClass);
         startActivity(intent);
     }
-    public Intent launchShareIntent() {
-        Intent shareIntent = new Intent(android.content.Intent.ACTION_SEND);
-        shareIntent.setType("text/plain");
-        String shareBodyText = getString(R.string.share_msg_body_text);
-        shareIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Subject/Title");
-        shareIntent.putExtra(android.content.Intent.EXTRA_TEXT, shareBodyText);
-        return shareIntent;
-    }
-
 
     @Override
     public void onBackPressed() {

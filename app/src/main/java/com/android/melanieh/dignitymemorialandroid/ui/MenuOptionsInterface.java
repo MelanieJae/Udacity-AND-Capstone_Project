@@ -11,5 +11,4 @@ import android.view.MenuItem;
 public interface MenuOptionsInterface {
 
     void launchMenuIntent(Class activity, String extraContent);
-    Intent launchShareIntent();
 }

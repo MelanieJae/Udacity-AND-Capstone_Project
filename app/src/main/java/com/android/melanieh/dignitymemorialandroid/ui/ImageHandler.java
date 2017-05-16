@@ -50,7 +50,4 @@ public class ImageHandler {
         mImageLoader = new ImageLoader(queue, imageCache);
     }
 
-    public ImageLoader getImageLoader() {
-        return mImageLoader;
-    }
 }

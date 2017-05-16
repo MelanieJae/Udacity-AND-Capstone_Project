@@ -7,7 +7,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-/** Populates menu **/
+/**
+ * Populates menu
+ **/
 public class MenuContent {
 
     /**

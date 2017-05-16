@@ -62,7 +62,6 @@ public class PlanOptionRecyclerViewAdapter
 
     public PlanOptionRecyclerViewAdapter(Context context, ArrayList<PlanOption> options,
                                          String planUriString) {
-        Timber.d("PlanOptionRecyclerAdapter constructor");
         this.context = context;
         this.options = options;
         this.planUriString = planUriString;
@@ -70,16 +69,13 @@ public class PlanOptionRecyclerViewAdapter
 
     @Override
     public PlanOptionRecyclerViewAdapter.OptionViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        Timber.d("onCreateViewHolder:");
         View inflateView = LayoutInflater.from(context).inflate(R.layout.plan_options_list_item, parent, false);
         return new OptionViewHolder(inflateView);
     }
 
     @Override
     public void onBindViewHolder(PlanOptionRecyclerViewAdapter.OptionViewHolder holder, int position) {
-        Timber.d("onBindViewHolder:");
         final PlanOption currentOption = options.get(position);
-        Timber.d("options: " + options.toString());
         // temporarily capture detail text to pass as dialog fragment argument
         // it is not displayed in the cardview, only in the dialog fragment
         detailText = currentOption.getDetailText();
@@ -87,27 +83,7 @@ public class PlanOptionRecyclerViewAdapter
         optionSelection = currentOption.getHeading();
 
         estCostSelectionString = currentOption.getEstimatedCost();
-        // estimated cost will be displayed and tracked so it needs to also
-        // be formatted as a number for calculation
-        Pattern regex = Pattern.compile("\\d[\\d,\\.]+");
-        Matcher finder = regex.matcher(estCostSelectionString);
-        if (finder.find()) { // or while() if you want to process each
-            try {
-                int lowEndValue = Integer.parseInt(finder.group(0).replaceAll(",", ""));
-                int highEndValue = Integer.parseInt(finder.group(1).replaceAll(",", ""));
-
-                int totalValueRangeLowEnd = Integer.parseInt(currentEstCostString) + lowEndValue;
-                int totalValueRangeHighEnd = Integer.parseInt(currentEstCostString) + highEndValue;
-                updatedEstCostString = "$" + totalValueRangeLowEnd + "-" + totalValueRangeHighEnd;
-
-            } catch (NumberFormatException e) {
-                Timber.wtf(e, "");
-            }
-        }
         final String[] dialogArgs = new String[]{detailText, itemImageURL, estCostSelectionString};
-        Timber.d("itemImageUrl: " + itemImageURL);
-        Timber.d("detailText: " + detailText);
-        Timber.d("estCost: " + estCostSelectionString);
 
         ImageHandler.getSharedInstance(context).load(itemImageURL).
                 fit().centerCrop().into(holder.itemImage);
@@ -148,9 +124,8 @@ public class PlanOptionRecyclerViewAdapter
     }
 
     private void showDetailDialog(String[] dialogArgs) {
-        Timber.d("showDetailDialog:");
         if (context instanceof FragmentActivity) {
-            // We can get the fragment manager
+            // get the fragment manager
             FragmentActivity activity = (FragmentActivity) context;
             PlanDetailsDialogFragment fragment = PlanDetailsDialogFragment.newInstance(dialogArgs);
             FragmentManager fm = activity.getSupportFragmentManager();
@@ -188,10 +163,7 @@ public class PlanOptionRecyclerViewAdapter
 
         values.put(cvKey, optionSelection);
         values.put(PlanEntry.COLUMN_EST_COST, updatedEstCostString);
-        Timber.d("cvKey: " + cvKey);
-        Timber.d("planUri: " + planUriString);
-        Timber.d("context: " + context);
-        Timber.d("values: " + values.toString());
+
         // selection/where clause will always indicate the row to be updated and that is in the content provider
         // so null is passed here for the selection/whereClause argument
 
@@ -199,7 +171,6 @@ public class PlanOptionRecyclerViewAdapter
                 null,
                 null);
 
-        Timber.d("numRowsUpdated: " + numRowsUpdated);
         if (numRowsUpdated == 0) {
             Toast.makeText(context, "Error updating plan with selection", Toast.LENGTH_LONG).show();
         } else {
@@ -215,13 +186,13 @@ public class PlanOptionRecyclerViewAdapter
     }
 
     private void sendNewPlanNotification() {
-        Bitmap largeIcon = BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_add_black_48dp);
+        Bitmap largeIcon = BitmapFactory.decodeResource(context.getResources(), R.drawable.app_icon);
         context.getResources().getDrawable(R.drawable.ic_add_black_48dp);
         String notifBodyText = configureNotificationText();
         Notification notification = new Notification.Builder(context)
                 .setContentTitle(context.getString(R.string.dm_notifications_title))
-                .setContentText(context.getString(R.string.dm_notifications_body_tap_text))
-                .setSmallIcon(R.drawable.ic_add_black_48dp)
+                .setContentText(notifBodyText)
+                .setSmallIcon(R.drawable.app_icon)
                 .setLargeIcon(largeIcon)
                 .build();
 

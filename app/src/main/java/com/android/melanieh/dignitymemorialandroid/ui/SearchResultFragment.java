@@ -47,14 +47,10 @@ import static com.android.melanieh.dignitymemorialandroid.R.id.textView;
 
 public class SearchResultFragment extends Fragment implements
         LoaderManager.LoaderCallbacks<ArrayList<? extends Object>> {
-//        GoogleApiClient.ConnectionCallbacks,
-//        GoogleApiClient.OnConnectionFailedListener,
-//        LocationListener {
 
     private static final int SEARCH_LOADER_ID = 1;
 
     String queryString;
-    RecyclerView.LayoutManager resultRVLayoutManager;
     SearchResultRecyclerAdapter adapter;
     RecyclerView resultsRecyclerView;
     String queryType;
@@ -63,17 +59,10 @@ public class SearchResultFragment extends Fragment implements
     String provider;
     String firstName;
     String lastName;
-    LinearLayout obitsFormLayout;
-    LinearLayout providerFormLayout;
-    TextView locSvcsView;
     String locationLat;
     String locationLong;
     private static final String OBITS_QUERY_BASE_URL = BuildConfig.OBITS_QUERY_BASE_URL;
     private static final String PROVIDER_SITE_QUERY_BASE_URL = BuildConfig.PROVIDER_QUERY_BASE_URL;
-    private TextView txtOutput;
-    private LocationRequest locationRequest;
-    private GoogleApiClient googleApiClient;
-    SharedPreferences sharedPrefs;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -94,35 +83,9 @@ public class SearchResultFragment extends Fragment implements
         firstName = getActivity().getIntent().getStringExtra("first name");
         lastName = getActivity().getIntent().getStringExtra("last name");
 
-        Timber.d("queryType: " + queryType);
-        Timber.d("firstName= " + firstName);
-        Timber.d("lastName= " + lastName);
-        Timber.d("zipCode= " + zipCode);
-        Timber.d("provider= " + provider);
-        Timber.d("locationLat= " + locationLat);
-        Timber.d("locationLong= " + locationLong);
-
         executeSearch(queryType);
         return rootView;
     }
-
-
-    @Override
-    public void onStart() {
-        super.onStart();
-//        googleApiClient.connect();
-        Timber.d("connecting to API client...");
-    }
-
-    @Override
-    public void onStop() {
-        // disconnect Google Play services API client
-//        googleApiClient.disconnect();
-        Timber.d("API client disconnected.");
-        super.onStop();
-    }
-
-    /* Results Recycler View */
 
     private RecyclerView.LayoutManager getLayoutManager() {
         if (getResources().getConfiguration().screenWidthDp > 600) {
@@ -136,14 +99,12 @@ public class SearchResultFragment extends Fragment implements
 
     @Override
     public Loader<ArrayList<? extends Object>> onCreateLoader(int id, Bundle args) {
-        Timber.d("loader: queryString: " + queryString);
         return new SearchPageLoader(getContext(), queryString);
     }
 
     @Override
     public void onLoadFinished(Loader<ArrayList<? extends Object>> loader, ArrayList<? extends Object> data) {
-        Timber.d("onLoadFinished:");
-        Timber.d("data:" + data);
+
         adapter = new SearchResultRecyclerAdapter(getContext(), data);
         resultsRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         resultsRecyclerView.setAdapter(adapter);
@@ -153,42 +114,6 @@ public class SearchResultFragment extends Fragment implements
     public void onLoaderReset(Loader<ArrayList<? extends Object>> loader) {
 
     }
-
-    // using coarse filter and low power accuracy (city level, within 10km) for obit and provider searches since it's the zip code
-    // or lat/long that is being used and accuracy within 100 m is not necessary
-    // if doing the navigation to plot, this would need HIGH_ACCURACY and FINE_LOCATION settings
-
-//    @RequiresPermission(Manifest.permission.ACCESS_COARSE_LOCATION)
-//    @Override
-//    public void onConnected(@Nullable Bundle bundle) {
-//        Timber.d("onConnected");
-//        locationRequest = LocationRequest.create();
-//        locationRequest.setPriority(LocationRequest.PRIORITY_LOW_POWER);
-//        locationRequest.setInterval(5000); // millisecs, ideally greater than 1000
-//        if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION)
-//                == PackageManager.PERMISSION_GRANTED) {
-//            LocationServices.FusedLocationApi.requestLocationUpdates(googleApiClient,
-//                    locationRequest, this);
-//        } else {
-//            Timber.e("User did not grant permission to access current location");
-//        }
-//    }
-//
-//
-//    @Override
-//    public void onConnectionSuspended(int i) {
-//        Timber.d("Google API Client connection has been suspended");
-//    }
-//
-//    @Override
-//    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-//        Timber.d("Google API Client connection has failed");
-//    }
-//
-//    @Override
-//    public void onLocationChanged(Location location) {
-//        Timber.d("onLocationChanged");
-//    }
 
     private void executeSearch(String queryType) {
 
@@ -226,11 +151,8 @@ public class SearchResultFragment extends Fragment implements
         } else {
             queryBuilder = new StringBuilder(PROVIDER_SITE_QUERY_BASE_URL);
             locationArray = getActivity().getIntent().getStringArrayExtra("current location");
-            Timber.d("locationArray: " + locationArray);
             locationLat = locationArray[0];
             locationLong = locationArray[1];
-            Timber.d("locationLat: " + locationLat);
-            Timber.d("locationLong: " + locationLong);
             if (locationLat != null) {
                 queryBuilder.append("latitude=" + locationLat);
             } else {
@@ -252,14 +174,8 @@ public class SearchResultFragment extends Fragment implements
         // append appropriate query suffix
         queryBuilder.append(querySuffix);
         queryString = queryBuilder.toString();
-        Timber.d("final query string: " + queryString);
 
         getActivity().getSupportLoaderManager().initLoader(SEARCH_LOADER_ID, null, this).forceLoad();
-    }
-
-    private String getPrefKey(Preference preference) {
-        String prefDefaultKey = getResources().getString(R.string.pref_zip_code_key);
-        return prefDefaultKey;
     }
 
 }

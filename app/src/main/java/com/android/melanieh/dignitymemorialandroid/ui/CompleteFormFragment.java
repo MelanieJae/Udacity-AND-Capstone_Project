@@ -48,6 +48,7 @@ import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
 import com.android.melanieh.dignitymemorialandroid.data.UserSelectionContract.PlanEntry;
+
 import java.util.ArrayList;
 
 import timber.log.Timber;
@@ -60,8 +61,6 @@ public class CompleteFormFragment extends Fragment implements GoogleApiClient.Co
         GoogleApiClient.OnConnectionFailedListener,
         LocationListener {
 
-    TextView firstNameTV;
-    TextView lastNameTV;
     EditText firstNameET;
     EditText lastNameET;
     AutoCompleteTextView zipCodeACT;
@@ -69,27 +68,21 @@ public class CompleteFormFragment extends Fragment implements GoogleApiClient.Co
     Button startObitSearchBtn;
     Button startProviderSearchBtn;
     String queryType;
-    TextView locSvcsView;
     boolean isUsingCurrentLocation;
-    boolean validEntriesArePresent;
     GoogleApiClient googleApiClient;
     Location location;
     LocationRequest locationRequest;
-    AppCompatSpinner planTypeSpinner;
-    int planType;
-    String zipCode;
     EditText planNameET;
     EditText contactEmailET;
     SharedPreferences sharedPrefs;
     Button startPlanningBtn;
-    Uri newPlanUri;
-    String spinnerSelection;
-    String contactEmail;
     String formType;
     String prefZipCode;
     GoogleApiAvailability googleApiAvailability;
 
-    /** zip code autocomplete option(s) */
+    /**
+     * zip code autocomplete option(s)
+     */
     private ArrayList<String> ZIP_CODE_AUTOCOMPLETE_OPTIONS = new ArrayList<>();
     private int REQUEST_LOCATION = 100;
 
@@ -123,12 +116,11 @@ public class CompleteFormFragment extends Fragment implements GoogleApiClient.Co
         // initialize isUsingCurrentLocation to its default value of false
         isUsingCurrentLocation = false;
 
-//        if (savedInstanceState == null) {
+        if (savedInstanceState == null) {
             formType = getActivity().getIntent().getStringExtra("button_extra_content");
-//        } else {
-//            formType = savedInstanceState.getString("formType");
-//
-//        }
+        } else {
+            formType = savedInstanceState.getString("formType");
+        }
 
         // populate zip code autocomplete dropdown with saved zip code
         sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getContext());
@@ -142,7 +134,6 @@ public class CompleteFormFragment extends Fragment implements GoogleApiClient.Co
                              @Nullable Bundle savedInstanceState) {
 
         View rootView;
-        TextView formHeadingView;
 
         if (formType.equalsIgnoreCase("Search Obituaries and Providers")) {
             rootView = inflater.inflate(R.layout.search_form, container, false);
@@ -167,7 +158,7 @@ public class CompleteFormFragment extends Fragment implements GoogleApiClient.Co
             // form divider
             ImageView scrollDividerView = (ImageView) rootView.findViewById(R.id.form_divider);
             ImageHandler.getSharedInstance(getContext()).load(BuildConfig.SCROLL_DIVIDER_URL).
-                    fit().centerInside().into(scrollDividerView);
+                    fit().centerCrop().into(scrollDividerView);
 
             // provider fields
             ArrayAdapter<String> zipCodeACTAdapter = new ArrayAdapter<String>(getContext(),
@@ -206,7 +197,6 @@ public class CompleteFormFragment extends Fragment implements GoogleApiClient.Co
             planNameET = (EditText) rootView.findViewById(R.id.plan_form_plan_name_et);
             contactEmailET = (EditText) rootView.findViewById(R.id.plan_form_contact_email_et);
             startPlanningBtn = (Button) rootView.findViewById(R.id.start_planning_btn);
-
             startPlanningBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -216,23 +206,19 @@ public class CompleteFormFragment extends Fragment implements GoogleApiClient.Co
 
         }
 
-        formHeadingView = (TextView)rootView.findViewById(R.id.form_heading);
-//        if (formType.equalsIgnoreCase("Search Obituaries and Providers")) {
-//            formHeadingView.setText(getResources().getString(R.string.search_form_heading));
-//        } else {
-//            formHeadingView.setText(getResources().getString(R.string.plan_form_heading));
-//        }
         return rootView;
 
     }
 
-    /** runtime permissions for ACCESS_FINE_LOCATION/ACCESS_COARSE_LOCATION **/
+    /**
+     * runtime permissions for ACCESS_FINE_LOCATION/ACCESS_COARSE_LOCATION
+     **/
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
                                            @NonNull int[] grantResults) {
         if (requestCode == REQUEST_LOCATION) {
-            if(grantResults.length == 1
+            if (grantResults.length == 1
                     && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 googleApiClient.connect();
             } else {
@@ -267,28 +253,21 @@ public class CompleteFormFragment extends Fragment implements GoogleApiClient.Co
             // obits published in the last two weeks so blank entries are okay.
             if (location != null) {
                 getSearchResults.putExtra("current location", new String[]
-                                {String.valueOf(location.getLatitude()),
-                                        String.valueOf(location.getLongitude())});
+                        {String.valueOf(location.getLatitude()),
+                                String.valueOf(location.getLongitude())});
                 Timber.d("locationLat: " + String.valueOf(location.getLatitude()));
                 Timber.d("locationLong: " + String.valueOf(location.getLongitude()));
 
             } else {
-                    getSearchResults.putExtra("zipCode", zipCodeACT.getText().toString());
-                }
+                getSearchResults.putExtra("zipCode", zipCodeACT.getText().toString());
             }
+        }
 
         Timber.d("completesearch: queryType: " + queryType);
         Timber.d("isUsingCurrentLocation: " + isUsingCurrentLocation);
         getSearchResults.putExtra("query type", queryType);
         startActivity(getSearchResults);
     }
-
-    /**
-     * Type of plan, possible valid values are in the UserSelectionContract.java file:
-     * {@link UserSelectionContract.PlanEntry#BURIAL}, {@link UserSelectionContract.PlanEntry#CREMATION}, or
-     * {@link UserSelectionContract.PlanEntry#UNDECIDED}.
-     * Default value is UNDECIDED
-     */
 
     private void startPlanning() {
         // store plan form inputs from user in plan DB
@@ -311,7 +290,6 @@ public class CompleteFormFragment extends Fragment implements GoogleApiClient.Co
 
     private void showSaveZipCodeEntryDialog(final View view) {
         AlertDialog.Builder saveZipADBuilder = new AlertDialog.Builder(getContext());
-//        ButterKnife.bind(this);
         saveZipADBuilder.setMessage(getString(R.string.save_zip_code_dialog_msg));
 
         // positive button=yes, save entry to DB or sharedprefs as applicable
@@ -342,7 +320,6 @@ public class CompleteFormFragment extends Fragment implements GoogleApiClient.Co
 
     private void showInvalidEntriesDialog() {
         AlertDialog.Builder deleteConfADBuilder = new AlertDialog.Builder(getContext());
-//        ButterKnife.bind(this);
         deleteConfADBuilder.setMessage(getString(R.string.no_valid_entries_present_error_msg));
         deleteConfADBuilder.create();
         deleteConfADBuilder.show();
@@ -390,14 +367,13 @@ public class CompleteFormFragment extends Fragment implements GoogleApiClient.Co
         Timber.d("onLocationChanged");
         Timber.d("location string: " + location.toString());
         this.location = location;
-//        useCurrentLocationTV.setText(location.toString());
 
     }
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putString("formType", formType);
+        outState.putString("formType", getActivity().getIntent().getStringExtra("button_extra_content"));
     }
 
 }

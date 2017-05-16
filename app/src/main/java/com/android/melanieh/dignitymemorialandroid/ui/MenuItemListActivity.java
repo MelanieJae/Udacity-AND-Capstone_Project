@@ -55,17 +55,16 @@ public class MenuItemListActivity extends AppCompatActivity
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        Timber.d("onCreate");
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menuitem_list);
         Timber.plant(new Timber.DebugTree());
 
-        toolBarIV = (ImageView)findViewById(R.id.toolbar_image);
-        appBarLogo = (ImageView)findViewById(R.id.appbar_logo);
-        scrollView = (NestedScrollView)findViewById(R.id.scrollView);
+        toolBarIV = (ImageView) findViewById(R.id.toolbar_image);
+        appBarLogo = (ImageView) findViewById(R.id.appbar_logo);
+        scrollView = (NestedScrollView) findViewById(R.id.scrollView);
 
-        recyclerView = (RecyclerView)findViewById(R.id.menuitem_list);
+        recyclerView = (RecyclerView) findViewById(R.id.menuitem_list);
         assert recyclerView != null;
         setupRecyclerView(recyclerView);
 
@@ -89,26 +88,25 @@ public class MenuItemListActivity extends AppCompatActivity
 
         // start Google Analytics tracking
         Timber.d("start Analytics tracking...");
-        ((DMApplication)getApplication()).startTracking();
+        ((DMApplication) getApplication()).startTracking();
 
         PicassoPalette.with(appBarImageUrl, toolBarIV)
                 .use(PicassoPalette.Profile.VIBRANT_LIGHT)
                 .intoBackground(scrollView);
 
-//        if (getResources().getConfiguration().screenHeightDp >= 800) {
-//            // menu divider
-//            ImageView scrollDividerView = (ImageView) findViewById(R.id.menu_divider);
-//            ImageHandler.getSharedInstance(this).load(BuildConfig.SCROLL_DIVIDER_URL).
-//                    fit().centerInside().into(scrollDividerView);
-//
-//            ImageHandler.getSharedInstance(this).load(appBarImageUrl).
-//                    fit().centerCrop().into(menuFooterImage);
-//        }
-//
+        if (getResources().getConfiguration().screenHeightDp >= 800) {
+            // menu divider
+            ImageView scrollDividerView = (ImageView) findViewById(R.id.divider);
+            ImageHandler.getSharedInstance(this).load(BuildConfig.SCROLL_DIVIDER_URL).
+                    fit().centerInside().into(scrollDividerView);
+
+            ImageHandler.getSharedInstance(this).load(appBarImageUrl).
+                    fit().centerCrop().into(menuFooterImage);
+        }
+
     }
 
     private void setupRecyclerView(@NonNull RecyclerView recyclerView) {
-        Timber.d("setUpRecyclerView");
         recyclerView.setAdapter(new SimpleItemRecyclerViewAdapter(MenuContent.ITEMS));
         recyclerView.setLayoutManager(getLayoutManager());
     }
@@ -117,13 +115,13 @@ public class MenuItemListActivity extends AppCompatActivity
             extends RecyclerView.Adapter<SimpleItemRecyclerViewAdapter.ViewHolder> {
 
         private final List<MenuContent.MenuItem> mValues;
+
         public SimpleItemRecyclerViewAdapter(List<MenuContent.MenuItem> items) {
             mValues = items;
         }
 
         @Override
         public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            Timber.d("onCreateViewHolder");
             View view = LayoutInflater.from(parent.getContext())
                     .inflate(R.layout.menuitem_list_content, parent, false);
             return new ViewHolder(view);
@@ -131,7 +129,6 @@ public class MenuItemListActivity extends AppCompatActivity
 
         @Override
         public void onBindViewHolder(final ViewHolder holder, int position) {
-            Timber.d("onBindViewHolder");
 
             holder.mItem = mValues.get(position);
 
@@ -164,7 +161,7 @@ public class MenuItemListActivity extends AppCompatActivity
                         boolean isFAQScreen = Pattern.compile(Pattern.quote("faqs"),
                                 Pattern.CASE_INSENSITIVE).matcher(buttonDetails).find();
 
-                        if (isSearchForm) {
+                        if (isSearchForm || isPlanForm ) {
                             destClass = CompleteFormActivity.class;
                             extraContent = holder.mItem.details;
                             Timber.d("extraContent: " + extraContent);
@@ -173,10 +170,9 @@ public class MenuItemListActivity extends AppCompatActivity
                             destClass = MenuItemDetailActivity.class;
                             extraContent = holder.mItem.details;
                         } else {
-                            // TEMP-MOVE BACK WITH SEARCH WHEN DONE
-                            destClass = PlanViewPagerActivity.class;
-                            extraContent = holder.mItem.details;
+                            // placeholder for future options
                         }
+
                         launchMenuIntent(destClass, extraContent);
                     }
                 }
@@ -185,7 +181,6 @@ public class MenuItemListActivity extends AppCompatActivity
 
         @Override
         public int getItemCount() {
-            Timber.d("getItemCount");
             return mValues.size();
         }
 
@@ -222,22 +217,14 @@ public class MenuItemListActivity extends AppCompatActivity
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        Timber.d("onCreateOptionsMenu");
         getMenuInflater().inflate(R.menu.menu_activity_main, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        Timber.d("onOptionsItemSelected");
         switch (item.getItemId()) {
             case android.R.id.home:
-                // This ID represents the Home or Up button. In the case of this
-                // activity, the Up button is shown. For
-                // more details, see the Navigation pattern on Android Design:
-                //
-                // http://developer.android.com/design/patterns/navigation.html#up-vs-back
-                //
                 navigateUpTo(new Intent(this, MenuItemListActivity.class));
                 return true;
             case R.id.action_access_preferences:
@@ -248,27 +235,14 @@ public class MenuItemListActivity extends AppCompatActivity
                 destClass = PlanSummaryActivity.class;
                 launchMenuIntent(destClass, null);
                 break;
-            case R.id.action_share:
-                startActivity(Intent.createChooser(launchShareIntent(), getString(R.string.share_app_chooser_dialog_title)));
         }
         return true;
     }
 
     public void launchMenuIntent(Class destinationClass, String extraContent) {
-        Timber.d("launchMenuIntent:");
-        Timber.d("destinationClass=" + destinationClass.toString());
-        Timber.d("extraContent: " + extraContent);
         Intent intent = new Intent(this, destinationClass);
         intent.putExtra("button_extra_content", extraContent);
         startActivity(intent);
-    }
-
-    public Intent launchShareIntent() {Intent shareIntent = new Intent(android.content.Intent.ACTION_SEND);
-        shareIntent.setType("text/plain");
-        String shareBodyText = String.format(getString(R.string.share_msg_body_text), "");
-        shareIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Subject/Title");
-        shareIntent.putExtra(android.content.Intent.EXTRA_TEXT, shareBodyText);
-        return shareIntent;
     }
 
 }

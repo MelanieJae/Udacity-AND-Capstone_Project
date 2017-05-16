@@ -1,116 +1,126 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout 
+<ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/form_heading"
-        android:layout_gravity="center_horizontal"
-        android:textSize="@dimen/large_text_size"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/horiz_margin"
-        android:layout_marginEnd="@dimen/horiz_margin"
-        android:layout_marginTop="@dimen/vert_margin"
-        android:layout_marginBottom="@dimen/vert_margin" />
-
     <LinearLayout
-        android:id="@+id/obits_search_form_layout"
-        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/vert_margin"
-        android:layout_marginBottom="@dimen/vert_margin"
-        android:layout_marginStart="@dimen/horiz_margin"
-        android:layout_marginEnd="@dimen/horiz_margin">
+        android:orientation="vertical">
 
-        <EditText
-            android:id="@+id/search_form_first_name_et"
-            android:hint="@string/search_form_first_name_label"
-            android:layout_marginTop="@dimen/vert_margin"
-            android:layout_marginBottom="@dimen/vert_margin"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-        <EditText
-            android:id="@+id/search_form_last_name_et"
-            android:hint="@string/search_form_last_name_label"
-            android:layout_marginTop="@dimen/vert_margin"
-            android:layout_marginBottom="@dimen/vert_margin"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-        <Button
-            android:id="@+id/start_obit_search_btn"
-            android:layout_width="match_parent"
-            android:layout_height="80dp"
-            android:text="@string/start_obits_search_btn"
-            android:textSize="@dimen/large_text_size"
-            android:textColor="@android:color/black"
-            android:background="@drawable/start_search_btn"
-            android:layout_marginStart="@dimen/horiz_margin"
-            android:layout_marginEnd="@dimen/horiz_margin"
-            android:layout_marginTop="@dimen/vert_margin"
-            android:layout_marginBottom="@dimen/vert_margin"/>
-    </LinearLayout>
-
-    <ImageView
-        android:id="@+id/form_divider"
-        android:layout_width="match_parent"
-        android:layout_height="20dp"
-        android:background="@android:color/transparent"/>
-
-    <LinearLayout
-        android:id="@+id/provider_search_form_layout"
-        android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/vert_margin"
-        android:layout_marginBottom="@dimen/vert_margin"
-        android:layout_marginStart="@dimen/horiz_margin"
-        android:layout_marginEnd="@dimen/horiz_margin">
-
-        <AutoCompleteTextView
-            android:id="@+id/search_form_zip_codes_act"
-            android:hint="@string/search_form_zipcode_field_label"
-            android:layout_marginTop="@dimen/vert_margin"
-            android:layout_marginBottom="@dimen/vert_margin"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-        <TextView
-            android:id="@+id/use_current_location"
-            android:text="@string/use_current_location"
+        <LinearLayout
+            android:id="@+id/obits_search_form_layout"
+            android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/vert_margin"
             android:layout_marginBottom="@dimen/vert_margin"
-            android:clickable="true"
-            android:onClick="onClick"/>
-        <Button
-            android:id="@+id/start_provider_search_btn"
-            android:layout_width="match_parent"
-            android:layout_height="80dp"
-            android:text="@string/start_provider_search_btn"
-            android:textSize="@dimen/large_text_size"
-            android:textColor="@android:color/black"
-            android:background="@drawable/start_search_btn"
             android:layout_marginStart="@dimen/horiz_margin"
-            android:layout_marginEnd="@dimen/horiz_margin"
+            android:layout_marginEnd="@dimen/horiz_margin">
+
+            <TextView
+                android:id="@+id/obit_form_heading"
+                android:text="@string/obit_form_heading"
+                android:layout_gravity="center_horizontal"
+                android:textSize="@dimen/large_text_size"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/horiz_margin"
+                android:layout_marginEnd="@dimen/horiz_margin"
+                android:layout_marginTop="@dimen/vert_margin"
+                android:layout_marginBottom="@dimen/vert_margin" />
+
+            <EditText
+                android:id="@+id/search_form_first_name_et"
+                android:hint="@string/search_form_first_name_label"
+                android:layout_marginTop="@dimen/vert_margin"
+                android:layout_marginBottom="@dimen/vert_margin"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+            <EditText
+                android:id="@+id/search_form_last_name_et"
+                android:hint="@string/search_form_last_name_label"
+                android:layout_marginTop="@dimen/vert_margin"
+                android:layout_marginBottom="@dimen/vert_margin"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+            <Button
+                android:id="@+id/start_obit_search_btn"
+                android:layout_width="match_parent"
+                android:layout_height="80dp"
+                android:text="@string/start_obits_search_btn"
+                android:textSize="@dimen/large_text_size"
+                android:textColor="@android:color/black"
+                android:background="@drawable/start_search_btn"
+                android:layout_marginStart="@dimen/horiz_margin"
+                android:layout_marginEnd="@dimen/horiz_margin"
+                android:layout_marginTop="@dimen/vert_margin"
+                android:layout_marginBottom="@dimen/vert_margin"/>
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/form_divider"
+            android:layout_width="match_parent"
+            android:layout_height="20dp"
+            android:background="@android:color/transparent"/>
+
+        <LinearLayout
+            android:id="@+id/provider_search_form_layout"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/vert_margin"
-            android:layout_marginBottom="@dimen/vert_margin"/>
+            android:layout_marginBottom="@dimen/vert_margin"
+            android:layout_marginStart="@dimen/horiz_margin"
+            android:layout_marginEnd="@dimen/horiz_margin">
+
+            <TextView
+                android:id="@+id/provider_form_heading"
+                android:text="Search for Providers"
+                android:layout_gravity="center_horizontal"
+                android:textSize="@dimen/large_text_size"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/horiz_margin"
+                android:layout_marginEnd="@dimen/horiz_margin"
+                android:layout_marginTop="@dimen/vert_margin"
+                android:layout_marginBottom="@dimen/vert_margin" />
+
+            <AutoCompleteTextView
+                android:id="@+id/search_form_zip_codes_act"
+                android:hint="@string/search_form_zipcode_field_label"
+                android:layout_marginTop="@dimen/vert_margin"
+                android:layout_marginBottom="@dimen/vert_margin"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:id="@+id/use_current_location"
+                android:text="@string/use_current_location"
+                android:textSize="@dimen/large_text_size"
+                android:gravity="center_horizontal"
+                android:background="@drawable/current_location_bg_selector"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/vert_margin"
+                android:layout_marginBottom="@dimen/vert_margin"
+                android:clickable="true"
+                android:onClick="onClick"/>
+            <Button
+                android:id="@+id/start_provider_search_btn"
+                android:layout_width="match_parent"
+                android:layout_height="80dp"
+                android:text="@string/start_provider_search_btn"
+                android:textSize="@dimen/large_text_size"
+                android:textColor="@android:color/black"
+                android:background="@drawable/start_search_btn"
+                android:layout_marginStart="@dimen/horiz_margin"
+                android:layout_marginEnd="@dimen/horiz_margin"
+                android:layout_marginTop="@dimen/vert_margin"
+                android:layout_marginBottom="@dimen/vert_margin"/>
+        </LinearLayout>
+
     </LinearLayout>
 
-
-    <TextView
-        android:id="@+id/location_svcs_readout"
-        android:text="Location Services String"
-        android:layout_marginTop="@dimen/vert_margin"
-        android:layout_marginBottom="@dimen/vert_margin"
-        android:layout_marginStart="@dimen/horiz_margin"
-        android:layout_marginEnd="@dimen/horiz_margin"
-        android:gravity="center_horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-
-</LinearLayout>
+</ScrollView>
 

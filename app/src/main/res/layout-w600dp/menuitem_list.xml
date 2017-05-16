@@ -17,4 +17,11 @@
         tools:context="com.android.melanieh.dignitymemorialandroid.ui.MenuItemListActivity"
         tools:listitem="@layout/menuitem_list_content" />
 
+    <ImageView
+        android:id="@+id/divider"
+        android:layout_width="match_parent"
+        android:layout_height="20dp"
+        android:background="@android:color/transparent"/>
+
+
 </LinearLayout>

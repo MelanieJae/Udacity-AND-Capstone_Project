@@ -35,7 +35,7 @@ import timber.log.Timber;
  * populate fragments in the create-a-plan viewpager
  */
 
-public class PlanPageLoader extends AsyncTaskLoader{
+public class PlanPageLoader extends AsyncTaskLoader {
 
     // sample query string returning HTML response to grab text items
     // https://www.thedignityplanner.com/my-plans/index
@@ -45,16 +45,13 @@ public class PlanPageLoader extends AsyncTaskLoader{
 
     public PlanPageLoader(Context context, String urlString) {
         super(context);
-        Timber.d("PlanPage loader constructor: ");
         this.urlString = urlString;
     }
 
     @Override
     public ArrayList<PlanOption> loadInBackground() {
-        Timber.v("loadInBackground: ");
 
         // Perform HTTP request to the URL and receive an HTML response back
-        Timber.v("obtainHTML: urlString= " + urlString);
         fragmentPlanOptionsList = extractOptionsListFromHTML(urlString);
 
         // Extract relevant fields from the HTML response and create a {@link PlanOption} list.
@@ -62,8 +59,6 @@ public class PlanPageLoader extends AsyncTaskLoader{
     }
 
     private ArrayList<PlanOption> extractOptionsListFromHTML(String urlString) {
-        Timber.d("extractOptionsListFromHTML: ");
-        Timber.d("urlString:" + urlString);
 
         String optionTitle = "";
         String heading = "";
@@ -91,7 +86,6 @@ public class PlanPageLoader extends AsyncTaskLoader{
             while (headingsIterator.hasNext()) {
                 heading = headingsIterator.next().text();
                 tempHeadingArray.add(heading);
-                Timber.d("tempHeadingArray: " + tempHeadingArray);
             }
 
             Elements imageUrlElements = doc.select("img[src]");
@@ -115,11 +109,10 @@ public class PlanPageLoader extends AsyncTaskLoader{
                 tempCostArray.add(estCostString);
             }
 
-            for (int i=0; i<headingElements.size(); i++) {
+            for (int i = 0; i < headingElements.size(); i++) {
                 option = new PlanOption(optionTitle, tempHeadingArray.get(i), tempDetailArray.get(i),
                         tempImageUrlArray.get(i), tempCostArray.get(i));
                 optionsList.add(option);
-                Timber.d("optionsList: " + optionsList);
             }
         } else {
             Timber.e("Error: query string is null");
