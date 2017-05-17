@@ -5,9 +5,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="horizontal"
     android:id="@+id/provider_cardview"
-    card_view:cardElevation="4dp"
-    android:layout_margin="6dp"
-    card_view:cardCornerRadius="3dp"
+    card_view:cardElevation="@dimen/result_item_card_elevation"
+    android:layout_margin="@dimen/result_item_card_layout_margin"
+    card_view:cardCornerRadius="@dimen/result_item_card_corner_radius"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
@@ -27,12 +27,12 @@
             android:id="@+id/address"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="18sp" />
+            android:textSize="@dimen/small_text_size" />
         <TextView
             android:id="@+id/phone_num"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="18sp" />
+            android:textSize="@dimen/small_text_size" />
         <TextView
             android:id="@+id/url"
             android:clickable="true"
@@ -48,7 +48,7 @@
             android:id="@+id/provider_get_directions"
             android:text="@string/get_directions"
             android:focusable="false"
-            android:textSize="18sp"
+            android:textSize="@dimen/small_text_size"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:onClick="getDirections"/>
@@ -57,7 +57,7 @@
             android:id="@+id/save_provider"
             android:text="@string/save_provider"
             android:clickable="true"
-            android:textSize="18sp"
+            android:textSize="@dimen/small_text_size"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"

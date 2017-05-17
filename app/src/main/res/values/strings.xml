@@ -57,8 +57,8 @@
     <string name="error_creating_plan">Error creating plan</string>
     <string name="create_new_plan">Create a New Plan</string>
     <string name="start_planning_btn">Start Planning</string>
-
-    <!-- widget -->
+    <string name="plan_name_field_hint">Plan Name, e.g. \'Aunt Lila\'</string>    <!-- widget -->
+    <string name="contact_email_field_hint">Contact E-mail</string>    <!-- widget -->
     <string name="widget_emptyview_text">
         You have no events or plans with us.
         \nTap to open the app to start today.
@@ -106,6 +106,15 @@
     <!-- plan screens -->
     <string name="plan_page_description">Create-a-plan page</string>
     <string name="details_button">Details</string>
+    <string name="plan_option_emptyview_text">Sorry, there are no
+        plan options to display at this time.</string>
+    card_view:cardElevation="4dp"
+    android:layout_margin="6dp"
+    card_view:cardCornerRadius="3dp"
+    imageview_layout_height "200dp"
+
+
+
 
     <!-- plan information form -->
     <string name="undecided">Undecided</string>

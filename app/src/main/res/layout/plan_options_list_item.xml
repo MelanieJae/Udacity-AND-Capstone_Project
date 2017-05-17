@@ -22,12 +22,12 @@
             android:layout_height="200dp" />
         <ImageButton
             android:id="@+id/add_button"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
+            android:layout_width="@dimen/add_button_layout_width"
+            android:layout_height="@dimen/add_button_layout_height"
             android:layout_below="@id/imageview"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp"
-            android:layout_marginLeft="8dp"
+            android:layout_marginTop="@dimen/add_btn_layout_margin_top"
+            android:layout_marginBottom="@dimen/add_btn_layout_margin_bottom"
+            android:layout_marginLeft="@dimen/add_btn_layout_margin_left"
             android:contentDescription="@string/add_button_cd"
             android:src="@drawable/ic_add_white_48dp"
             android:textColor="@android:color/white"

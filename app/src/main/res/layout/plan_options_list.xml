@@ -11,6 +11,7 @@
         android:layout_height="match_parent"/>
     <TextView
         android:id="@+id/emptyview_text"
+        android:text="@string/plan_option_emptyview_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 

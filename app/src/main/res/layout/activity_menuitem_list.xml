@@ -21,8 +21,8 @@
             app:layout_scrollFlags="scroll|exitUntilCollapsed"
             app:contentScrim="@color/primary"
             android:fitsSystemWindows="true"
-            app:expandedTitleMarginStart="48dp"
-            app:expandedTitleMarginEnd="64dp">
+            app:expandedTitleMarginStart="@dimen/expanded_title_margin_start"
+            app:expandedTitleMarginEnd="@dimen/expanded_title_margin_end">
 
             <ImageView
                 android:id="@+id/toolbar_image"
@@ -33,8 +33,8 @@
                 android:contentDescription="@string/toolbar_image_cd"/>
 
             <ImageView
-                android:layout_width="200dp"
-                android:layout_height="100dp"
+                android:layout_width="@dimen/toolbar_logo_layout_width"
+                android:layout_height="@dimen/toolbar_logo_layout_height"
                 android:id="@+id/appbar_logo"
                 android:layout_gravity="bottom|end"
                 android:background="@android:color/transparent"

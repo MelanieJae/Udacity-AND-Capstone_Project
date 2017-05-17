@@ -2,12 +2,11 @@
 <!-- menu button content description set programmatically -->
 <Button
     xmlns:android="http://schemas.android.com/apk/res/android"
-    style="@style/MenuItemButton"
     android:id="@+id/menu_item_button"
-    android:layout_width="@dimen/menu_button_width"
-    android:layout_height="@dimen/menu_button_height"
+    android:layout_width="180dp"
+    android:layout_height="100dp"
     android:layout_marginTop="@dimen/vert_margin"
     android:layout_marginBottom="@dimen/vert_margin"
-
+    android:background="@drawable/menu_item_button"
     android:layout_marginEnd="10dp" />
 

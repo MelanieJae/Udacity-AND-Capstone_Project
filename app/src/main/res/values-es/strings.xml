@@ -3,323 +3,273 @@
 
     <!-- universal strings -->
     <string name="dialog_yes_btn">Si</string>
-    <string name="dialog_ok_btn">OK</string>
+    <string name="dialog_ok_btn">Bien</string>
     <string name="dialog_no_btn">No</string>
 
-    <string name="emptyview_no_results">Sorry, there are no results to display</string>
+    <string name="emptyview_no_results">Lo sentimos, no hay resultados para mostrar</string>
     <string name="emptyview_no_internet_connection">
-        There doesn\'t appear to be an internet connection.
-        \nPlease check your connection</string>
-
+    No parece haber una conexión a Internet.
+    Compruebe su conexión.</string>
     <!-- main screen menu buttons -->
-    <string name="search_obituaries">Search Obituaries</string>
-    <string name="search_providers">Search Providers</string>
-    <string name="checklist">\'Things to Remember\' Checklist</string>
-    <string name="start_planning_service">Start Planning a Service</string>
-    <string name="find_site">Find a loved one\'s site</string>
-    <string name="bill_pay">Bill Pay</string>
-    <string name="faqs">FAQs</string>
+    <string name="search_obituaries">Buscar Obituarios</string>
+    <string name="search_providers">Buscar Proveedores</string>
+    <string name="checklist">Lista de cosas para recordar</string>
+    <string name="start_planning_service">Comience a planificar un servicio
+    </string>
+    <string name="find_site">Encuentra el sitio de un ser querido</string>
+    <string name="bill_pay">Pago de facturas</string>
+    <string name="faqs">FAQs (Preguntas más frecuentes)</string>
 
     <!-- content descriptions -->
-    <string name="toolbar_image_cd">Image of a white funeral wreath under weeping willows</string>
-    <string name="toolbar_logo_cd">Dignity Memorial logo</string>
-    <string name="scrolling_menu_cd">Scrolling options menu</string>
+    <string name="toolbar_image_cd">Imagen de una corona blanca funeral bajo los sauces llorones</string>
+    <string name="toolbar_logo_cd">Logo de Dignity Memorial</string>
+    <string name="scrolling_menu_cd">Menú de opciones de desplazamiento</string>
     <string name="fragment_plan_tv_cd">Create, save and share your event plan here</string>
-    <string name="add_button_cd">Add %1s option to plan</string>
-    <string name="details_button_cd">Details for %1s option</string>
-    <string name="obituary_view_cd">Obituary listing for %1s</string>
-    <string name="provider_view_cd">Provider listing for %1s</string>
 
     <!-- overflow menu -->
-    <string name="pref_settings" translatable="false">View User Settings</string>
-    <string name="menu_view_pref_settings" translatable="false">View User Settings</string>
-    <string name="view_plan_selections">View Plan Selections</string>
-    <string name="view_saved_plan">View Plan Selections</string>
-    <string name="share_plan">Share</string>
-    <string name="delete_plan">Delete</string>
+    <string name="view_plan_selections">Ver Selecciones de Plan</string>
+    <string name="view_saved_plan">Ver Selecciones de Plan</string>
 
     <!-- share menu -->
-    <string name="menu_share"><u>Share Your Plan</u></string>
-    <string name="share_msg_body_text">
-        Hello: Here is the plan I created with Dignity Memorial&#8482;\'s
-        \nThe Dignity Planner&#8482; to honor our recently departed loved one: Ceremony Location: %1s
-    </string>
-    <string name="share_app_chooser_dialog_title">Share your plan via:</string>
+    <string name="menu_share"><u>Comparta su plan</u></string>
 
     <!-- notifications -->
     <string name="dm_notifications_title">Dignity Memorial</string>
-    <string name="dm_notifications_body_text">You have an upcoming consultation with Dignity Memorial.</string>
-    <string name="dm_notifications_body_tap_text">Tap to send plan to Dignity memorial to schedule a consultation.</string>
 
     <!-- plan form screen -->
-    <string name="plan_entry_creation_successful">New plan creation successful</string>
-    <string name="error_creating_plan">Error creating plan</string>
-    <string name="create_new_plan">Create a New Plan</string>
-    <string name="start_planning_btn">Start Planning</string>
+    <string name="plan_entry_creation_successful">Creación de un nuevo plan con éxito</string>
+    <string name="error_creating_plan">Plan de creación de errores</string>
+    <string name="create_new_plan">Crear un nuevo plan</string>
+    <string name="start_planning_btn">Comenzar a planificar</string>
 
     <!-- widget -->
     <string name="widget_emptyview_text">
-        You have no events or plans with us.
-        \nTap to open the app to start today.
+        No tiene eventos ni planes con nosotros.
+        Presiona para abrir la aplicación para comenzar hoy.
     </string>
 
-    <!-- calendar event created by tapping on notification -->
-    <string name="sample_notif_cal_event_title">Planning Consultation with Dignity Memorial</string>
-    <string name="sample_notif_cal_event_desc">Contact: John Smith</string>
-    <string name="sample_notif_cal_event_loc">Resthaven Funeral Home</string>
-
     <!-- settings activity -->
-    <string name="saved_zip_codes">Saved ZIP codes</string>
-    <string name="saved_providers">Saved providers</string>
-    <string name="saved_plans">Saved plans</string>
+    <string name="saved_zip_codes">Códigos postales guardados</string>
+    <string name="saved_providers">Proveedores guardados</string>
+    <string name="saved_plans">Planes guardados</string>
 
     <!-- pref settings labels and keys -->
-    <string name="pref_zip_code_label" translatable="false">Saved ZIP code</string>
+    <string name="pref_zip_code_label">Códigos postales guardados</string>
     <string name="pref_zip_code_key" translatable="false">ZIP code</string>
-    <string name="pref_zip_code_default" translatable="false">33884</string>
+    <string name="pref_zip_code_default" translatable="false">33880</string>
 
     <string name="pref_provider_label" translatable="false">Saved provider</string>
     <string name="pref_provider_key" translatable="false">Provider</string>
 
     <!-- view plan selections activity -->
-    <string name="contact_email_label">Contact E-mail</string>
-    <string name="contact_plan_name_label">Plan Name</string>
-    <string name="ceremony_selection_label">Ceremony Selection</string>
-    <string name="visitation_selection_label">Visitation Selection</string>
-    <string name="reception_selection_label">Reception Selection</string>
-    <string name="site_cremation_label">Burial Site/Cremation Niche</string>
-    <string name="container_selection_label">Urn/Casket</string>
+    <string name="contact_email_label">Email de contacto</string>
+    <string name="contact_plan_name_label">Nombre del plan</string>
+    <string name="ceremony_selection_label">Selección de Ceremonia</string>
+    <string name="visitation_selection_label">Selección de Visitas</string>
+    <string name="reception_selection_label">Selección de Recepción</string>
+    <string name="site_cremation_label">Cementerio/Nicho de cremación</string>
+    <string name="container_selection_label">Urna/Ataúd</string>
 
-    <string name="plan_summary_intro">Congratulations on your new plan created with
-        \nThe Dignity Planner! Here are your selections
-        \nfor %1s:
-        \n
+    <string name="plan_summary_intro">
+        ¡Felicidades por su nuevo plan creado con The Dignity Planner! Aquí están tus selecciones
     </string>
-    <string name="ceremony_selection">Ceremony Selection: %1s</string>
-    <string name="visitation_selection">Visitation Selection: %1s</string>
-    <string name="reception_selection">Reception Selection: %1s</string>
-    <string name="site_selection">Site Selection: %1s</string>
-    <string name="container_selection">Casket Or Urn: %1s</string>
-    <string name="est_cost">Estimated Cost: %1s</string>
+    <string name="ceremony_selection">Selección de Ceremonia: %1s</string>
+    <string name="visitation_selection">Selección de Visitas: %1s</string>
+    <string name="reception_selection">Selección de Recepción: %1s</string>
+    <string name="site_selection">Selección de Sitio: %1s</string>
+    <string name="container_selection">Ataúd O Urna: %1s</string>
+    <string name="est_cost">Costo estimado: %1s</string>
 
     <!-- plan screens -->
-    <string name="plan_page_description">Create-a-plan page</string>
-    <string name="details_button">Details</string>
-
-    <!-- plan information form -->
-    <string name="undecided">Undecided</string>
-    <string name="burial">Burial</string>
-    <string name="cremation">Cremation</string>
+    <string name="plan_page_description">Página Crear un plan</string>
+    <string name="details_button">Detalles</string>
 
     <!-- search form screen -->
-    <string name="obit_form_heading">Search for Obituaries</string>
-    <string name="provider_form_heading">Search for Providers</string>
-    <string name="plan_form_heading">Create a Plan</string>
-    <string name="obit_search_first_name">First Name</string>
-    <string name="obit_search_last_name">Last Name</string>
-    <string name="provider_zip_code">Enter ZIP code</string>
+    <string name="obit_form_heading">Buscar Obituarios</string>
+    <string name="provider_form_heading">Buscar Proveedores</string>
+    <string name="plan_form_heading">Crear un plan</string>
+    <string name="obit_search_first_name">Nombre de pila</string>
+    <string name="obit_search_last_name">Apellido</string>
+    <string name="provider_zip_code">Introduzca el código postal</string>
     <string name="use_current_location">
         OR
-        \nUse Current Location</string>
-    <string name="start_obits_search_btn">Start Obituary Search</string>
-    <string name="start_provider_search_btn">Start Provider Search</string>
-    <string name="no_valid_entries_present_error_msg">Sorry, there are no completed fields present
-        and \"Use current location\" was not selected.
-        Provider searches require either a zip code or a click on \"Use current Location.\"</string>
-
-    <string name="save_zip_code_dialog_msg">Would you like to save this zip code to your app settings?
-        This allows you to conduct this search later and
-        to set the nearest provider as a preferred provider.</string>
+        \nUsar ubicación actual</string>
+    <string name="start_obits_search_btn">Iniciar búsqueda Obituary</string>
+    <string name="start_provider_search_btn">Iniciar búsqueda de proveedores</string>
+    <string name="no_valid_entries_present_error_msg">
+    Lo sentimos, no hay campos completados \"Usar ubicación actual \" no estaba seleccionado.
+    Las búsquedas de proveedores requieren un código postal o un clic en "Usar ubicación actual".
+    </string>
+    <string name="save_zip_code_dialog_msg">
+        ¿Desea guardar este código postal en la configuración de su aplicación?
+        Esto le permite realizar esta búsqueda más adelante y
+        Para establecer el proveedor más cercano como proveedor preferido.
+    </string>
 
     <!-- search result screens -->
-    <string name="search_form_first_name_label">first name:</string>
-    <string name="search_form_last_name_label">last name:</string>
-    <string name="search_form_zipcode_field_label">Enter a zip code:</string>
-    <string name="get_directions">Get directions</string>
-    <string name="obits_search_query_suffix">
-         <![CDATA[&countryid=1&stateid=0&affiliateid=-1]]>
-    </string>
-    <string name="provider_search_query_suffix">
-         <![CDATA[&brand=DM&locale=EN&startPage=1&recordsPerPage=50&radius=100&isClickTracking=false]]></string>
-    <string name="save_provider">Save Provider</string>
+    <string name="search_form_first_name_label">Nombre de pila:</string>
+    <string name="search_form_last_name_label">Apellido:</string>
+    <string name="search_form_zipcode_field_label">Introduzca el código postal:</string>
+    <string name="get_directions">Obtener las direcciones</string>
+
+    <string name="save_provider">Guardar Proveedo</string>
     <!-- data package -->
     <!-- provider -->
-    <string name="error_inserting_plan">Error creating plan entry</string>
-    <string name="insert_plan_successful">Plan entry created successfully</string>
 
-    <string name="error_updating_plan">Error updating plan</string>
-    <string name="update_plan_successful">Plan updated successfully</string>
-
-    <string name="error_deleting_plan">Error deleting plan</string>
-    <string name="plan_deletion_successful">Plan deleted successfully</string>
-
-    <string name="error_deleting_plans_table">Error deleting plan table</string>
-    <string name="plan_table_deletion_successful">Plan table deleted successfully</string>
-
-    <string name="error_querying_plan">Error querying plan table</string>
-
-    <string name="sample_details_text">
-        If set along with Intent.FLAG_ACTIVITY_NEW_DOCUMENT then the task being launched will not be presented to the user but will instead be only available
-        through the recents task list. In addition, the new task wil be affiliated with the
-        launching activity\'s task. Affiliated tasks are grouped together in the recents task list.
-    </string>
     <string name="ceremonyHtmlString">
         <![CDATA[
-        <span class="menu-text">Where would you like your Ceremony?</span>
+        <span class="menu-text">Dónde te gustaría tu Ceremonia?</span>
 
             <img alt="Outdoor Location" class="img-responsive center-block col-md-12"
                 src="https://s3.amazonaws.com/busites_www/tdp/media/option-media/ceremony_outdoor_1455044981_618.png"></img>
             <div class="col-md-6">
                 <h3>Outdoor Location</h3>
-                <p><strong>Estimated Cost:</strong> $0 - $500</p>
+                <p><strong>Costo Estimado:</strong> $0 - $500</p>
             </div>
             <div class="col-md-12">
-                <p><p>Do you feel most at peace outside?
-                      Have life\'s best moments occurred with the sun in your face and the wind at your back? If so, you might consider holding your funeral or cremation service outdoors. Friends,
-                      family and loved ones will find solace knowing Mother Nature is by your side.</p></p>
+                <p><p>¿Te sientes más en paz afuera?
+                      ¿Se han producido los mejores momentos de la vida con el sol en la cara y el viento en la espalda? Si es así, puede considerar la celebración de su funeral o servicio de cremación al aire libre. Amigos,
+                      Familiares y seres queridos encontrarán consuelo conocer a la madre naturaleza está a su lado.</p></p>
             </div>
 
             <img class="img-responsive center-block col-md-12" src="https://s3.amazonaws.com/busites_www/tdp/1/1/media/option-media/funeral_home_ceremony_1455212694_626.png" alt="Funeral Home">
             <div class="col-md-6">
                         <h3>Funeral Home</h3>
-                        <p><strong>Estimated Cost:</strong> $295 - $595</p>
+                        <p><strong>Costo Estimado:</strong> $295 - $595</p>
             </div>
             <div class="col-md-12">
-                            <p><p>Funeral homes can be subdued and elegant, with an atmosphere of respect and dignity -- qualities you may be looking for when it comes to selecting a venue for your
-                            service. Additionally, funeral directors are helpful, knowledgeable, professional and willing to spend time with you today to ensure your wishes tomorrow. Your personalized
-                            funeral service will be carried out with precision and compassion, and may be held before or after burial or cremation.</p></p>
+                            <p><p>Las funerarias pueden ser moderadas y elegantes, con un ambiente de respeto y dignidad - cualidades que usted puede estar buscando cuando se trata de seleccionar un lugar para su
+                            Servicio. Además, los directores de funerarias son útiles, conocedores, profesionales y dispuestos a pasar tiempo con ustedes hoy para asegurar sus deseos mañana. Tu personalizado
+                            El servicio fúnebre se llevará a cabo con precisión y compasión, y se puede celebrar antes o después del entierro o la cremación.</p></p>
             </div>
 
             <img class="img-responsive center-block col-md-12" src="https://s3.amazonaws.com/busites_www/tdp/1/1/media/option-media/personalresidence_1455219989_629.png" alt="Personal Residence">
             <div class="col-md-6">
                     <h3>Personal Residence</h3>
-                    <p><strong>Estimated Cost:</strong> $0 - $500</p>
+                    <p><strong>Costo Estimado:</strong> $0 - $500</p>
             </div>
             <div class="col-md-12">
-                            <p><p>Perhaps it\'s where you spent summers with your grandparents, or the cabin in the woods where you escaped on weekends. Maybe it\'s your childhood home, or the
-                            home where you raised your own children.  Wherever your fondest, most cherished memories take you is where friends and family can honor you.
-                            A ceremony at home can be a wonderful, meaningful experience for all of your loved ones.</p></p>
+                            <p><p>Quizás es donde pasaste veranos con tus abuelos, o la cabaña en el bosque donde escapaste los fines de semana. Tal vez sea la casa de tu infancia, o la
+                            Donde criaste a tus propios hijos. Dondequiera que sus recuerdos más cariñosos, más queridos le lleve es donde los amigos y la familia pueden honrarle.
+                            Una ceremonia en casa puede ser una experiencia maravillosa, significativa para todos sus seres queridos.</p></p>
             </div>
 
             <img class="img-responsive center-block col-md-12" src="https://s3.amazonaws.com/busites_www/tdp/media/option-media/religiousfacility02_1455048640_619.png"
                 alt="Religious Facility">
             <div class="col-md-6">
                         <h3>Religious Facility</h3>
-                        <p><strong>Estimated Cost:</strong> $0 - $500</p>
+                        <p><strong>Costo Estimado:</strong> $0 - $500</p>
                     </div>
             <div class="col-md-12">
-                <p><p>Many people consider their church, synagogue or temple a second home, making it a meaningful and sentimental option for a funeral ceremony.
-                Take solace in the knowledge that you and your loved ones will be tended to in a familiar, warm and cherished environment.</p></p>
-            </div>
+                <p><p>Muchas personas consideran su iglesia, sinagoga o templo una segunda casa, por lo que es una opción significativa y sentimental para una ceremonia fúnebre.
+                Tome el solace en el conocimiento que usted y sus amados tendrán en un ambiente familiar, caliente y acariciado.</div>
 
             <img class="img-responsive center-block col-md-12" src="https://s3.amazonaws.com/busites_www/tdp/media/option-media/rs_reception_restaurant_1455035978_614.png" alt="Restaurant">
             <div class="col-md-6">
                         <h3>Restaurant</h3>
-                        <p><strong>Estimated Cost:</strong> $0 - $500</p>
+                        <p><strong>Costo Estimado:</strong> $0 - $500</p>
                     </div>
 
             <div class="col-md-12">
-                <p><p>Friends sitting around a table. Family side-by-side at a high-top counter. Loved ones gathering in the foyer, anticipating the best seat in the house.
-                If this image appeals to you, you might consider arranging your reception or at one of your favorite restaurants. Breaking bread in your honor is a wonderful way for friends
-                and family to bond as healing begins. </p></p>
+                <p><p>Amigos sentados alrededor de una mesa. Familia lado a lado en un mostrador de alto-top. Amados que se reúnen en el vestíbulo, anticipándose al mejor asiento de la casa.
+                Si esta imagen le atrae, puede considerar organizar su recepción o en uno de sus restaurantes favoritos. Romper el pan en tu honor es una manera maravillosa para los amigos
+                Y la familia a consolidar como la curación comienza.</p></p>
             </div>
 
             <img class="img-responsive center-block col-md-12" src="https://s3.amazonaws.com/busites_www/dignity/option_thumbnails/486.jpg" alt="Cemetery">
             <div class="col-md-6">
                         <h3>Cemetery</h3>
-                        <p><strong>Estimated Cost:</strong> $500 - $1,500</p>
+                        <p><strong>Costo Estimado:</strong> $500 - $1,500</p>
                     </div>
             <div class="col-md-12">
-                            <p><p>Family and friends often assemble at the side of the grave to witness their loved one\'s interment. Some people prefer a cemetery graveside ceremony to be a private, quiet event, while others love the idea of a large group gathering to say their goodbyes. Cemetery staff are compassionate and kind, and can help you pre-plan
-                            a graveside service that is meaningful to you and your loved ones.  </p></p>
+                            <p><p>La familia y los amigos se reúnen a menudo al lado de la tumba para presenciar el entierro de su ser querido. Algunas personas prefieren una ceremonia cementerio cementerio para ser un evento privado, tranquilo, mientras que otros les encanta la idea de un gran grupo de reunión para decir sus despedidas. El personal del cementerio es compasivo y amable, y puede ayudarlo a planificar previamente
+                            Un servicio de la tumba que es significativo para usted y sus seres queridos.</p></p>
             </div>
 
             <img class="img-responsive center-block col-md-12" src="https://s3.amazonaws.com/busites_www/dignity/option_thumbnails/2221.jpg" alt="Island Paradise">
             <div class="col-md-6">
                         <h3>Island Paradise</h3>
-                        <p><strong>Estimated Cost:</strong> $0 - $500</p>
+                        <p><strong>Costo Estimado:</strong> $0 - $500</p>
                     </div>
             <div class="col-md-12">
-                            <p><p>On the beach, beneath a palm tree, beside a seaside cove? These are just a few options for the perfect island farewell.
-                            The great outdoors as a ceremony venue for your celebration of life doesn\'t have to be limited to sandy beaches. Consider a boat, pier, the deck of a beach home,
-                            the patio of a tiki bar, the yard of a bamboo hut. The location creates atmosphere, while your personal touches of food, drink and décor set the mood.</p></p>
-            </div>
+                            <p><p>¿En la playa, debajo de una palmera, al lado de una ensenada costera? Estas son sólo algunas opciones para la despedida de isla perfecta.
+                            El gran aire libre como lugar de la ceremonia para su celebración de la vida no tiene que ser limitado a las playas arenosas. Considere un barco, muelle, la cubierta de una casa de playa,
+                            El patio de un bar tiki, el patio de una choza de bambú. La ubicación crea ambiente, mientras que sus toques personales de comida, bebida y decoración establecer el estado de ánimo.</div>
 
             <img class="img-responsive center-block" src="https://s3.amazonaws.com/busites_www/tdp/1/1/media/option-media/thumb_cemeterychapel_1455222399_632.png" width="350" height="255" alt="Cemetery Chapel">
 
             <div class="col-md-6">
             <h3>Cemetery Chapel</h3>
-            <p><strong>Estimated Cost:</strong> $0 - $500</p>
+            <p><strong>Costo Estimado:</strong> $0 - $500</p>
             </div>
             <div class="col-md-12">
-                            <p><p>The simplicity of a cemetery chapel is, by its very nature, elegant and soothing.
-                            However, the artist in you can add personal touches to make it uniquely yours. Plan ahead by visiting clergy or staff at the chapel of your choice to inquire about adding your own flair to the chapel.
-                            Perhaps you would like to display your own artwork, photography or sculptures. Or, choose a chapel that is infused with art that already appeals to you. Stained glass windows,
-                            inspirational architecture or shaped landscaping. The possibilities are limited only by your imagination.</p></p>
+                            <p><p>¿En la playa, debajo de una palmera, al lado de una ensenada costera? Estas son sólo algunas opciones para la despedida de isla perfecta.
+                            El gran aire libre como lugar de la ceremonia para su celebración de la vida no tiene que ser limitado a las playas arenosas. Considere un barco, muelle, la cubierta de una casa de playa,
+                            El patio de un bar tiki, el patio de una choza de bambú. La ubicación crea ambiente, mientras que sus toques personales de comida, bebida y decoración establecer el estado de ánimo.</p></p>
                         </div>]]>
     </string>
     <string name="visitationHtmlString">
     <![CDATA[
-        <span class="menu-text">Where would you like your Visitation?</span>
+        <span class="menu-text">¿Dónde te gustaría tu Visitación?</span>
 
         <img alt="Outdoor Location" class="img-responsive center-block col-md-12"
         src="https://s3.amazonaws.com/busites_www/tdp/media/option-media/ceremony_outdoor_1455044981_618.png"></img>
         <div class="col-md-6">
             <h3>Outdoor Location</h3>
-            <p><strong>Estimated Cost:</strong> $0 - $500</p>
+            <p><strong>Costo Estimado:</strong> $0 - $500</p>
         </div>
         <div class="col-md-12">
-            <p><p>Do you feel most at peace outside?
-                  Have life\'s best moments occurred with the sun in your face and the wind at your back?
-                  If so, you might consider holding your funeral or cremation service outdoors. Friends,
-                  family and loved ones will find solace knowing Mother Nature is by your side.</p></p>
+            <p><p>¿Te sientes más en paz afuera?
+                  ¿Se han producido los mejores momentos de la vida con el sol en la cara y el viento en la espalda?
+                  Si es así, puede considerar la celebración de su funeral o servicio de cremación al aire libre. Amigos,
+                  Familia y seres queridos encontrarán consuelo sabiendo que la madre naturaleza está a su lado.</p></p>
         </div>
 
         <img class="img-responsive center-block col-md-12"
         src="https://s3.amazonaws.com/busites_www/tdp/1/1/media/option-media/funeral_home_ceremony_1455212694_626.png" alt="Funeral Home">
         <div class="col-md-6">
                     <h3>Funeral Home</h3>
-                    <p><strong>Estimated Cost:</strong><br> $295 - $595</p>
+                    <p><strong>Costo Estimado:</strong><br> $295 - $595</p>
         </div>
         <div class="col-md-12">
-             <p><p>Funeral homes can be subdued and elegant, with an atmosphere of respect
-                        and dignity -- qualities you may be looking for when it comes to selecting a venue for your
-                        service. Additionally, funeral directors are helpful, knowledgeable, professional
-                        and willing to spend time with you today to ensure your wishes tomorrow. Your personalized
-                        funeral service will be carried out with precision and compassion, and may be held before or after burial or cremation.</p></p>
+             <p><p>Las funerarias pueden ser sometidas y elegantes, con un ambiente de respeto
+                        Y la dignidad - cualidades que puede estar buscando cuando se trata de seleccionar un lugar para su
+                        Servicio. Además, los directores de funerarias son útiles, conocedores, profesionales
+                        Y dispuesto a pasar tiempo con usted hoy para asegurar sus deseos mañana. Tu personalizado
+                        El servicio fúnebre se llevará a cabo con precisión y compasión, y se puede celebrar antes o después del entierro o la cremación.</p></p>
         </div>
 
         <img class="img-responsive center-block col-md-12"
         src="https://s3.amazonaws.com/busites_www/tdp/1/1/media/option-media/personalresidence_1455219989_629.png" alt="Personal Residence">
         <div class="col-md-6">
                 <h3>Personal Residence</h3>
-                <p><strong>Estimated Cost:</strong><br> $0 - $500</p>
+                <p><strong>Costo Estimado:</strong><br> $0 - $500</p>
         </div>
         <div class="col-md-12">
-                        <p><p>Perhaps it\'s where you spent summers with your grandparents, or the
-                        cabin in the woods where you escaped on weekends. Maybe it\'s your childhood home, or the
-                        home where you raised your own children.  Wherever your fondest, most cherished
-                        memories take you is where friends and family can honor you.
-                        A ceremony at home can be a wonderful, meaningful experience for all of your loved ones.</p></p>
+                        <p><p>Tal vez es donde pasaste veranos con tus abuelos, o el
+                        Cabaña en el bosque donde se escapó los fines de semana. Tal vez sea su hogar de la infancia, o el
+                        Donde criaste a tus propios hijos. Dondequiera que su más querido, más querido
+                        Recuerdos te lleva es donde amigos y familiares pueden honrar.
+                        Una ceremonia en casa puede ser una experiencia maravillosa, significativa para todos sus seres queridos.</p></p>
         </div>
 
         <img class="img-responsive center-block col-md-12" src="https://s3.amazonaws.com/busites_www/
         tdp/media/option-media/religiousfacility02_1455048640_619.png" alt="Religious Facility">
         <div class="col-md-6">
                     <h3>Religious Facility</h3>
-                    <p><strong>Estimated Cost:</strong><br> $0 - $500</p>
+                    <p><strong>Costo Estimado:</strong><br> $0 - $500</p>
                 </div>
         <div class="col-md-12">
-            <p><p>Many people consider their church, synagogue or temple a second home, making it a
-            meaningful and sentimental option for a funeral ceremony. Take solace in the knowledge
-            that you and your loved ones will be tended to in a familiar, warm and cherished environment.</p></p>
+            <p><p>Muchas personas consideran su iglesia, sinagoga o templo como un segundo hogar,
+            Significativa y sentimental opción para una ceremonia fúnebre. Tome el solace en el conocimiento
+            Que usted y sus seres queridos tendrán en un ambiente familiar, cálido y querido.</p></p>
         </div>
 
         <img class="img-responsive center-block col-md-12"
         src="https://s3.amazonaws.com/busites_www/tdp/media/option-media/rs_reception_restaurant_1455035978_614.png" alt="Restaurant">
         <div class="col-md-6">
                     <h3>Restaurant</h3>
-                    <p><strong>Estimated Cost:</strong><br> $0 - $500</p>
+                    <p><strong>Costo Estimado:</strong><br> $0 - $500</p>
                 </div>
 
         <div class="col-md-12">
@@ -332,197 +282,220 @@
     </string>
     <string name="receptionHtmlString">
     <![CDATA[
-        <span class="menu-text">Where would you like your Reception?</span>
+        <span class="menu-text">¿Dónde desea su recepción?</span>
 
         <img class="img-responsive center-block col-md-12" src="https://s3.amazonaws.com/busites_www/tdp/1/1/media/option-media/hotel_reception_1455220406_630.png" alt="Hotel">
         <h3>Hotel</h3>
-        <p><strong>Estimated Cost:</strong><br> $0 - $500</p>
+        <p><strong>Costo Estimado:</strong><br> $0 - $500</p>
 
         <div class="col-md-12">
-                        <p><p>Hotels are a great option when it comes to choosing a venue for your post-ceremony reception. Not only can a
-                        hotel accommodate groups both large and small, but there\'s ample parking and professional staff to oversee every last detail. Some hotels provide catering, while others
-                        allow you to provide whatever you wish. Visiting a banquet manager today will inspire you to pre-plan a memorable reception for tomorrow. </p></p>
+                        <p><p>Los hoteles son una gran opción cuando se trata de elegir un lugar para su recepción post-ceremonia. No sólo un
+                        Hotel alojar grupos grandes y pequeños, pero hay un amplio aparcamiento y personal profesional para supervisar cada detalle. Algunos hoteles ofrecen catering, mientras que otros
+                        Permiten que usted proporcione lo que usted desea. Visitar un gerente de banquetes hoy le inspirará a pre-plan una recepción memorable para mañana. </p></p>
         </div>
 
         <img class="img-responsive center-block col-md-12" src="https://s3.amazonaws.com/busites_www/tdp/1/1/media/option-media/funeral_home_ceremony_1455212694_626.png" alt="Funeral Home">
         <div class="col-md-6">
                     <h3>Funeral Home</h3>
-                    <p><strong>Estimated Cost:</strong><br> $295 - $595</p>
+                    <p><strong>Costo Estimado:</strong><br> $295 - $595</p>
         </div>
         <div class="col-md-12">
-                        <p><p>Funeral homes can be subdued and elegant, with an atmosphere of respect and dignity -- qualities you may be looking for when it comes to selecting
-                        a venue for your service. Additionally, funeral directors are helpful, knowledgeable, professional and willing to spend time with you today to ensure your wishes tomorrow.
-                        Your personalized funeral service will be carried out with precision and compassion, and may be held before or after burial or cremation.</p></p>
+                        <p><p>Las funerarias pueden ser sometidas y elegantes, con un ambiente de respeto y dignidad - cualidades que puede estar buscando cuando se trata de seleccionar
+                        Un lugar para su servicio. Además, los directores de funerarias son útiles, conocedores, profesionales y dispuestos a pasar tiempo con ustedes hoy para asegurar sus deseos mañana.
+                        Su servicio funerario personalizado se llevará a cabo con precisión y compasión, y se puede celebrar antes o después del entierro o la cremación.</p></p>
         </div>
 
         <img class="img-responsive center-block col-md-12" src="https://s3.amazonaws.com/busites_www/tdp/1/1/media/option-media/personalresidence_1455219989_629.png" alt="Personal Residence">
         <div class="col-md-6">
                 <h3>Personal Residence</h3>
-                <p><strong>Estimated Cost:</strong><br> $0 - $500</p>
+                <p><strong>Costo Estimado:</strong><br> $0 - $500</p>
         </div>
         <div class="col-md-12">
-                        <p><p>Perhaps it\'s where you spent summers with your grandparents, or the cabin in the woods where you escaped on weekends. Maybe it\'s your childhood home,
-                        or the home where you raised your own children.  Wherever your fondest, most cherished memories take you is where friends and family can honor you.
-                        A ceremony at home can be a wonderful, meaningful experience for all of your loved ones.</p></p>
+                        <p><p>Las funerarias pueden ser sometidas y elegantes, con un ambiente de respeto y dignidad - cualidades que puede estar buscando cuando se trata de seleccionar
+                        Un lugar para su servicio. Además, los directores de funerarias son útiles, conocedores, profesionales y dispuestos a pasar tiempo con ustedes hoy para asegurar sus deseos mañana.
+                        Su servicio funerario personalizado se llevará a cabo con precisión y compasión, y se puede celebrar antes o después del entierro o la cremación.</p></p>
         </div>
 
         <img class="img-responsive center-block col-md-12" src="https://s3.amazonaws.com/busites_www/tdp/media/option-media/religiousfacility02_1455048640_619.png" alt="Religious Facility">
         <div class="col-md-6">
                     <h3>Religious Facility</h3>
-                    <p><strong>Estimated Cost:</strong><br> $0 - $500</p>
+                    <p><strong>Costo Estimado:</strong><br> $0 - $500</p>
                 </div>
         <div class="col-md-12">
-            <p><p>Many people consider their church, synagogue or temple a second home, making it a meaningful and sentimental option for a funeral ceremony.
-            Take solace in the knowledge that you and your loved ones will be tended to in a familiar, warm and cherished environment.</p></p>
+            <p><p>Muchas personas consideran su iglesia, sinagoga o templo una segunda casa, por lo que es una opción significativa y sentimental para una ceremonia fúnebre.
+            Tome el solace en el conocimiento que usted y sus amados tendrán en un ambiente familiar, caliente y acariciado.</p></p>
         </div>
 
         <img class="img-responsive center-block col-md-12" src="https://s3.amazonaws.com/busites_www/tdp/media/option-media/rs_reception_restaurant_1455035978_614.png" alt="Restaurant">
         <div class="col-md-6">
                     <h3>Restaurant</h3>
-                    <p><strong>Estimated Cost:</strong><br> $0 - $500</p>
+                    <p><strong>Costo Estimado:</strong><br> $0 - $500</p>
                 </div>
 
         <div class="col-md-12">
-            <p><p>Friends sitting around a table. Family side-by-side at a high-top counter. Loved ones gathering in the foyer, anticipating the best seat in the house.
-            If this image appeals to you, you might consider arranging your reception or at one of your favorite restaurants. Breaking bread in your honor is a wonderful
-            way for friends and family to bond as healing begins. </p></p>
+            <p><p>Amigos sentados alrededor de una mesa. Familia lado a lado en un mostrador de alto-top. Amados que se reúnen en el vestíbulo, anticipándose al mejor asiento de la casa.
+            Si esta imagen le atrae, puede considerar organizar su recepción o en uno de sus restaurantes favoritos. Romper el pan en tu honor es una maravilla
+            Camino para que los amigos y la familia se unan a medida que comienza la curación. </p></p>
         </div>
         <img class="img-responsive center-block col-md-12" src="https://s3.amazonaws.com/busites_www/tdp/1/1/media/option-media/privateproperty_1457472160_1343.png"
         alt="Private Location">
                     <h3>Private Location</h3>
-                    <p><strong>Estimated Cost:</strong><br> $0 - $500</p>
+                    <p><strong>Costo Estimado:</strong><br> $0 - $500</p>
 
         <div class="col-md-12">
-             <p><p>If the thought of a public venue seems impersonal to you, you might consider hosting your reception on private property.
-             A location that is special to you can serve as the setting for an intimate, meaningful gathering.</p><p><em><strong></strong></em></p></p>
+             <p><p>Si el pensamiento de un lugar público parece impersonal a usted, usted puede ser que considere el recibimiento de su recepción en característica privada.
+             Un lugar que es especial para usted puede servir como el escenario para una reunión íntima y significativa.</p><p><em><strong></strong></em></p></p>
         </div>]]>
     </string>
     <!-- planning screens static html content -->
     <string name="siteHtmlString">
     <![CDATA[
-        <span class="menu-text">Choose A Resting Place</span>
+        <span class="menu-text">Elija un lugar de descanso</span>
         <img class="img-responsive center-block col-md-12" src="https://s3.amazonaws.com/busites_www/dignity/option_thumbnails/397.jpg" alt="Single Burial Plot">
 
         <div class="col-md-6">
         <h3>Single Burial Plot</h3>
-        <p><strong>Estimated Cost:</strong><br> $2,400 - $5,000</p>
+        <p><strong>Costo Estimado:</strong><br> $2,400 - $5,000</p>
         </div>
         <div class="col-md-12">
-            <p><p>A single burial space is the most common type of plot in a cemetery, and, as the name implies, allows room for one casket. By pre-arranging, you may have the opportunity to choose your plot, which can be personalized with the placement of an individual marker.</p><p><em>Note that some cemeteries may require you to purchase a burial vault or outer burial container (a concrete, metal or wood structure used to support a casket in the ground) at an additional cost, which may range from $900 - $1,600.</em></p></p>
+            <p><p>Un solo espacio sepulcral es el tipo más común de parcela en un cementerio, y, como su nombre indica, permite espacio para un ataúd.
+            Mediante la pre-organización, usted puede tener la oportunidad de elegir su parcela, que puede ser personalizado con la colocación de un marcador individual.</p><p><em>Note that some cemeteries may require you to purchase a burial vault or outer burial container (a concrete, metal or wood structure used to support a casket in the ground) at an additional cost, which may range from $900 - $1,600.</em></p></p>
         </div>
 
         <img class="img-responsive center-block col-md-12" src="https://s3.amazonaws.com/busites_www/dignity/option_thumbnails/396.jpg" alt="Double Cemetery Plot">
         <div class="col-md-6">
             <h3>Double Cemetery Plot</h3>
-            <p><strong>Estimated Cost:</strong><br> $5,000 - $8,000</p>
+            <p><strong>Costo Estimado:</strong><br> $5,000 - $8,000</p>
         </div>
         <div class="col-md-12">
-                    <p><p>In-ground, double burial, also known as companion burial, can be achieved two ways. In one option, the first casket is placed low, allowing room for a second casket to be placed on top. Side-by-side burial is just as it sounds — two single plots next to each other. In pre-planning cemetery property, spouses can arrange for their companion burial spaces together.<br />
-                    </p><p><em>Note that some cemeteries may require you to purchase a burial vault or outer burial container (a concrete, metal or wood structure used to support a casket in the ground) at an additional cost, which may range from $900 - $1,600 each.</em><br />
+                    <p><p>En el suelo, el entierro doble, también conocido como entierro compañero,
+                    se puede lograr de dos maneras. En una opción, el primer ataúd se coloca bajo,
+                    permitiendo espacio para un segundo ataúd para ser colocado en la parte superior.
+                    El enterramiento lado a lado es como suena: dos parcelas solas una al lado de la otra.
+                    En la pre-planificación de la propiedad cementerio, los cónyuges pueden organizar
+                    juntos sus espacios de entierro.<br />
+                    </p><p><em>Tenga en cuenta que algunos cementerios pueden requerir que usted
+                    compre una bóveda de entierro o un recipiente de enterramiento externo
+                    (una estructura de concreto, metal o madera usada para sostener un ataúd en el suelo)
+                    a un costo adicional, que puede Rango de $ 900 - $ 1,600 cada uno.</em><br />
         </p></p>
 
         <img class="img-responsive center-block col-md-12"
         src="https://s3.amazonaws.com/busites_www/tdp/media/option-media/507.jpg" alt="Monuments &amp; Markers">
         <h3>Monuments & Markers</h3>
-        <p><strong>Estimated Cost:</strong><br> $1,000 - $3,500</p>
+        <p><strong>Costo Estimado:</strong><br> $1,000 - $3,500</p>
 
         <div class="col-md-12">
-        <p><p>Whether you choose to be remembered with a beautiful headstone or in a blossoming memorial garden,
-        customize a monument or marker to commemorate the uniqueness of your life.</p></p>
+        <p><p>Si usted elige ser recordado con una lápida hermosa o en un jardín conmemorativo floreciente,
+        Personalizar un monumento o marcador para conmemorar la singularidad de su vida.</p></p>
         </div>
 
         <img class="img-responsive center-block col-md-12" src="https://s3.amazonaws.com/busites_www/dignity/option_thumbnails/499.jpg" alt="On Private Property">
         <div class="col-md-6">
                     <h3>On Private Property</h3>
-                    <p><strong>Estimated Cost:</strong><br> $0 - $500</p>
+                    <p><strong>Costo Estimado:</strong><br> $0 - $500</p>
         </div>
         <div class="col-md-12">
-                <p><p>If the thought of a cemetery seems impersonal to you, you might consider burial
-                on private property. A location that is special to you can serve as the setting for an intimate,
-                meaningful graveside service. Your funeral director can help you understand the laws and requirements that are applicable in your state.</p></p>
+                <p><p>Si el pensamiento de un cementerio parece impersonal a usted, usted podría considerar el entierro
+                En propiedad privada. Un lugar que es especial para usted puede servir como el escenario de un ambiente íntimo,
+                Servicio significativo de la tumba. Su director de funeraria puede ayudarle a entender las leyes
+                Y requisitos que son aplicables en su estado.</p></p>
         </div>
 
         <img class="img-responsive center-block col-md-12" src="https://s3.amazonaws.com/busites_www/dignity/option_thumbnails/382.jpg"
         alt="Companion Mausoleum Space">
         <div class="col-md-6">
             <h3>Companion Mausoleum Space</h3>
-            <p><strong>Estimated Cost:</strong><br> $7,000 - $12,000</p>
+            <p><strong>Costo Estimado:</strong><br> $7,000 - $12,000</p>
         <div class="col-md-12">
-            <p><p>Companion mausoleum spaces accommodate two caskets, which may be side by side, end to end or stacked together.
-            Mausoleums are above-ground structures, usually on cemetery grounds, that consist of several chambers made to house caskets,
-            and they sometimes include prayer space or a chapel. They range from elaborate to warm and intimate — perhaps the perfect atmosphere for companions.</p></p>
+            <p><p>Los espacios del mausoleo del compañero acomodan dos ataúdes, que pueden estar de lado a lado, de extremo a extremo o apilados juntos.
+            Mausoleos son estructuras sobre el suelo, por lo general en los terrenos de los cementerios, que consisten en varias cámaras hechas para alojar ataúdes,
+            Ya veces incluyen espacio de oración o una capilla. Que van desde elaborado a cálido e íntimo - tal vez el ambiente perfecto para los compañeros.</p></p>
         </div>
 
         <img class="img-responsive center-block col-md-12" src="https://s3.amazonaws.com/busites_www/dignity/option_thumbnails/381.jpg" alt="Family Mausoleum">
         <div class="col-md-6">
             <h3>Family Mausoleum</h3>
-            <p><strong>Estimated Cost:</strong><br> $200,000 - $500,000</p>
+            <p><strong>Costo Estimado:</strong><br> $200,000 - $500,000</p>
         </div>
         <div class="col-md-12">
-            <p><p>Family mausoleums are aboveground structures that accommodate the casketed remains of several people.
-            There may be one large marker, or smaller individual markers. Family mausoleums may be simple or ornate in architecture
-            and can become historical in nature, as several members of the same family can be entombed in the same mausoleum over generations. </p></p>
+            <p><p>
+Los mausoleos de la familia son estructuras sobre el suelo que acomodan los restos de varias personas.
+            Puede haber un marcador grande, o más pequeños marcadores individuales. Los mausoleos
+            de la familia pueden ser simples o ornamentados en la arquitectura
+            Y puede llegar a ser de naturaleza histórica, ya que varios miembros de la misma
+            familia pueden ser sepultados en el mismo mausoleo durante generaciones. </p></p>
         </div>
 
         <img class="img-responsive center-block col-md-12" src="https://s3.amazonaws.com/busites_www/dignity/option_thumbnails/395.jpg" alt="Family Estate">
         <div class="col-md-6">
             <h3>Family Estate</h3>
-                    <p><strong>Estimated Cost:</strong><br> $20,000 - $50,000</p>
+                    <p><strong>Costo Estimado:</strong><br> $20,000 - $50,000</p>
         </div>
         <div class="col-md-12">
-              <p><p>Many cemeteries offer family estates, which are reserved areas dedicated to
-              specific families and often bordered by a gate, fence or shrubbery. Individual markers may be erected,
-              or one significant marker that lists family members\' names, dates of birth and dates of death. Family estates
-              can be intimate and historical, as several members and generations can be buried in the same area.</p></p>
+              <p><p>Muchos cementerios ofrecen propiedades familiares, áreas reservadas dedicadas a
+              Familias específicas y con frecuencia bordeadas por una puerta, valla o arbustos.
+              Se pueden erigir marcadores individuales,
+              O un marcador significativo que enumera los nombres de los miembros de la familia,
+              las fechas de nacimiento y las fechas de la muerte. Fincas familiares
+              Puede ser íntima e histórica, ya que varios miembros y generaciones pueden ser
+              enterrados en la misma área.</p></p>
         </div>
 
 
         <img class="img-responsive center-block col-md-12" src="https://s3.amazonaws.com/busites_www/tdp/media/option-media/415.jpg" alt="Cremation Garden">
         <div class="col-md-6">
             <h3>Cremation Garden</h3>
-            <p><strong>Estimated Cost:</strong><br> $200 - $400</p>
+            <p><strong>Costo Estimado:</strong><br> $200 - $400</p>
         </div>
             <div class="col-md-12">
-                <p><p>Many cemeteries offer cremation gardens, which are a beautiful and unique way for loved ones to honor your memory.
-                Cremated remains become part of the garden in any number of ways, including niches, benches and more.
-                Landscaped with water features, wind chimes, walking paths, flora, benches and more, a cremation garden doesn\'t
-                look anything like a traditional cemetery.</p></p>
+                <p><p>Muchos cementerios ofrecen propiedades familiares, áreas reservadas dedicadas a
+              Familias específicas y con frecuencia bordeadas por una puerta, valla o arbustos.
+              Se pueden erigir marcadores individuales,
+              O un marcador significativo que enumera los nombres de los miembros de la familia,
+              las fechas de nacimiento y las fechas de la muerte. Fincas familiares
+              Puede ser íntima e histórica, ya que varios miembros y generaciones pueden
+              ser enterrados en la misma área.</p></p>
             </div>
 
         <img class="img-responsive center-block col-md-12" src="https://s3.amazonaws.com/busites_www/dignity/option_thumbnails/414.jpg" alt="Single Niche">
         <div class="col-md-6">
             <h3>Single Niche</h3>
-            <p><strong>Estimated Cost:</strong><br> $1,000 - $2,500</p>
+            <p><strong>Costo Estimado:</strong><br> $1,000 - $2,500</p>
         </div>
 
         <div class="col-md-12">
-            <p><p>Columbaria are above-ground structures designed specifically for the inurnment of cremated remains. Urns are placed in a niche, some of which are fronted with glass, so that the urn and other objects, such as photographs or cherished possessions, can remain on display. You can personalize your niche by choosing the material and wording on a descriptive plaque.</p></p>
+            <p><p>Columbaria son estructuras sobre el suelo diseñadas específicamente para el
+            inurnment de restos cremados. Las urnas se colocan en un nicho, algunas de las cuales
+            están cubiertas de vidrio, de modo que la urna y otros objetos, como fotografías o
+            posesiones apreciadas, pueden permanecer en exhibición. Puede personalizar su nicho
+            eligiendo el material y el texto en una placa descriptiva.</p></p>
         </div>
 
         <img class="img-responsive center-block col-md-12" src="https://s3.amazonaws.com/busites_www/dignity/option_thumbnails/413.jpg" alt="Companion Niche">
         <div class="col-md-6">
             <h3>Companion Niche</h3>
-            <p><strong>Estimated Cost:</strong><br> $2,200 - $3,500</p>
+            <p><strong>Costo Estimado:</strong><br> $2,200 - $3,500</p>
         </div>
         <div class="col-md-12">
-            <p><p>Companion niches are available for those who wish to ensure side by side inurnment
-            with a loved one. In a columbarium, urns are placed in a niche, some of which are fronted with glass,
-            so that the urn and other objects, such as photographs or cherished possessions, can remain on display.
-            You can personalize your niche by choosing the material and wording on a descriptive plaque.
-            Other cremation memorialization options also are available for cremation interment. </p></p>
+            <p><p>Los nichos de compañero están disponibles para aquellos que desean asegurarse de lado a lado
+            Con un ser querido. En un columbario, las urnas se colocan en un nicho, algunos de los cuales se enfrentan con vidrio,
+            De modo que la urna y otros objetos, tales como fotografías o posesiones acariciadas, puedan permanecer en exhibición.
+            Puede personalizar su nicho eligiendo el material y el texto en una placa descriptiva.
+            Otras opciones de memorialization de la cremación también están disponibles para el entierro de la cremación. </p></p>
         </div>
 
         <img class="img-responsive center-block col-md-12" src="https://s3.amazonaws.com/busites_www/tdp/1/1/media/option-media/personalresidence_1455219989_629.png"
         alt="Personal Residence">
         <div class="col-md-6">
             <h3>Personal Residence</h3>
-            <p><strong>Estimated Cost:</strong><br> $0 - $500</p>
+            <p><strong>Costo Estimado:</strong><br> $0 - $500</p>
         </div>
         <div class="col-md-12">
-            <p><p>Perhaps it\'s where you spent summers with your grandparents, or the cabin in the woods
-            where you escaped on weekends. Maybe it\'s your childhood home, or the home where you raised your own children.
-            Wherever your fondest, most cherished memories take you is where friends and family can honor you.
-            A ceremony at home can be a wonderful, meaningful experience for all of your loved ones.</p></p>
+            <p><p>Tal vez es donde pasaste veranos con tus abuelos, o la cabaña en el bosque
+            Donde escapaste los fines de semana. Tal vez sea su hogar de la infancia, o la casa donde crió a sus propios hijos.
+            Dondequiera que sus recuerdos más cariñosos, más queridos le lleve es donde los amigos y la familia pueden honrarle.
+            Una ceremonia en casa puede ser una experiencia maravillosa y significativa para todos sus seres queridos.</p></p>
         </div>
 
         <img class="img-responsive center-block col-md-12"
@@ -533,26 +506,27 @@
             <p><strong>Estimated Cost:</strong><br> $100 - $400</p>
         </div>
         <div class="col-md-12">
-            <p><p>From mountain tops to the ocean, the scattering of ashes is appealing to many who are pre-planning a cremation.
-            A scattering service may also be a substitute for, or a continuation of, a memorial service.
-            All states allow scattering of ashes, and some states require permits, particularly in state and national parks.
-            Scattering on private property is prohibited without the permission of the property owner.
-            Check with your funeral director for guidance on laws or regulations governing scattering in your area.</p></p>
+            <p><p>Desde la cima de las montañas hasta el océano, la dispersión de las cenizas atrae
+            a muchos que preplanifican una cremación. Un servicio de difusión también puede ser
+            un sustituto o una continuación de un servicio conmemorativo.
+            Todos los estados permiten la dispersión de cenizas, y algunos estados requieren permisos,
+            particularmente en parques estatales y nacionales.
+            La dispersión en propiedad privada está prohibida sin el permiso del dueño de la propiedad.
+            Consulte con su director de funeraria para obtener orientación sobre las leyes o
+            reglamentos que rigen la dispersión en su área.</p></p>
         </div>]]>
     </string>
     <string name="containerHtmlString">
     <![CDATA[
-        <span class="menu-text">Would you like a Casket or an Urn?</span>
+        <span class="menu-text">¿Quieres un ataúd o una urna?</span>
 
-        <img alt="Outdoor Location" class="img-responsive center-block col-md-12"
-        src="https://s3.amazonaws.com/busites_www/tdp/media/option-carousel-media/thumb_oak_casket_1454890804_554.jpg"></img>
         <div class="col-md-6">
             <h3>Caskets</h3>
-            <p><strong>Estimated Cost:</strong><br> $1,500 - $8,000</p>
+            <p><strong>Costo Estimado:</strong><br> $1,500 - $8,000</p>
         </div>
         <div class="col-md-12">
-            <p><p>Our caskets are sourced from the highest-quality material and come in a wide
-            assortment of designs to meet the specific needs of your family.</p></p>
+            <p><p>Nuestros ataúdes se obtienen del material de la más alta calidad y vienen en una amplia
+            Variedad de diseños para satisfacer las necesidades específicas de su familia.</p></p>
         </div>
 
 
@@ -560,11 +534,11 @@
         src="https://s3.amazonaws.com/busites_www/tdp/1/1/media/option-carousel-media/thumb_brass_urn_1454908484_588.jpg" alt="Urns">
         <div class="col-md-6">
                     <h3>Urns</h3>
-                    <p><strong>Estimated Cost:</strong><br> $300 - $1,500</p>
+                    <p><strong>Costo Estimado:</strong><br> $300 - $1,500</p>
         </div>
         <div class="col-md-12">
-                <p><p>Urns can be as unique and distinctive as the life they represent.
-                Choose from a variety of designs and materials, and customize to suit your personal needs.</p></p>
+                <p><p>Las urnas pueden ser tan únicas y distintivas como la vida que representan.
+                Elija entre una variedad de diseños y materiales, y personalícelo para adaptarlo a sus necesidades personales..</p></p>
         </div>]]>
     </string>
     <string name="FAQsHtmlString">
@@ -572,33 +546,33 @@
 
             <div class="faq-header" role="tab" id="faq-widget-accordion-tab-w3-576">
 
-                    Aren\'t funeral service providers all the same?</div>
+                    ¿Los proveedores de servicios funerarios no son iguales?</div>
 
 
             <div id="faq-widget-accordion-item-w3-574" class="faq-body" role="tabpanel" aria-labelledby="faq-widget-accordion-tab-w3-574">
 
-                    Service, quality and value can vary widely among funeral providers.
-                    Pre-planning a funeral allows you to research different providers in advance
-                    so you can be comfortable with their services, expertise, facility and ability
-                    to accommodate your specific desires. If you fund your pre-planned funeral, you\'ll
-                    want to make sure your preneed funds are secure and held in trust or used to
-                    purchase an insurance policy from a third-party provider.</div>
+                    El servicio, la calidad y el valor pueden variar ampliamente entre los proveedores de servicios funerarios.
+                    Pre-planificación de un funeral le permite investigar a los diferentes proveedores con antelación
+                    Para que pueda estar cómodo con sus servicios, experiencia, facilidad y capacidad
+                    Para acomodar sus deseos específicos. Si usted financia su funeral pre-planificado,
+                    Quieren asegurarse de que sus fondos preneed sean seguros y mantenidos en
+                    Comprar una póliza de seguro de un tercero proveedor.</div>
         </div>
 
         <div class="faq-item">
 
             <div class="faq-header" role="tab" id="faq-widget-accordion-tab-w3-576">
 
-                    Can a funeral be personalized?
+                    ¿Se puede personalizar un funeral?
             </div>
 
             <div id="faq-widget-accordion-item-w3-574" class="faq-body" role="tabpanel" aria-labelledby="faq-widget-accordion-tab-w3-574">
 
-                    Yes. Whether the ceremony is elaborate or simple, today\'s funerals are often
-                    individualized to reflect the life lived.  You can personalize a funeral service
-                    by incorporating music, photos, mementos, decorations, catering and more to reflect
-                    the unique accomplishments, passions, hobbies or activities that characterized
-                    the life of the decedent.</div>
+                    Sí. Si la ceremonia es elaborada o simple, los funerales de hoy son a menudo
+                    Individualizada para reflejar la vida vivida. Puedes personalizar un servicio funerario
+                    Incorporando música, fotos, recuerdos, decoraciones, catering y más para reflejar
+                    Los logros únicos, pasiones, aficiones o actividades que caracterizaron
+                    la vida del difunto.</div>
 
         </div>
 
@@ -607,15 +581,15 @@
 
             <div class="faq-header" role="tab" id="faq-widget-accordion-tab-w3-584">
 
-                    Can cremated remains be divided?
+                    ¿Pueden dividirse los restos cremados?
             </div>
 
             <div id="faq-widget-accordion-item-w3-574" class="faq-body" role="tabpanel" aria-labelledby="faq-widget-accordion-tab-w3-574">
 
-                    Yes. You may choose to have cremated remains divided, scattering some and burying the rest.
-                    Or you may choose to bury or scatter some of the remains and divide the rest among
-                    family members. Small urns called "keepsake" urns are available to hold small
-                    portions of cremated remains.             </div>
+                    Sí. Usted puede elegir tener restos cremados divididos, dispersando algunos y enterrando el resto.
+                    O puede optar por enterrar o dispersar algunos de los restos y dividir el resto entre
+                    miembros de la familia. Las urnas pequeñas llamadas "recuerdo" urnas están disponibles para sostener pequeñas
+                    Porciones de restos cremados.             </div>
 
         </div>
 
@@ -624,16 +598,16 @@
 
             <div class="faq-header" role="tab" id="faq-widget-accordion-tab-w3-582">
 
-                    Can cremated remains share the same grave space with a casketed burial?
+                    ¿Pueden los restos incinerados compartir el mismo espacio grave con un entierro cascado?
             </div>
 
             <div id="faq-widget-accordion-item-w3-574" class="faq-body" role="tabpanel" aria-labelledby="faq-widget-accordion-tab-w3-574">
 
-                    It really depends on the specific cemetery\'s policy and applicable state law.
-                    You may be able to have your cremated remains buried on top of the casket of your spouse,
-                    for example, or utilize the space next to him or her.
-                    Some cemeteries allow for multiple containers of cremated remains to be interred
-                    in a single grave space for an additional charge.             </div>
+                    Realmente depende de la política específica del cementerio y la ley estatal aplicable.
+                    Usted puede ser capaz de tener su cremado permanece enterrado en la parte superior del ataúd de su cónyuge,
+                    Por ejemplo, o utilizar el espacio al lado de él o ella.
+                    Algunos cementerios permiten que varios contenedores de restos cremados sean enterrados
+                    En un solo espacio de la tumba por un cargo adicional.             </div>
 
         </div>
 
@@ -641,18 +615,18 @@
         <div class="faq-item">
 
             <div class="faq-header" role="tab" id="faq-widget-accordion-tab-w3-577">
-               Can we still have a funeral service if cremation is chosen?
+               ¿Podemos todavía tener un servicio fúnebre si se elige la cremación?
             </div>
 
             <div id="faq-widget-accordion-item-w3-574" class="faq-body" role="tabpanel" aria-labelledby="faq-widget-accordion-tab-w3-574">
 
-                    Absolutely.  Regardless of whether you choose burial or cremation, a
-                    funeral or memorial service is a celebration of the life that has been lived.
-                    It offers family and friends the opportunity to pay tribute to their loved one
-                    as well as an opportunity to grieve in a supportive environment. You can have
-                    a ceremony with the urn present if the cremation has already taken place, or
-                    you can have a traditional funeral with visitation and viewing before the body
-                    is cremated if you desire.             </div>
+                    Absolutamente. Independientemente de si usted elige entierro o cremación, un
+                    Funeral o servicio conmemorativo es una celebración de la vida que se ha vivido.
+                    Ofrece a familiares y amigos la oportunidad de rendir homenaje a su ser querido
+                    Así como una oportunidad de afligirse en un ambiente de apoyo. Tu puedes tener
+                    Una ceremonia con la urna presente si la cremación ya ha tenido lugar, o
+                    Usted puede tener un funeral tradicional con visitation y la visión antes del cuerpo
+                    Es cremado si deseas.             </div>
 
         </div>
 
@@ -661,17 +635,17 @@
 
             <div class="faq-header" role="tab" id="faq-widget-accordion-tab-w3-585">
 
-                    Do I have to prepay for my preplanned funeral?
+                    ¿Tengo que pagar por adelantado mi funeral pre-planificado?
             </div>
 
             <div id="faq-widget-accordion-item-w3-574" class="faq-body" role="tabpanel" aria-labelledby="faq-widget-accordion-tab-w3-574">
 
-                    No. There is great benefit in pre-planning your funeral, even if you do not
-                    pay for it in advance, which is called "pre-funding." When you pre-plan,
-                    you can still make your wishes known to your loved ones, alleviating them from
-                    the burden of making tough decisions when the time comes. However, if you pay
-                    for ("pre-fund") your pre-planned funeral in advance, you can lock in today\'s
-                    prices for services and merchandise which may be more expensive in the future.
+                    No. Hay un gran beneficio en la planificación previa de su funeral, incluso si no lo hace
+                    Pagar por adelantado, que se llama "pre-financiación". Cuando usted pre-planea,
+                    Usted todavía puede hacer sus deseos conocidos a sus seres queridos, aliviarlos de
+                    La carga de tomar decisiones difíciles cuando llegue el momento. Sin embargo, si usted paga
+                    Para ("pre-fondo") su funeral pre-planeado de antemano, puede bloquear en el día de hoy
+                    Precios de servicios y mercancías que pueden ser más caros en el futuro.
                     </div>
 
         </div>]]>
@@ -680,7 +654,7 @@
     </string>
 
     <!-- web browser detail fragment screen -->
-    <string name="webview_error_desc">The page did not load properly.</string>
+    <string name="webview_error_desc">La página no se cargó correctamente.</string>
 
 
     <!-- credentials -->
