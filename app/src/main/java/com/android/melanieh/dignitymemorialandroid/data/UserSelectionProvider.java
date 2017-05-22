@@ -155,11 +155,6 @@ public class UserSelectionProvider extends ContentProvider {
     }
 
     private int updatePlan(Uri uri, ContentValues values, String selection, String[] selectionArgs) {
-        Timber.d("updatePlan:");
-        Timber.d("Uri:" + uri.toString());
-        Timber.d("contentValues:" + values.toString());
-        Timber.d("selection:" + selection);
-        Timber.d("selectionArgs: " + selectionArgs);
 
         // validation of content values
         // plan name
@@ -232,12 +227,6 @@ public class UserSelectionProvider extends ContentProvider {
         }
 
         db = mDbHelper.getWritableDatabase();
-
-        Timber.d("Uri:" + uri.toString());
-        Timber.d("table name: " + PlanEntry.TABLE_NAME);
-        Timber.d("contentValues:" + values.toString());
-        Timber.d("selection:" + selection);
-        Timber.d("selectionArgs: " + selectionArgs);
 
         int rowsUpdated = db.update(PlanEntry.TABLE_NAME, values, selection, selectionArgs);
 

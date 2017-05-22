@@ -150,8 +150,8 @@ public class PlanViewPagerFragment extends Fragment
                     null, null, null);
             while (cursor.moveToNext()) {
                 toastText = cursor.getString(cursor.getColumnIndex(PlanEntry.COLUMN_EST_COST));
+                Toast.makeText(getContext(), toastText, Toast.LENGTH_LONG).show();
             }
-            Toast.makeText(getContext(), toastText, Toast.LENGTH_LONG).show();
 
         } else {
             updateEmptyView();

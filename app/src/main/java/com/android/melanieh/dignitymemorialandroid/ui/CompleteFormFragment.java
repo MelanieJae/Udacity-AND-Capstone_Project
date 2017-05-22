@@ -278,9 +278,9 @@ public class CompleteFormFragment extends Fragment implements GoogleApiClient.Co
         Timber.d("newPlanUri= " + newPlanUri);
 
         if (newPlanUri == null) {
-            Toast.makeText(getContext(), "Error saving new plan", Toast.LENGTH_LONG).show();
+            Toast.makeText(getContext(), "Error saving new plan", Toast.LENGTH_SHORT).show();
         } else {
-            Toast.makeText(getContext(), "New plan saved successfully", Toast.LENGTH_LONG).show();
+            Toast.makeText(getContext(), "New plan saved successfully", Toast.LENGTH_SHORT).show();
         }
 
         Intent beginPlanningIntent = new Intent(getActivity(), PlanViewPagerActivity.class);
