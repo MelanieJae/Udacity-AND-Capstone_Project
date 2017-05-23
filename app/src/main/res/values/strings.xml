@@ -12,7 +12,6 @@
         \nPlease check your connection</string>
 
     <!-- main screen menu buttons -->
-    <string name="obit_provider_search_menu_button"></string>
     <string name="search_obituaries">Search Obituaries</string>
     <string name="search_providers">Search Providers</string>
     <string name="checklist">\'Things to Remember\' Checklist</string>
@@ -36,21 +35,10 @@
     <string name="menu_view_pref_settings" translatable="false">View User Settings</string>
     <string name="view_plan_selections">View Plan Selections</string>
     <string name="view_saved_plan">View Plan Selections</string>
-    <string name="share_plan">Share</string>
-    <string name="delete_plan">Delete</string>
-
-    <!-- share menu -->
-    <string name="menu_share"><u>Share Your Plan</u></string>
-    <string name="share_msg_body_text">
-        Hello: Here is the plan I created with Dignity Memorial&#8482;\'s
-        \nThe Dignity Planner&#8482; to honor our recently departed loved one: Ceremony Location: %1s
-    </string>
-    <string name="share_app_chooser_dialog_title">Share your plan via:</string>
 
     <!-- notifications -->
     <string name="dm_notifications_title">Dignity Memorial</string>
-    <string name="dm_notifications_body_text">You have an upcoming consultation with Dignity Memorial.</string>
-    <string name="dm_notifications_body_tap_text">Tap to send plan to Dignity memorial to schedule a consultation.</string>
+    <string name="dm_notifications_body_tap_text">Tap to view your most recent plan with Dignity Memorial.</string>
 
     <!-- plan form screen -->
     <string name="plan_entry_creation_successful">New plan creation successful</string>
@@ -63,11 +51,6 @@
         You have no events or plans with us.
         \nTap to open the app to start today.
     </string>
-
-    <!-- calendar event created by tapping on notification -->
-    <string name="sample_notif_cal_event_title">Planning Consultation with Dignity Memorial</string>
-    <string name="sample_notif_cal_event_desc">Contact: John Smith</string>
-    <string name="sample_notif_cal_event_loc">Resthaven Funeral Home</string>
 
     <!-- settings activity -->
     <string name="saved_zip_codes">Saved ZIP codes</string>
@@ -108,18 +91,6 @@
     <string name="details_button">Details</string>
     <string name="plan_option_emptyview_text">Sorry, there are no
         plan options to display at this time.</string>
-    card_view:cardElevation="4dp"
-    android:layout_margin="6dp"
-    card_view:cardCornerRadius="3dp"
-    imageview_layout_height "200dp"
-
-
-
-
-    <!-- plan information form -->
-    <string name="undecided">Undecided</string>
-    <string name="burial">Burial</string>
-    <string name="cremation">Cremation</string>
 
     <!-- search form screen -->
     <string name="obit_form_heading">Search for Obituaries</string>
@@ -146,12 +117,13 @@
     <string name="search_form_last_name_label">last name:</string>
     <string name="search_form_zipcode_field_label">Enter a zip code:</string>
     <string name="get_directions">Get directions</string>
-    <string name="obits_search_query_suffix">
+    <string name="obits_search_query_suffix" translatable="false">
          <![CDATA[&countryid=1&stateid=0&affiliateid=-1]]>
     </string>
-    <string name="provider_search_query_suffix">
+    <string name="provider_search_query_suffix" translatable="false">
          <![CDATA[&brand=DM&locale=EN&startPage=1&recordsPerPage=50&radius=100&isClickTracking=false]]></string>
     <string name="save_provider">Save Provider</string>
+
     <!-- data package -->
     <!-- provider -->
     <string name="error_inserting_plan">Error creating plan entry</string>
@@ -166,13 +138,8 @@
     <string name="error_deleting_plans_table">Error deleting plan table</string>
     <string name="plan_table_deletion_successful">Plan table deleted successfully</string>
 
-    <string name="error_querying_plan">Error querying plan table</string>
+    <string name="error_querying_plan">Error retrieving information for plan(s)</string>
 
-    <string name="sample_details_text">
-        If set along with Intent.FLAG_ACTIVITY_NEW_DOCUMENT then the task being launched will not be presented to the user but will instead be only available
-        through the recents task list. In addition, the new task wil be affiliated with the
-        launching activity\'s task. Affiliated tasks are grouped together in the recents task list.
-    </string>
     <string name="ceremonyHtmlString">
         <![CDATA[
         <span class="menu-text">Where would you like your Ceremony?</span>

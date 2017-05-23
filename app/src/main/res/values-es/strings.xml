@@ -1,5 +1,4 @@
 <resources xmlns:https="http://schemas.android.com/tools">
-    <string name="app_name" translatable="false">Dignity Memorial</string>
 
     <!-- universal strings -->
     <string name="dialog_yes_btn">Si</string>
@@ -25,22 +24,29 @@
     <string name="toolbar_logo_cd">Logo de Dignity Memorial</string>
     <string name="scrolling_menu_cd">Menú de opciones de desplazamiento</string>
     <string name="fragment_plan_tv_cd">Create, save and share your event plan here</string>
+    <string name="add_button_cd">Agregar la opción %1s para planificar</string>
+    <string name="details_button_cd">Detalles de la opción %1s</string>
+    <string name="obituary_view_cd">Listado de obituarios de %1s</string>
+    <string name="provider_view_cd">Listado de proveedores para %1s</string>
 
     <!-- overflow menu -->
     <string name="view_plan_selections">Ver Selecciones de Plan</string>
     <string name="view_saved_plan">Ver Selecciones de Plan</string>
 
-    <!-- share menu -->
-    <string name="menu_share"><u>Comparta su plan</u></string>
-
     <!-- notifications -->
     <string name="dm_notifications_title">Dignity Memorial</string>
+    <string name="dm_notifications_body_tap_text">Toca para ver tu más reciente
+         con Dignity Memorial.</string>
 
     <!-- plan form screen -->
     <string name="plan_entry_creation_successful">Creación de un nuevo plan con éxito</string>
     <string name="error_creating_plan">Plan de creación de errores</string>
     <string name="create_new_plan">Crear un nuevo plan</string>
     <string name="start_planning_btn">Comenzar a planificar</string>
+    <string name="plan_name_field_hint">Nombre del plan, p. \'Tía Maria\'</string>
+    <string name="contact_email_field_hint">Email de contacto</string>
+    <string name="plan_option_emptyview_text">Lo siento, no hay
+        planifique las opciones para mostrar en este momento.</string>
 
     <!-- widget -->
     <string name="widget_emptyview_text">
@@ -52,14 +58,6 @@
     <string name="saved_zip_codes">Códigos postales guardados</string>
     <string name="saved_providers">Proveedores guardados</string>
     <string name="saved_plans">Planes guardados</string>
-
-    <!-- pref settings labels and keys -->
-    <string name="pref_zip_code_label">Códigos postales guardados</string>
-    <string name="pref_zip_code_key" translatable="false">ZIP code</string>
-    <string name="pref_zip_code_default" translatable="false">33880</string>
-
-    <string name="pref_provider_label" translatable="false">Saved provider</string>
-    <string name="pref_provider_key" translatable="false">Provider</string>
 
     <!-- view plan selections activity -->
     <string name="contact_email_label">Email de contacto</string>
@@ -113,8 +111,23 @@
     <string name="get_directions">Obtener las direcciones</string>
 
     <string name="save_provider">Guardar Proveedo</string>
+
+
     <!-- data package -->
     <!-- provider -->
+    <string name="error_inserting_plan">Error creating plan entry</string>
+    <string name="insert_plan_successful">Entrada del plan creada correctamente</string>
+
+    <string name="error_updating_plan">Error al actualizar el plan</string>
+    <string name="update_plan_successful">Plan actualizado con éxito</string>
+
+    <string name="error_deleting_plan">Error al eliminar el plan</string>
+    <string name="plan_deletion_successful">Plan eliminado correctamente</string>
+
+    <string name="error_deleting_plans_table">Error al eliminar la tabla de planes</string>
+    <string name="plan_table_deletion_successful">Se eliminó correctamente la tabla de planes</string>
+
+    <string name="error_querying_plan">Error al recuperar información para el (los) plan (es)</string>
 
     <string name="ceremonyHtmlString">
         <![CDATA[
@@ -655,7 +668,6 @@ Los mausoleos de la familia son estructuras sobre el suelo que acomodan los rest
 
     <!-- web browser detail fragment screen -->
     <string name="webview_error_desc">La página no se cargó correctamente.</string>
-
 
     <!-- credentials -->
     <string name="maps_v2_key">AIzaSyD7lDjQTrH5Mc5vmobw-Gav6Qt-svuhE3Q</string>

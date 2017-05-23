@@ -21,6 +21,9 @@
     <dimen name="result_item_card_elevation">4dp</dimen>
     <dimen name="result_item_card_layout_margin">6dp</dimen>
     <dimen name="result_item_card_corner_radius">3dp</dimen>
+    <dimen name="layout_margin">6dp</dimen>
+    <dimen name="card_corner_radius">3dp</dimen>
+    <dimen name="layout_height">200dp</dimen>
 
     <!-- margins -->
     <dimen name="horiz_margin">16dp</dimen>
@@ -69,8 +72,6 @@
     <!-- option detail dialog window -->
     <dimen name="detail_dialog_window_width">400dp</dimen>
     <dimen name="detail_dialog_window_height">680dp</dimen>
-
     <dimen name="detail_dialog_image_height">200dp</dimen>
-
 
 </resources>
