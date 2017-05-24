@@ -77,7 +77,7 @@
 
             <TextView
                 android:id="@+id/provider_form_heading"
-                android:text="Search for Providers"
+                android:text="@string/provider_form_heading"
                 android:layout_gravity="center_horizontal"
                 android:textSize="@dimen/large_text_size"
                 android:layout_width="wrap_content"

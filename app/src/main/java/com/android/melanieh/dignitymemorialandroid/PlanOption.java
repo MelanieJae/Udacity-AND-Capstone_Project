@@ -47,12 +47,10 @@ public class PlanOption {
 
     @Override
     public String toString() {
-        return "PlanOption{" +
-                "heading='" + heading + '\'' +
-                ", detailText='" + detailText + '\'' +
-                ", imageUrlString='" + imageUrlString + '\'' +
-                ", estimatedCost='" + estimatedCost + '\'' +
-                ", title='" + title + '\'' +
-                '}';
+        return "heading:'" + heading + '\'' +
+                "\ndetailText:'" + detailText + '\'' +
+                "\nimageUrlString='" + imageUrlString + '\'' +
+                "\nestimatedCost='" + estimatedCost + '\'' +
+                "\ntitle='" + title + '\'';
     }
 }

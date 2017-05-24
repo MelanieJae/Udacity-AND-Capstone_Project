@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.v7.widget.CardView
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
     android:orientation="horizontal"
     android:id="@+id/plan_option_cardview"
-    card_view:cardElevation="4dp"
-    android:layout_margin="6dp"
-    card_view:cardCornerRadius="3dp"
+    card_view:cardElevation="@dimen/result_item_card_elevation"
+    android:layout_margin="@dimen/result_item_card_layout_margin"
+    card_view:cardCornerRadius="@dimen/result_item_card_elevation"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
@@ -19,7 +18,7 @@
             android:id="@+id/imageview"
             android:layout_width="match_parent"
             android:scaleType="centerCrop"
-            android:layout_height="200dp" />
+            android:layout_height="@dimen/iv_layout_height" />
         <ImageButton
             android:id="@+id/add_button"
             android:layout_width="@dimen/add_button_layout_width"
@@ -28,7 +27,6 @@
             android:layout_marginTop="@dimen/add_btn_layout_margin_top"
             android:layout_marginBottom="@dimen/add_btn_layout_margin_bottom"
             android:layout_marginLeft="@dimen/add_btn_layout_margin_left"
-            android:contentDescription="@string/add_button_cd"
             android:src="@drawable/ic_add_white_48dp"
             android:textColor="@android:color/white"
             android:background="@drawable/add_button"/>
@@ -40,7 +38,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/imageview"
-            android:contentDescription="@string/details_button_cd"
             android:background="@android:color/transparent"
             android:layout_alignParentEnd="true"/>
     </RelativeLayout>

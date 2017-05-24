@@ -75,8 +75,7 @@
     <string name="container_selection_label">Urn/Casket</string>
 
     <string name="plan_summary_intro">Congratulations on your new plan created with
-        \nThe Dignity Planner! Here are your selections
-        \nfor %1s:
+        \nThe Dignity Planner! Here are your selections for %1s :
         \n
     </string>
     <string name="ceremony_selection">Ceremony Selection: %1s</string>

@@ -8,14 +8,16 @@
     <dimen name="button_height">100dp</dimen>
     <dimen name="search_plan_button_height">80dp</dimen>
 
+    <!-- appbar -->
+    <dimen name="app_bar_height">256dp</dimen>
+    <dimen name="appbar_elevation">4dp</dimen>
+
     <!-- toolbar -->
     <dimen name="expanded_title_margin_start">64dp</dimen>
     <dimen name="expanded_title_margin_end">64dp</dimen>
     <dimen name="toolbar_logo_layout_width">200dp</dimen>
     <dimen name="toolbar_logo_layout_height">100dp</dimen>
-    <dimen name="detail_dialog_horiz_margin">6dp</dimen>
-    <dimen name="detail_dialog_vert_margin">16dp</dimen>
-    <dimen name="detail_dialog_text_size">16sp</dimen>
+    <dimen name="toolbar_elevation">4dp</dimen>
 
     <!-- search_result cardviews -->
     <dimen name="result_item_card_elevation">4dp</dimen>
@@ -23,7 +25,7 @@
     <dimen name="result_item_card_corner_radius">3dp</dimen>
     <dimen name="layout_margin">6dp</dimen>
     <dimen name="card_corner_radius">3dp</dimen>
-    <dimen name="layout_height">200dp</dimen>
+    <dimen name="iv_layout_height">200dp</dimen>
 
     <!-- margins -->
     <dimen name="horiz_margin">16dp</dimen>
@@ -40,14 +42,11 @@
     <dimen name="widget_min_resize_height">150dp</dimen>
     <dimen name="widget_min_resize_width">200dp</dimen>
     <dimen name="widget_margin">8dp</dimen>
+    <dimen name="widget_text_size">16sp</dimen>
 
     <!-- menu recyclerview item offsets [pixels]-->
     <integer name="vert_offset">20</integer>
     <integer name="horiz_offset">100</integer>
-    <dimen name="fab_margin">16dp</dimen>
-    <dimen name="app_bar_height">200dp</dimen>
-    <dimen name="appbar_elevation">4dp</dimen>
-    <dimen name="toolbar_elevation">4dp</dimen>
     <dimen name="item_width">200dp</dimen>
     <dimen name="text_margin">16dp</dimen>
     <dimen name="menulist_left_margin">8dp</dimen>
@@ -73,5 +72,7 @@
     <dimen name="detail_dialog_window_width">400dp</dimen>
     <dimen name="detail_dialog_window_height">680dp</dimen>
     <dimen name="detail_dialog_image_height">200dp</dimen>
-
+    <dimen name="detail_dialog_horiz_margin">6dp</dimen>
+    <dimen name="detail_dialog_vert_margin">16dp</dimen>
+    <dimen name="detail_dialog_text_size">16sp</dimen>
 </resources>

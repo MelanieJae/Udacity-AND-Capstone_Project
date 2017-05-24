@@ -84,7 +84,7 @@
         android:id="@+id/provider_get_directions"
         android:text="@string/get_directions"
         android:focusable="false"
-        android:textSize="18sp"
+        android:textSize="@dimen/small_text_size"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:onClick="getDirections"/>
@@ -93,7 +93,7 @@
         android:id="@+id/save_provider"
         android:text="@string/save_provider"
         android:clickable="true"
-        android:textSize="18sp"
+        android:textSize="@dimen/small_text_size"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"

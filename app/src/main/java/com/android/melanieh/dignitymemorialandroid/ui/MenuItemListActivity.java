@@ -140,6 +140,7 @@ public class MenuItemListActivity extends AppCompatActivity
             holder.mBtnView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    Timber.d("ON CLICK LISTENER FUCK OFF ASSHOLE buttonDetails: " + holder.mItem.details);
                     if (mTwoPane) {
                         Bundle arguments = new Bundle();
                         arguments.putString("menu_button_content", holder.mItem.details);
@@ -153,13 +154,13 @@ public class MenuItemListActivity extends AppCompatActivity
                         // picks up content linked to menu button that was pressed and detects whether it is
                         // supposed to be a browser fragment or the FAQ pg.
                         boolean isSearchForm = Pattern.compile(Pattern.quote("search"),
-                                Pattern.CASE_INSENSITIVE).matcher(buttonDetails).find();
-                        boolean isWebScreen = Pattern.compile(Pattern.quote("http"),
-                                Pattern.CASE_INSENSITIVE).matcher(buttonDetails).find();
+                                Pattern.CASE_INSENSITIVE).matcher(holder.mItem.details).find();
+                        boolean isWebScreen = Pattern.compile(Pattern.quote("https"),
+                                Pattern.CASE_INSENSITIVE).matcher(holder.mItem.details).find();
                         boolean isPlanForm = Pattern.compile(Pattern.quote("plan"),
-                                Pattern.CASE_INSENSITIVE).matcher(buttonDetails).find();
+                                Pattern.CASE_INSENSITIVE).matcher(holder.mItem.details).find();
                         boolean isFAQScreen = Pattern.compile(Pattern.quote("faqs"),
-                                Pattern.CASE_INSENSITIVE).matcher(buttonDetails).find();
+                                Pattern.CASE_INSENSITIVE).matcher(holder.mItem.details).find();
 
                         if (isSearchForm || isPlanForm ) {
                             destClass = CompleteFormActivity.class;

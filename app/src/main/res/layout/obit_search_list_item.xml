@@ -1,12 +1,11 @@
 <android.support.v7.widget.CardView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="horizontal"
     android:id="@+id/obit_cardview"
-    card_view:cardElevation="4dp"
-    android:layout_margin="6dp"
-    card_view:cardCornerRadius="3dp"
+    card_view:cardElevation="@dimen/result_item_card_elevation"
+    android:layout_margin="@dimen/result_item_card_layout_margin"
+    card_view:cardCornerRadius="@dimen/result_item_card_corner_radius"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 

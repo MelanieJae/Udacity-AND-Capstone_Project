@@ -18,7 +18,7 @@
 
     <TextView
         android:id="@+id/widget_text"
-        android:textSize="16sp"
+        android:textSize="@dimen/widget_text_size"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"

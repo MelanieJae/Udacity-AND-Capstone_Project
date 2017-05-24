@@ -39,8 +39,6 @@ import java.util.regex.Pattern;
 
 import timber.log.Timber;
 
-import static com.android.melanieh.dignitymemorialandroid.R.id.textView;
-
 /**
  * Created by melanieh on 5/1/17.
  */
