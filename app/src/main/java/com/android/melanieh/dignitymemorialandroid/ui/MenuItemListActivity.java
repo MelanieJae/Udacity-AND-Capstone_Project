@@ -94,16 +94,6 @@ public class MenuItemListActivity extends AppCompatActivity
                 .use(PicassoPalette.Profile.VIBRANT_LIGHT)
                 .intoBackground(scrollView);
 
-        if (getResources().getConfiguration().screenHeightDp >= 800) {
-            // menu divider
-            ImageView scrollDividerView = (ImageView) findViewById(R.id.divider);
-            ImageHandler.getSharedInstance(this).load(BuildConfig.SCROLL_DIVIDER_URL).
-                    fit().centerInside().into(scrollDividerView);
-
-            ImageHandler.getSharedInstance(this).load(appBarImageUrl).
-                    fit().centerCrop().into(menuFooterImage);
-        }
-
     }
 
     private void setupRecyclerView(@NonNull RecyclerView recyclerView) {
@@ -140,7 +130,6 @@ public class MenuItemListActivity extends AppCompatActivity
             holder.mBtnView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Timber.d("ON CLICK LISTENER FUCK OFF ASSHOLE buttonDetails: " + holder.mItem.details);
                     if (mTwoPane) {
                         Bundle arguments = new Bundle();
                         arguments.putString("menu_button_content", holder.mItem.details);
@@ -152,10 +141,11 @@ public class MenuItemListActivity extends AppCompatActivity
 
                     } else {
                         // picks up content linked to menu button that was pressed and detects whether it is
-                        // supposed to be a browser fragment or the FAQ pg.
+                        // supposed to be, e.g. a browser fragment or the FAQ pg.
+
                         boolean isSearchForm = Pattern.compile(Pattern.quote("search"),
                                 Pattern.CASE_INSENSITIVE).matcher(holder.mItem.details).find();
-                        boolean isWebScreen = Pattern.compile(Pattern.quote("https"),
+                        boolean isWebScreen = Pattern.compile(Pattern.quote("https:"),
                                 Pattern.CASE_INSENSITIVE).matcher(holder.mItem.details).find();
                         boolean isPlanForm = Pattern.compile(Pattern.quote("plan"),
                                 Pattern.CASE_INSENSITIVE).matcher(holder.mItem.details).find();
@@ -165,8 +155,6 @@ public class MenuItemListActivity extends AppCompatActivity
                         if (isSearchForm || isPlanForm ) {
                             destClass = CompleteFormActivity.class;
                             extraContent = holder.mItem.details;
-                            Timber.d("extraContent: " + extraContent);
-
                         } else if (isWebScreen || isFAQScreen) {
                             destClass = MenuItemDetailActivity.class;
                             extraContent = holder.mItem.details;
