@@ -90,7 +90,6 @@ public class CompleteFormFragment extends Fragment implements GoogleApiClient.Co
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Timber.d("savedInstanceState: " + savedInstanceState);
         setHasOptionsMenu(true);
 
         /* Location services Api client */
@@ -235,7 +234,6 @@ public class CompleteFormFragment extends Fragment implements GoogleApiClient.Co
     }
 
     private void startSearch(View view) {
-        Timber.d("startSearch:");
 
         Intent getSearchResults = new Intent(getActivity(), SearchResultActivity.class);
 
@@ -255,16 +253,13 @@ public class CompleteFormFragment extends Fragment implements GoogleApiClient.Co
                 getSearchResults.putExtra("current location", new String[]
                         {String.valueOf(location.getLatitude()),
                                 String.valueOf(location.getLongitude())});
-                Timber.d("locationLat: " + String.valueOf(location.getLatitude()));
-                Timber.d("locationLong: " + String.valueOf(location.getLongitude()));
 
             } else {
                 getSearchResults.putExtra("zipCode", zipCodeACT.getText().toString());
             }
         }
 
-        Timber.d("completesearch: queryType: " + queryType);
-        Timber.d("isUsingCurrentLocation: " + isUsingCurrentLocation);
+
         getSearchResults.putExtra("query type", queryType);
         startActivity(getSearchResults);
     }
@@ -275,12 +270,11 @@ public class CompleteFormFragment extends Fragment implements GoogleApiClient.Co
         contentValues.put(PlanEntry.COLUMN_PLAN_NAME, planNameET.getText().toString());
         contentValues.put(PlanEntry.COLUMN_CONTACT_EMAIL, contactEmailET.getText().toString());
         Uri newPlanUri = getContext().getContentResolver().insert(PlanEntry.CONTENT_URI, contentValues);
-        Timber.d("newPlanUri= " + newPlanUri);
 
         if (newPlanUri == null) {
-            Toast.makeText(getContext(), "Error saving new plan", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), getContext().getString(R.string.error_creating_plan), Toast.LENGTH_SHORT).show();
         } else {
-            Toast.makeText(getContext(), "New plan saved successfully", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), getContext().getString(R.string.plan_entry_creation_successful), Toast.LENGTH_SHORT).show();
         }
 
         Intent beginPlanningIntent = new Intent(getActivity(), PlanViewPagerActivity.class);
@@ -364,7 +358,6 @@ public class CompleteFormFragment extends Fragment implements GoogleApiClient.Co
 
     @Override
     public void onLocationChanged(Location location) {
-        Timber.d("onLocationChanged");
         Timber.d("location string: " + location.toString());
         this.location = location;
 
