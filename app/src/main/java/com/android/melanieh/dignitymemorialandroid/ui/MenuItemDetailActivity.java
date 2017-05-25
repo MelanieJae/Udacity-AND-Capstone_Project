@@ -83,6 +83,7 @@ public class MenuItemDetailActivity extends AppCompatActivity implements MenuOpt
             getFragmentManager().popBackStack();
         } else {
             super.onBackPressed();
+            navigateUpTo(new Intent(this, MenuItemListActivity.class));
         }
     }
 

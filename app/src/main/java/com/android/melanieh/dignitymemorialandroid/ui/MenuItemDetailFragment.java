@@ -16,6 +16,7 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.TextView;
 
+import com.android.melanieh.dignitymemorialandroid.BuildConfig;
 import com.android.melanieh.dignitymemorialandroid.FAQ;
 import com.android.melanieh.dignitymemorialandroid.R;
 import com.android.melanieh.dignitymemorialandroid.menucontent.MenuContent;
@@ -58,10 +59,7 @@ public class MenuItemDetailFragment extends Fragment
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
         detailContent = getActivity().getIntent().getStringExtra("button_extra_content");
-
-        if (savedInstanceState != null) {
-            detailContent = savedInstanceState.getString("detailContent");
-        }
+        
     }
 
     @Override
@@ -75,8 +73,8 @@ public class MenuItemDetailFragment extends Fragment
 
         // picks up content linked to menu button that was pressed and detects whether it is
         // supposed to be a browser fragment or the FAQ pg.
-        boolean isWebContent = Pattern.compile(Pattern.quote("http"),
-                Pattern.CASE_INSENSITIVE).matcher(detailContent).find();
+        boolean isWebContent = Pattern.compile(Pattern.quote("https"),
+                Pattern.CASE_INSENSITIVE).matcher(BuildConfig.TTR_CHECKLIST_URL).find();
 
         if (isWebContent) {
             rootView = inflater.inflate(R.layout.fragment_browser, container, false);
