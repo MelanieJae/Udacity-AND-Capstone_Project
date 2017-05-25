@@ -52,9 +52,7 @@ public class PlanOptionRecyclerViewAdapter
     String optionSelection;
     Context context;
     String planUriString;
-    String currentEstCostString;
     String estCostSelectionString;
-    String updatedEstCostString;
 
     public static String DETAIL_TEXT_ARG_KEY = "Option item detail text";
     public static String IMAGE_STRING_ARG_KEY = "ImageURL string";
@@ -98,7 +96,7 @@ public class PlanOptionRecyclerViewAdapter
         holder.addBtnView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                addOptionToPlan(currentOption.getTitle(), optionSelection, updatedEstCostString);
+                addOptionToPlan(currentOption.getTitle(), optionSelection, estCostSelectionString);
             }
         });
 
@@ -162,7 +160,7 @@ public class PlanOptionRecyclerViewAdapter
         }
 
         values.put(cvKey, optionSelection);
-        values.put(PlanEntry.COLUMN_EST_COST, updatedEstCostString);
+        values.put(PlanEntry.COLUMN_EST_COST, estCostSelectionString);
 
         // selection/where clause will always indicate the row to be updated and that is in the content provider
         // so null is passed here for the selection/whereClause argument
@@ -172,9 +170,9 @@ public class PlanOptionRecyclerViewAdapter
                 null);
 
         if (numRowsUpdated == 0) {
-            Toast.makeText(context, "Error updating plan with selection", Toast.LENGTH_LONG).show();
+            Toast.makeText(context, context.getString(R.string.error_updating_plan), Toast.LENGTH_LONG).show();
         } else {
-            Toast.makeText(context, "Plan update with selection successful", Toast.LENGTH_LONG).show();
+            Toast.makeText(context, context.getString(R.string.update_plan_successful), Toast.LENGTH_LONG).show();
         }
 
 

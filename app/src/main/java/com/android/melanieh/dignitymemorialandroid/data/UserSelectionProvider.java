@@ -177,7 +177,7 @@ public class UserSelectionProvider extends ContentProvider {
         if (values.containsKey(PlanEntry.COLUMN_CEREMONY_SELECTION)) {
             String ceremony = values.getAsString(PlanEntry.COLUMN_CEREMONY_SELECTION);
             if (ceremony == null) {
-                throw new IllegalArgumentException("Plan requires a contact e-mail");
+                throw new IllegalArgumentException("Plan requires a ceremony selection");
             }
         }
 
@@ -185,7 +185,7 @@ public class UserSelectionProvider extends ContentProvider {
         if (values.containsKey(PlanEntry.COLUMN_RECEPTION_SELECTION)) {
             String reception = values.getAsString(PlanEntry.COLUMN_RECEPTION_SELECTION);
             if (reception == null) {
-                throw new IllegalArgumentException("Plan requires a contact e-mail");
+                throw new IllegalArgumentException("Plan requires a reception selection");
             }
         }
 
@@ -193,7 +193,7 @@ public class UserSelectionProvider extends ContentProvider {
         if (values.containsKey(PlanEntry.COLUMN_VISITATION_SELECTION)) {
             String visitation = values.getAsString(PlanEntry.COLUMN_VISITATION_SELECTION);
             if (visitation == null) {
-                throw new IllegalArgumentException("Plan requires a contact e-mail");
+                throw new IllegalArgumentException("Plan requires a visitation selection");
             }
         }
 
@@ -201,7 +201,7 @@ public class UserSelectionProvider extends ContentProvider {
         if (values.containsKey(PlanEntry.COLUMN_CONTAINER_SELECTION)) {
             String container = values.getAsString(PlanEntry.COLUMN_CONTAINER_SELECTION);
             if (container == null) {
-                throw new IllegalArgumentException("Plan requires a contact e-mail");
+                throw new IllegalArgumentException("Plan requires a selection of casket or urn");
             }
         }
 
@@ -209,7 +209,7 @@ public class UserSelectionProvider extends ContentProvider {
         if (values.containsKey(PlanEntry.COLUMN_SITE_SELECTION)) {
             String site = values.getAsString(PlanEntry.COLUMN_SITE_SELECTION);
             if (site == null) {
-                throw new IllegalArgumentException("Plan requires a contact e-mail");
+                throw new IllegalArgumentException("Plan requires a site selection");
             }
         }
 
@@ -217,7 +217,7 @@ public class UserSelectionProvider extends ContentProvider {
         if (values.containsKey(PlanEntry.COLUMN_EST_COST)) {
             String estCost = values.getAsString(PlanEntry.COLUMN_EST_COST);
             if (estCost == null) {
-                throw new IllegalArgumentException("Plan requires an contact e-mail");
+                throw new IllegalArgumentException("Plan requires an estimated cost");
             }
         }
 

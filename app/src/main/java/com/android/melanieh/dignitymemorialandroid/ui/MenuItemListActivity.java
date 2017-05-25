@@ -48,7 +48,6 @@ public class MenuItemListActivity extends AppCompatActivity
     private String appBarLogoUrl;
     private ImageView toolBarIV;
     private ImageView appBarLogo;
-    private ImageView menuFooterImage;
     NestedScrollView scrollView;
     Class destClass;
     String extraContent;

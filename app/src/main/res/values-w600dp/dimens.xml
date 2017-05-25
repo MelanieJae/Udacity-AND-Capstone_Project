@@ -9,7 +9,7 @@
     <dimen name="search_plan_button_height">80dp</dimen>
 
     <!-- appbar -->
-    <dimen name="app_bar_height">256dp</dimen>
+    <dimen name="app_bar_height">300dp</dimen>
     <dimen name="appbar_elevation">4dp</dimen>
 
     <!-- toolbar -->

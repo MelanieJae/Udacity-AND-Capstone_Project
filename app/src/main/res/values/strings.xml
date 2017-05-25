@@ -128,7 +128,7 @@
     <string name="error_inserting_plan">Error creating plan entry</string>
     <string name="insert_plan_successful">Plan entry created successfully</string>
 
-    <string name="error_updating_plan">Error updating plan</string>
+    <string name="error_updating_plan">Error updating plan with selection</string>
     <string name="update_plan_successful">Plan updated successfully</string>
 
     <string name="error_deleting_plan">Error deleting plan</string>
